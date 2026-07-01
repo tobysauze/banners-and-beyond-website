@@ -203,8 +203,9 @@ h1.display,h2.display{font-family:var(--display);font-weight:400;text-transform:
 .side-toggle button{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.5em .9em;border:0;background:transparent;cursor:pointer}
 .side-toggle button.on{background:var(--ink);color:var(--paper)}
 .guide-toggle{position:absolute;bottom:.9rem;right:.9rem;z-index:5;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;display:flex;gap:.5em;align-items:center;background:var(--paper);border:1.5px solid var(--ink);padding:.4em .7em;cursor:pointer}
-.guide-row{margin-top:.9rem;display:flex;justify-content:flex-end;gap:.6rem}
+.guide-row{margin-top:.9rem;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.6rem}
 .guide-row .guide-toggle{position:static}
+.mode-toggle.on{background:var(--cyan)}
 .area-handles{position:absolute;inset:0;pointer-events:none;z-index:7}
 .area-handle{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:auto;touch-action:none;background:var(--paper);border:2px solid var(--cyan);box-shadow:2px 2px 0 rgba(17,16,19,.2)}
 .area-corner{width:16px;height:16px}
@@ -2109,10 +2110,11 @@ function tplProduct(p){
           </div>
           <div class="guide-row">
             <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
+            <button class="minibtn mode-toggle" id="areaModeBtn" aria-pressed="false">⛶ Adjust print area</button>
             <button class="minibtn" id="resetAreaBtn">↺ Reset print area</button>
           </div>
         </div>
-        <p class="stage-hint">Drag to position · pink handles resize/rotate your design · cyan handles move/resize the print area itself</p>
+        <p class="stage-hint">Drag to position · pink handles resize/rotate your design · tap "Adjust print area" below to move or resize the print area itself</p>
         <div class="proofbtn-row"><button class="minibtn" id="proofBtn">⬇ Download proof sheet</button></div>
       </div>
       <div class="pp-info">
@@ -2214,7 +2216,8 @@ function initProduct(p){
     colorIdx:0,
     size: p.sizes ? p.sizes[0] : null,
     qty:1,
-    guide:true
+    guide:true,
+    areaMode:false // when true, show print-area handles instead of design handles so they never overlap
   };
   RECENT = [p.id, ...RECENT.filter(x => x !== p.id)].slice(0, 8); saveRecent();
 
@@ -2241,6 +2244,7 @@ function initProduct(p){
      they stay grabbable even when the design is dragged past the print area ---- */
   function positionHandles(){
     if(!handleLayer) return;
+    if(CUST.areaMode){ handleLayer.innerHTML = ''; return; } // avoid overlapping the print-area handles
     const l = curLayer();
     const el = win.querySelector(`[data-layer="${CUST.sel}"]`);
     if(!layerHas(l, CUST.sel) || !el){ handleLayer.innerHTML = ''; return; }
@@ -2285,7 +2289,7 @@ function initProduct(p){
   }
   function positionAreaHandles(){
     if(!areaHandles) return;
-    if(!CUST.guide){ areaHandles.innerHTML = ''; return; }
+    if(!CUST.guide || !CUST.areaMode){ areaHandles.innerHTML = ''; return; }
     const sRect = stage.getBoundingClientRect(), r = win.getBoundingClientRect();
     const L = r.left - sRect.left, T = r.top - sRect.top, W = r.width, H = r.height;
     const corners = [['tl', L, T], ['tr', L + W, T], ['bl', L, T + H], ['br', L + W, T + H]];
@@ -2631,13 +2635,29 @@ function initProduct(p){
     $('#sideLabel').textContent = '· ' + (CUST.side === 'front' ? 'Front' : 'Back');
     renderMock(); positionWindow(); renderLayers(); syncTextUI(); updateDpi();
   });
+  function setAreaMode(on){
+    CUST.areaMode = on;
+    const b = $('#areaModeBtn');
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on);
+    b.textContent = on ? '✕ Done adjusting print area' : '⛶ Adjust print area';
+    positionHandles(); positionAreaHandles();
+  }
   $('#guideToggle').addEventListener('click', () => {
     CUST.guide = !CUST.guide;
     win.classList.toggle('show-guide', CUST.guide);
     const g = $('#guideToggle');
     g.setAttribute('aria-pressed', CUST.guide);
     g.textContent = '▣ Print area: ' + (CUST.guide ? 'on' : 'off');
-    positionAreaHandles();
+    if(!CUST.guide && CUST.areaMode) setAreaMode(false); else positionAreaHandles();
+  });
+  $('#areaModeBtn').addEventListener('click', () => {
+    if(!CUST.areaMode && !CUST.guide){
+      CUST.guide = true;
+      win.classList.add('show-guide');
+      const g = $('#guideToggle'); g.setAttribute('aria-pressed', 'true'); g.textContent = '▣ Print area: on';
+    }
+    setAreaMode(!CUST.areaMode);
   });
   $('#resetAreaBtn').addEventListener('click', () => {
     CUST.areas[CUST.side] = null;
