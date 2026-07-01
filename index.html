@@ -1,0 +1,2825 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banners &amp; Beyond — Custom Print &amp; Embroidery, Cornwall</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23111013' stroke-width='2'/%3E%3Cpath d='M16 2v28M2 16h28' stroke='%23E5087E' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BANNERS & BEYOND — PRESS SHEET DESIGN SYSTEM (v2: full store)
+   ============================================================ */
+:root{
+  --paper:#FAFAF7; --ink:#111013;
+  --cyan:#00A8E1; --magenta:#E5087E; --yellow:#FFD100;
+  --tint-c:#C9EEFB; --tint-m:#FBD3E6; --tint-y:#FFF2BC;
+  --grey:#75736C;
+  --display:'Anton',Impact,sans-serif;
+  --body:'Archivo',Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --maxw:1200px; --pad:clamp(1.25rem,4vw,3rem);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--yellow);color:var(--ink)}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--magenta);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.eyebrow{font-family:var(--mono);font-size:.75rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.6em}
+.eyebrow::before{content:"";width:.65em;height:.65em;background:var(--magenta);display:inline-block}
+.section{padding:clamp(3.5rem,8vw,6.5rem) 0;position:relative}
+.section-head{margin-bottom:clamp(2rem,5vw,3.25rem)}
+h1.display,h2.display{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2.25rem,5.5vw,4rem);line-height:.95;letter-spacing:.01em;margin-top:.5rem}
+.lede{max-width:38em;color:#3b3a36;margin-top:1rem}
+
+.colorbar{display:flex;height:14px;width:100%}
+.colorbar span{flex:1}
+.colorbar .c{background:var(--cyan)}.colorbar .m{background:var(--magenta)}.colorbar .y{background:var(--yellow)}.colorbar .k{background:var(--ink)}
+.colorbar .c50{background:var(--tint-c)}.colorbar .m50{background:var(--tint-m)}.colorbar .y50{background:var(--tint-y)}.colorbar .k50{background:#8b8a85}
+.colorbar--thin{height:8px}
+
+.cropmarks{position:absolute;inset:clamp(.9rem,2vw,1.5rem);pointer-events:none}
+.cropmarks i{position:absolute;width:22px;height:22px}
+.cropmarks i::before,.cropmarks i::after{content:"";position:absolute;background:var(--ink);opacity:.55}
+.cropmarks i::before{width:100%;height:1.5px}
+.cropmarks i::after{width:1.5px;height:100%}
+.cropmarks .tl{top:0;left:0}.cropmarks .tl::before{top:0;left:0}.cropmarks .tl::after{top:0;left:0}
+.cropmarks .tr{top:0;right:0}.cropmarks .tr::before{top:0;right:0}.cropmarks .tr::after{top:0;right:0}
+.cropmarks .bl{bottom:0;left:0}.cropmarks .bl::before{bottom:0;left:0}.cropmarks .bl::after{bottom:0;left:0}
+.cropmarks .br{bottom:0;right:0}.cropmarks .br::before{bottom:0;right:0}.cropmarks .br::after{bottom:0;right:0}
+
+.btn{font-family:var(--mono);font-size:.8125rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:.7em;padding:1em 1.6em;border:2px solid var(--ink);cursor:pointer;background:var(--paper);color:var(--ink);box-shadow:5px 5px 0 var(--cyan);transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.btn:hover{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--cyan)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--cyan)}
+.btn--solid{background:var(--ink);color:var(--paper);box-shadow:5px 5px 0 var(--magenta)}
+.btn--solid:hover{box-shadow:2px 2px 0 var(--magenta)}
+.btn--solid:active{box-shadow:0 0 0 var(--magenta)}
+.btn--yellow{background:var(--yellow);color:var(--ink);box-shadow:5px 5px 0 var(--cyan)}
+.btn--sm{padding:.65em 1em;font-size:.72rem;box-shadow:3px 3px 0 var(--cyan)}
+.btn--sm:hover{box-shadow:1px 1px 0 var(--cyan)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn .arr{font-family:var(--body);font-weight:700}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+/* ---------- top strip + ticker ---------- */
+.topstrip{height:6px;background:linear-gradient(90deg,var(--cyan) 0 25%,var(--magenta) 25% 50%,var(--yellow) 50% 75%,var(--ink) 75% 100%)}
+.ticker{background:var(--yellow);border-bottom:2px solid var(--ink);overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-flex;animation:ticker 26s linear infinite;padding:.55rem 0}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker span{font-family:var(--mono);font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:0 1.5rem;display:inline-flex;align-items:center;gap:1.5rem}
+.ticker span::after{content:"✦"}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+
+/* ---------- header ---------- */
+.site-header{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:2px solid var(--ink)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:.9rem;padding-bottom:.9rem}
+.wordmark{font-family:var(--display);font-size:1.35rem;text-transform:uppercase;letter-spacing:.02em;text-decoration:none;display:flex;align-items:center;gap:.55rem;line-height:1}
+.wordmark .regmark{width:20px;height:20px;flex:none}
+.wordmark em{font-style:normal;color:var(--magenta)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-links{display:flex;align-items:center;gap:1.6rem;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:.3em 0;background:linear-gradient(var(--cyan),var(--cyan)) left bottom/0% 3px no-repeat;transition:background-size .25s ease;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{background-size:100% 3px}
+.basket-link{position:relative;font-family:var(--mono);font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:2px solid var(--ink);padding:.6em 1em;display:inline-flex;align-items:center;gap:.6em;background:var(--paper);box-shadow:3px 3px 0 var(--yellow);transition:transform .15s,box-shadow .15s}
+.basket-link:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--yellow)}
+.basket-count{background:var(--magenta);color:var(--paper);min-width:1.5em;height:1.5em;display:grid;place-items:center;font-size:.85em;padding:0 .3em}
+.menu-btn{display:none;background:none;border:2px solid var(--ink);padding:.5rem .7rem;cursor:pointer;font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase}
+@media (max-width:920px){
+  .menu-btn{display:block}
+  .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:2px solid var(--ink);display:none;z-index:70}
+  .nav-links.open{display:flex}
+  .nav-links li{border-top:1px solid rgba(17,16,19,.15)}
+  .nav-links a{display:block;padding:1rem var(--pad)}
+}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;padding:clamp(4rem,9vw,7rem) 0 0}
+.hero .eyebrow{margin-bottom:1.4rem}
+.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2.8rem,10vw,8rem);line-height:.92;letter-spacing:.005em}
+.plate{position:relative;display:block;width:max-content;max-width:100%}
+.plate::before,.plate::after{content:attr(data-text);position:absolute;inset:0;z-index:-1;mix-blend-mode:multiply;pointer-events:none}
+.plate::before{color:var(--cyan);animation:regC 1.2s cubic-bezier(.2,.85,.25,1) .25s both}
+.plate::after{color:var(--magenta);animation:regM 1.2s cubic-bezier(.2,.85,.25,1) .25s both}
+@keyframes regC{from{transform:translate(-14px,9px);opacity:.9}to{transform:translate(-2.5px,2px);opacity:1}}
+@keyframes regM{from{transform:translate(14px,-9px);opacity:.9}to{transform:translate(2.5px,-2px);opacity:1}}
+@media (prefers-reduced-motion:reduce){.plate::before{transform:translate(-2.5px,2px)}.plate::after{transform:translate(2.5px,-2px)}}
+.hero h1 .u-c,.hero h1 .u-m{font-style:normal;box-shadow:inset 0 -0.16em 0 var(--cyan)}
+.hero h1 .u-m{box-shadow:inset 0 -0.16em 0 var(--magenta)}
+.hero-sub{max-width:34em;margin-top:1.75rem;font-size:clamp(1.05rem,1.6vw,1.2rem);color:#3b3a36}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2.25rem}
+.hero-reg{position:absolute;top:clamp(3rem,8vw,5rem);right:calc(var(--pad) * .6);width:clamp(70px,10vw,120px);opacity:.9;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:640px){.hero-reg{display:none}}
+.hero-specrow{margin-top:clamp(2.5rem,6vw,4.5rem);border-top:2px solid var(--ink)}
+.hero-spec{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);padding:.8rem 0}
+
+/* ---------- collection tiles (home) ---------- */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.tiles{grid-template-columns:1fr}}
+.tile{position:relative;border:2px solid var(--ink);background:var(--paper);padding:1.6rem;min-height:225px;display:flex;flex-direction:column;text-decoration:none;overflow:hidden;isolation:isolate;cursor:pointer}
+.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--flood,var(--tint-c));background-image:radial-gradient(circle at 2px 2px, rgba(17,16,19,.12) 1.3px, transparent 1.4px);background-size:9px 9px;transform:translateY(101%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.tile:hover::after,.tile:focus-visible::after{transform:translateY(0)}
+.tile-ref{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--grey);position:absolute;top:1.1rem;right:1.25rem}
+.tile-icon{width:54px;height:54px;margin-bottom:auto}
+.tile-icon svg{width:100%;height:100%;stroke:var(--ink);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tile h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.5rem;letter-spacing:.02em;margin-top:1.4rem}
+.tile p{font-size:.92rem;color:#3b3a36;margin-top:.35rem}
+.tile-go{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-top:1rem;display:inline-flex;gap:.5em;align-items:center}
+.tile:hover .tile-go .arr{transform:translateX(5px)}
+.tile-go .arr{transition:transform .25s ease;font-family:var(--body);font-weight:700}
+
+/* ---------- product grid ---------- */
+.chipbar{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.75rem 0 2.5rem}
+.chip{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:2px solid var(--ink);background:var(--paper);padding:.55em 1em;cursor:pointer;text-decoration:none;transition:background .15s}
+.chip:hover{background:var(--tint-y)}
+.chip.active{background:var(--ink);color:var(--paper)}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+@media (max-width:1020px){.pgrid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.pgrid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.pgrid{grid-template-columns:1fr}}
+.pcard{border:2px solid var(--ink);background:var(--paper);text-decoration:none;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;position:relative}
+.pcard:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--tint-c)}
+.pcard-art{aspect-ratio:1/1;border-bottom:2px solid var(--ink);background:var(--pbg,var(--tint-y));display:grid;place-items:center;padding:10%;position:relative;overflow:hidden}
+.pcard-art svg{width:100%;height:100%}
+.pcard-sale{position:absolute;top:.8rem;left:.8rem;font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--magenta);color:var(--paper);padding:.35em .7em}
+.pcard-body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.pcard-body h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.2rem;line-height:1.05}
+.pcard-meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey)}
+.pcard-price{font-family:var(--mono);font-weight:600;margin-top:auto;padding-top:.5rem;display:flex;gap:.7em;align-items:baseline}
+.pcard-price del{color:var(--grey);font-weight:400;font-size:.85em}
+.pcard-cta{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);display:inline-flex;gap:.5em}
+.pcard:hover .pcard-cta .arr{transform:translateX(4px)}
+.pcard-cta .arr{transition:transform .2s}
+
+/* ---------- breadcrumb ---------- */
+.crumbs{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);display:flex;flex-wrap:wrap;gap:.6em;padding:1.4rem 0 0}
+.crumbs a{text-decoration:none;color:var(--ink)}
+.crumbs a:hover{color:var(--magenta)}
+
+/* ============================================================
+   PRODUCT PAGE + CUSTOMISER
+   ============================================================ */
+.pp-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:start;padding-top:1.5rem}
+@media (max-width:900px){.pp-grid{grid-template-columns:1fr}}
+.pp-preview{position:sticky;top:92px}
+@media (max-width:900px){.pp-preview{position:static}}
+.proofbox{position:relative;border:2px solid var(--ink);background:var(--paper);padding:clamp(1.25rem,3vw,2rem)}
+.mock-stage{position:relative;width:100%;aspect-ratio:1/1;touch-action:none;user-select:none;-webkit-user-select:none}
+.mock-svg,.mock-svg svg{position:absolute;inset:0;width:100%;height:100%}
+.print-window{position:absolute;overflow:hidden;container-type:size;touch-action:none}
+.print-window.show-guide{outline:2px dashed var(--cyan);outline-offset:-1px}
+.print-window.show-guide::after{content:"PRINT AREA";position:absolute;top:3px;left:5px;font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--cyan);pointer-events:none}
+.print-window.clip-circle{border-radius:50%}
+.layer{position:absolute;left:50%;top:50%;cursor:grab;transform-origin:center;touch-action:none}
+.layer:active{cursor:grabbing}
+.layer.selected{outline:2px dashed var(--magenta);outline-offset:4px}
+.layer-img{width:75cqw}
+.layer-img img{width:100%;height:auto;pointer-events:none}
+.layer-text{white-space:pre;line-height:1.05;font-weight:600;pointer-events:auto}
+.stage-hint{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);text-align:center;margin-top:1rem}
+.side-toggle{position:absolute;top:.9rem;right:.9rem;z-index:5;display:flex;border:2px solid var(--ink);background:var(--paper)}
+.side-toggle button{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.5em .9em;border:0;background:transparent;cursor:pointer}
+.side-toggle button.on{background:var(--ink);color:var(--paper)}
+.guide-toggle{position:absolute;bottom:.9rem;right:.9rem;z-index:5;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;display:flex;gap:.5em;align-items:center;background:var(--paper);border:1.5px solid var(--ink);padding:.4em .7em;cursor:pointer}
+
+/* --- product info / controls --- */
+.pp-info h1{font-size:clamp(2rem,4.5vw,3.2rem)}
+.pp-meta{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.5em 1.5em}
+.pp-price{display:flex;align-items:baseline;gap:1rem;margin:1.25rem 0;font-family:var(--mono)}
+.pp-price .now{font-size:2rem;font-weight:600}
+.pp-price del{color:var(--grey)}
+.pp-price .save{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--magenta);color:var(--paper);padding:.35em .7em;align-self:center}
+.pp-desc{color:#3b3a36;max-width:36em}
+
+.panel{border:2px solid var(--ink);margin-top:1.5rem;background:var(--paper)}
+.panel-h{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.9rem 1.25rem;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:center;background:var(--phead,var(--tint-y))}
+.panel-b{padding:1.25rem}
+.optlabel{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin:0 0 .6rem}
+.optlabel small{color:var(--grey);font-weight:400}
+.swatches{display:flex;flex-wrap:wrap;gap:.6rem}
+.swatch{width:34px;height:34px;border:2px solid var(--ink);cursor:pointer;position:relative;padding:0;background:var(--sw)}
+.swatch.on::after{content:"";position:absolute;inset:-6px;border:2px solid var(--magenta)}
+.sizechips{display:flex;flex-wrap:wrap;gap:.5rem}
+.sizechip{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.08em;border:2px solid var(--ink);background:var(--paper);padding:.55em .9em;cursor:pointer}
+.sizechip.on{background:var(--ink);color:var(--paper)}
+.optrow{margin-bottom:1.25rem}
+.optrow:last-child{margin-bottom:0}
+
+/* --- design tools --- */
+.dropzone{border:2px dashed var(--ink);background:var(--tint-c);padding:1.4rem;text-align:center;cursor:pointer;transition:background .15s}
+.dropzone:hover,.dropzone.over{background:var(--tint-y)}
+.dropzone p{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.dropzone small{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--grey);margin-top:.4rem;text-transform:uppercase}
+.layer-tabs{display:flex;border:2px solid var(--ink);margin-bottom:1rem}
+.layer-tabs button{flex:1;font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.7em;background:var(--paper);border:0;cursor:pointer}
+.layer-tabs button+button{border-left:2px solid var(--ink)}
+.layer-tabs button.on{background:var(--cyan);color:var(--ink)}
+.toolrow{display:flex;align-items:center;gap:1rem;margin-top:1rem}
+.toolrow label{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;width:4.5rem;flex:none}
+.toolrow input[type=range]{flex:1;accent-color:var(--magenta)}
+.toolrow output{font-family:var(--mono);font-size:.68rem;width:3.2rem;text-align:right;color:var(--grey)}
+.toolbtns{display:flex;gap:.6rem;margin-top:1.1rem;flex-wrap:wrap}
+.minibtn{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:2px solid var(--ink);background:var(--paper);padding:.55em .9em;cursor:pointer}
+.minibtn:hover{background:var(--tint-m)}
+.textinput{width:100%;border:2px solid var(--ink);background:var(--paper);font-family:var(--body);font-size:1rem;padding:.75em 1em;margin-bottom:1rem}
+.fontpick{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.fontpick button{border:2px solid var(--ink);background:var(--paper);padding:.45em .9em;cursor:pointer;font-size:.95rem}
+.fontpick button.on{background:var(--ink);color:var(--paper)}
+.inkdots{display:flex;gap:.55rem}
+.inkdot{width:28px;height:28px;border:2px solid var(--ink);cursor:pointer;background:var(--sw);position:relative;padding:0}
+.inkdot.on::after{content:"";position:absolute;inset:-5px;border:2px solid var(--magenta)}
+
+/* --- buy row --- */
+.buyrow{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;align-items:stretch}
+.qty{display:flex;border:2px solid var(--ink)}
+.qty button{width:44px;background:var(--paper);border:0;cursor:pointer;font-family:var(--mono);font-size:1.1rem;font-weight:600}
+.qty button:hover{background:var(--tint-y)}
+.qty input{width:52px;text-align:center;border:0;border-left:2px solid var(--ink);border-right:2px solid var(--ink);font-family:var(--mono);font-weight:600;font-size:.95rem;background:var(--paper)}
+.buyrow .btn{flex:1;min-width:220px}
+
+/* ============================================================
+   CART
+   ============================================================ */
+.cart-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;padding-top:1.5rem}
+@media (max-width:860px){.cart-grid{grid-template-columns:1fr}}
+.cartline{display:grid;grid-template-columns:110px 1fr auto;gap:1.25rem;border:2px solid var(--ink);padding:1rem;margin-bottom:1rem;background:var(--paper);align-items:center}
+@media (max-width:560px){.cartline{grid-template-columns:80px 1fr}.cartline .cl-price{grid-column:2}}
+.cl-thumb{width:110px;height:110px;border:2px solid var(--ink);background:var(--tint-y);position:relative;overflow:hidden}
+@media (max-width:560px){.cl-thumb{width:80px;height:80px}}
+.cl-thumb .mini-stage{position:absolute;inset:6%}
+.cl-thumb svg{position:absolute;inset:0;width:100%;height:100%}
+.cl-body h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.25rem;line-height:1}
+.cl-meta{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-top:.4rem;display:flex;flex-wrap:wrap;gap:.4em 1.2em}
+.cl-actions{display:flex;align-items:center;gap:.9rem;margin-top:.8rem;flex-wrap:wrap}
+.cl-price{font-family:var(--mono);font-weight:600;text-align:right}
+.removebtn{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:none;border:0;cursor:pointer;color:var(--grey);text-decoration:underline}
+.removebtn:hover{color:var(--magenta)}
+.summary{border:2px solid var(--ink);padding:1.75rem;background:var(--tint-m)}
+.summary h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.6rem}
+.sumline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.85rem;padding:.8em 0;border-bottom:1px solid rgba(17,16,19,.3)}
+.sumline.total{font-weight:600;font-size:1.1rem;border-bottom:0;padding-top:1.2em}
+.summary .btn{width:100%;margin-top:1.25rem}
+.empty-cart{border:2px dashed var(--ink);padding:3.5rem 2rem;text-align:center}
+.empty-cart p{font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem}
+
+/* ---------- modal + toast ---------- */
+.modal-back{position:fixed;inset:0;background:rgba(17,16,19,.55);z-index:90;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.modal-back.open{display:flex}
+.modal{background:var(--paper);border:2px solid var(--ink);max-width:520px;width:100%;padding:2rem;position:relative;box-shadow:10px 10px 0 var(--magenta);max-height:88vh;overflow:auto}
+.modal h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.8rem}
+.modal .mono-note{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--grey);margin-top:1rem}
+.modal .btn{width:100%;margin-top:1.5rem}
+.modal-x{position:absolute;top:.8rem;right:.8rem;border:2px solid var(--ink);background:var(--paper);width:34px;height:34px;cursor:pointer;font-weight:700}
+.order-stamp{font-family:var(--mono);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--magenta);border:3px solid var(--magenta);padding:.7em 1.2em;display:inline-block;transform:rotate(-6deg);margin:1.25rem 0}
+.toast{position:fixed;left:1.25rem;bottom:1.25rem;z-index:95;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;padding:1em 1.4em;border:2px solid var(--ink);box-shadow:5px 5px 0 var(--yellow);display:flex;gap:1.2em;align-items:center;transform:translateY(140%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.toast.show{transform:none}
+.toast a{color:var(--yellow);text-decoration:underline}
+
+/* ---------- job docket (home) ---------- */
+.docket{border-top:2px solid var(--ink)}
+.job{display:grid;grid-template-columns:5.5rem 1fr auto;align-items:center;gap:1.5rem;border-bottom:2px solid var(--ink);padding:1.5rem 0;text-decoration:none;position:relative;overflow:hidden;isolation:isolate;cursor:pointer}
+.job::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--flood,var(--tint-y));transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.job:hover::after,.job:focus-visible::after{transform:scaleX(1)}
+.job-no{font-family:var(--mono);font-size:.8rem;font-weight:600;letter-spacing:.12em;color:var(--grey)}
+.job:hover .job-no{color:var(--ink)}
+.job h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:.02em}
+.job p{font-size:.95rem;color:#3b3a36;margin-top:.25rem;max-width:44em}
+.job-arr{font-size:1.6rem;font-weight:700;transition:transform .25s ease}
+.job:hover .job-arr{transform:translateX(8px)}
+@media (max-width:640px){.job{grid-template-columns:3rem 1fr;gap:1rem}.job-arr{display:none}}
+
+/* ---------- gift of month ---------- */
+.gotm{background:var(--tint-y);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.gotm-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:center}
+@media (max-width:860px){.gotm-grid{grid-template-columns:1fr}}
+.proof-card{position:relative;background:var(--paper);border:2px solid var(--ink);padding:clamp(2rem,5vw,3.5rem);display:grid;place-items:center}
+.stamp{position:absolute;top:8%;right:6%;transform:rotate(8deg);font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--magenta);border:2.5px solid var(--magenta);padding:.5em .9em;background:rgba(250,250,247,.85)}
+.price-row{display:flex;align-items:baseline;gap:1rem;margin:1.5rem 0 .35rem;font-family:var(--mono)}
+.price-now{font-size:clamp(2rem,4vw,2.75rem);font-weight:600}
+.price-was{color:var(--grey);text-decoration:line-through;font-size:1.1rem}
+.price-tag{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--magenta);color:var(--paper);padding:.35em .7em;align-self:center}
+.speclist{list-style:none;margin:1.25rem 0 2rem;font-family:var(--mono);font-size:.82rem;letter-spacing:.04em}
+.speclist li{padding:.55em 0;border-bottom:1px solid rgba(17,16,19,.25);display:flex;justify-content:space-between;gap:2rem}
+.speclist li span:last-child{color:#3b3a36}
+
+/* ---------- deals ---------- */
+.deals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;align-items:stretch}
+@media (max-width:1020px){.deals-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.deals-grid{grid-template-columns:1fr}}
+.ticket{border:2px solid var(--ink);background:var(--paper);display:flex;flex-direction:column;position:relative}
+.ticket--feature{outline:4px solid var(--magenta);outline-offset:-2px}
+.ticket-flag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;background:var(--magenta);color:var(--paper);padding:.4em .9em;white-space:nowrap}
+.ticket-head{padding:1.4rem 1.4rem 1.1rem;border-bottom:2px dashed var(--ink)}
+.ticket-head .kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+.ticket-head h3{font-family:var(--display);font-weight:400;font-size:2rem;text-transform:uppercase;line-height:1;margin-top:.3rem}
+.ticket ul{list-style:none;padding:1.2rem 1.4rem;flex:1}
+.ticket li{font-family:var(--mono);font-size:.78rem;line-height:1.45;letter-spacing:.02em;padding:.45em 0 .45em 1.4em;position:relative}
+.ticket li::before{content:"";position:absolute;left:0;top:.85em;width:.55em;height:.55em;background:var(--tik,var(--cyan))}
+.ticket-foot{padding:0 1.4rem 1.4rem}
+.ticket-foot .btn{width:100%}
+.deals-note{margin-top:1.5rem;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;color:var(--grey);text-transform:uppercase}
+
+/* ---------- bundle ---------- */
+.bundle{background:var(--ink);color:var(--paper)}
+.bundle .eyebrow{color:var(--paper)}
+.bundle .eyebrow::before{background:var(--yellow)}
+.bundle h2.display{color:var(--paper)}
+.bundle .lede{color:#c9c8c2}
+.bundle-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(2.5rem,6vw,5rem);align-items:start}
+@media (max-width:900px){.bundle-grid{grid-template-columns:1fr}}
+.bundle-price{font-family:var(--mono);border:2px solid var(--paper);padding:1.75rem;margin-top:2rem}
+.bundle-price .amount{font-size:clamp(2.6rem,5vw,3.6rem);font-weight:600;color:var(--yellow);line-height:1}
+.bundle-price .per{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:#c9c8c2;margin-top:.5rem}
+.bundle-price .btn{margin-top:1.5rem;width:100%}
+.checklist{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.15rem 2rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.02em}
+@media (max-width:560px){.checklist{grid-template-columns:1fr}}
+.checklist li{padding:.6em 0 .6em 1.9em;position:relative;border-bottom:1px solid rgba(250,250,247,.18)}
+.checklist li::before{content:"✓";position:absolute;left:0;top:.45em;width:1.15em;height:1.15em;border:1.5px solid var(--paper);display:grid;place-items:center;font-size:.7em;font-weight:700;color:var(--yellow)}
+.bundle-note{margin-top:1.5rem;font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;color:#c9c8c2;text-transform:uppercase}
+
+/* ---------- process ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--ink)}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+.step{padding:1.75rem;border-right:2px solid var(--ink);position:relative}
+.step:last-child{border-right:0}
+@media (max-width:900px){.step:nth-child(2){border-right:0}.step:nth-child(-n+2){border-bottom:2px solid var(--ink)}}
+@media (max-width:560px){.step{border-right:0;border-bottom:2px solid var(--ink)}.step:last-child{border-bottom:0}}
+.step-no{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:var(--paper);background:var(--ink);display:inline-block;padding:.35em .7em}
+.step:nth-child(1) .step-no{background:var(--cyan);color:var(--ink)}
+.step:nth-child(2) .step-no{background:var(--magenta);color:var(--paper)}
+.step:nth-child(3) .step-no{background:var(--yellow);color:var(--ink)}
+.step h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.35rem;margin:.9rem 0 .4rem}
+.step p{font-size:.9rem;color:#3b3a36}
+
+/* ---------- contact ---------- */
+.contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(2.5rem,6vw,5rem);padding-top:1rem}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr}}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.form-grid .full{grid-column:1/-1}
+@media (max-width:560px){.form-grid{grid-template-columns:1fr}}
+label.flabel{font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:.5rem}
+label.flabel .req{color:var(--magenta)}
+input.finput,textarea.finput{width:100%;border:2px solid var(--ink);background:var(--paper);font-family:var(--body);font-size:1rem;padding:.85em 1em;color:var(--ink)}
+input.finput:focus,textarea.finput:focus{outline:3px solid var(--cyan);outline-offset:0}
+textarea.finput{resize:vertical;min-height:150px}
+.form-ok{border:2px solid var(--ink);background:var(--tint-c);padding:2rem;font-family:var(--mono);font-size:.9rem;display:none}
+.form-ok strong{display:block;font-size:1.05rem;margin-bottom:.5rem}
+.contact-aside{border:2px solid var(--ink);padding:2rem;background:var(--tint-m);height:max-content}
+.contact-aside h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.5rem}
+.contact-aside p{font-size:.95rem;margin-top:.75rem}
+.social-list{list-style:none;margin-top:1.5rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
+.social-list li{border-top:1px solid var(--ink)}
+.social-list a{display:flex;justify-content:space-between;padding:.9em 0;text-decoration:none}
+.social-list span:last-child{transition:transform .2s ease}
+.social-list a:hover span:last-child{transform:translateX(4px)}
+
+/* ---------- newsletter + footer ---------- */
+.newsband{background:var(--yellow);border-top:2px solid var(--ink)}
+.newsband-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;padding-top:2.5rem;padding-bottom:2.5rem}
+.newsband h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(1.5rem,3.4vw,2.4rem);line-height:1}
+.newsband p{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-top:.5rem}
+.newsform{display:flex;gap:.75rem;flex-wrap:wrap}
+.newsform input{width:min(320px,72vw);background:var(--paper);border:2px solid var(--ink);font-family:var(--body);font-size:1rem;padding:.85em 1em}
+.news-ok{font-family:var(--mono);font-size:.85rem;font-weight:600;display:none;padding:.85em 0}
+footer{background:var(--ink);color:var(--paper)}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2.5rem;padding-top:4rem;padding-bottom:3rem}
+@media (max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.foot-grid{grid-template-columns:1fr}}
+.foot-mark{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.5rem);text-transform:uppercase;line-height:1;letter-spacing:.02em}
+.foot-mark em{font-style:normal;color:var(--yellow)}
+.foot-grid p{font-size:.85rem;color:#c9c8c2;margin-top:1rem;max-width:26em}
+.foot-grid h4{font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#8b8a85;margin-bottom:1rem}
+.foot-grid ul{list-style:none}
+.foot-grid ul a{display:inline-block;text-decoration:none;font-size:.9rem;padding:.3em 0;background:linear-gradient(var(--cyan),var(--cyan)) left bottom/0% 2px no-repeat;transition:background-size .25s ease}
+.foot-grid ul a:hover{background-size:100% 2px}
+.foot-bottom{border-top:1px solid rgba(250,250,247,.2);display:flex;flex-wrap:wrap;gap:.75rem 2rem;justify-content:space-between;align-items:center;padding-top:1.5rem;padding-bottom:1.75rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#8b8a85}
+.foot-bottom .regmark{width:18px;height:18px}
+
+/* ---------- page transitions ---------- */
+#app{min-height:60vh}
+.page{animation:pagein .35s ease both}
+@keyframes pagein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.page{animation:none}}
+.pagehead{padding-top:clamp(2.5rem,6vw,4rem)}
+
+/* ============================================================
+   v2 ENHANCEMENTS
+   ============================================================ */
+.searchbar{display:flex;border:2px solid var(--ink);background:var(--paper)}
+.searchbar input{border:0;background:transparent;font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;padding:.55em .8em;width:150px;color:var(--ink)}
+.searchbar input:focus{outline:none}
+.searchbar button{border:0;border-left:2px solid var(--ink);background:var(--yellow);font-family:var(--mono);font-size:.7rem;font-weight:600;padding:0 .8em;cursor:pointer;letter-spacing:.1em;text-transform:uppercase}
+@media (max-width:920px){.nav-right>.searchbar{display:none}}
+.nav-links .searchbar{margin:.9rem var(--pad);width:auto}
+.nav-links .searchbar input{flex:1;width:auto}
+
+.stars{color:var(--magenta);letter-spacing:.12em;font-size:.9rem;white-space:nowrap}
+.stars .dim{color:#cfcec8}
+.pcard-rate{font-family:var(--mono);font-size:.66rem;color:var(--grey);display:flex;gap:.5em;align-items:center}
+.rev-summary{display:flex;align-items:baseline;gap:1rem;margin:.5rem 0 1rem;flex-wrap:wrap}
+.rev-avg{font-family:var(--display);font-size:2.6rem;line-height:1}
+.rev-item{border-top:1px solid rgba(17,16,19,.2);padding:1rem 0}
+.rev-item h4{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;gap:1rem}
+.rev-item p{font-size:.92rem;margin-top:.35rem;color:#3b3a36}
+.rev-form{display:grid;gap:.9rem;margin-top:1.5rem;max-width:560px}
+.rev-form select{border:2px solid var(--ink);background:var(--paper);font-family:var(--mono);padding:.6em;width:100%}
+
+.dpi-badge{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:none;align-items:center;gap:.55em;margin-top:.8rem}
+.dpi-badge i{width:.75em;height:.75em;display:inline-block;flex:none}
+
+.clipgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:.5rem;margin-top:.7rem}
+@media (max-width:560px){.clipgrid{grid-template-columns:repeat(4,1fr)}}
+.clipbtn{border:2px solid var(--ink);background:var(--paper);aspect-ratio:1;cursor:pointer;padding:7px}
+.clipbtn:hover{background:var(--tint-y)}
+.clipbtn svg{width:100%;height:100%}
+
+.applystrip{margin-top:1.25rem;padding-top:1.1rem;border-top:2px dashed rgba(17,16,19,.35)}
+.applyminis{display:flex;gap:.5rem;flex-wrap:wrap}
+.applymini{width:54px;border:2px solid var(--ink);background:var(--paper);cursor:pointer;padding:4px}
+.applymini:hover{background:var(--tint-c)}
+
+.bulkgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;margin-top:1.1rem}
+@media (max-width:560px){.bulkgrid{grid-template-columns:repeat(3,1fr)}}
+.bulkgrid label{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.08em;display:block;text-align:center;margin-bottom:.35rem;text-transform:uppercase}
+.bulkgrid input{width:100%;border:2px solid var(--ink);background:var(--paper);font-family:var(--mono);text-align:center;padding:.55em 0}
+.bulkinfo{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;margin-top:1rem;text-transform:uppercase}
+.bulkinfo strong{color:var(--magenta)}
+.breakshint{font-family:var(--mono);font-size:.62rem;color:var(--grey);letter-spacing:.06em;text-transform:uppercase;margin-top:.5rem}
+
+.proof-img{border:2px solid var(--ink);max-width:100%;margin:1rem 0}
+.proofbtn-row{display:flex;justify-content:center;margin-top:.9rem}
+
+.recent-strip{border-top:2px solid var(--ink)}
+.pgrid--mini{grid-template-columns:repeat(6,1fr)}
+@media (max-width:1020px){.pgrid--mini{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:560px){.pgrid--mini{grid-template-columns:repeat(3,1fr)}}
+.pgrid--mini .pcard-body{padding:.7rem .8rem .9rem;gap:.2rem}
+.pgrid--mini .pcard-body h3{font-size:.9rem}
+.pgrid--mini .pcard-cta,.pgrid--mini .pcard-meta{display:none}
+.pgrid--mini .pcard-price{font-size:.78rem;padding-top:.15rem}
+</style>
+</head>
+<body>
+
+<!-- reusable registration mark -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="regmark">
+      <circle cx="16" cy="16" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M16 1v30M1 16h30" stroke="currentColor" stroke-width="2"/>
+    </g>
+    <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
+      <path d="M0.5 1 C0.08 0.66 0 0.38 0 0.26 C0 0.08 0.14 0 0.30 0 C0.42 0 0.47 0.08 0.5 0.16 C0.53 0.08 0.58 0 0.70 0 C0.86 0 1 0.08 1 0.26 C1 0.38 0.92 0.66 0.5 1 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<div class="topstrip" aria-hidden="true"></div>
+
+<div class="ticker" aria-label="Announcements">
+  <div class="ticker-track">
+    <span>Customise any product with your own design</span>
+    <span>Limited-time workwear deals</span>
+    <span>Free artwork check on every job</span>
+    <span>Printed &amp; embroidered in Cornwall</span>
+    <span>Customise any product with your own design</span>
+    <span>Limited-time workwear deals</span>
+    <span>Free artwork check on every job</span>
+    <span>Printed &amp; embroidered in Cornwall</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="wordmark" href="#/">
+      <svg class="regmark" viewBox="0 0 32 32" style="color:var(--magenta)" aria-hidden="true"><use href="#regmark"/></svg>
+      Banners <em>&amp;</em> Beyond
+    </a>
+    <nav class="nav-right">
+      <ul class="nav-links" id="navlinks">
+        <li><a href="#/shop" data-nav="shop">Shop all</a></li>
+        <li><a href="#/collection/workwear" data-nav="workwear">Workwear</a></li>
+        <li><a href="#/collection/gifting" data-nav="gifting">Gifting</a></li>
+        <li><a href="#/deals" data-nav="deals">Deals</a></li>
+        <li><a href="#/contact" data-nav="contact">Contact</a></li>
+      </ul>
+      <a class="basket-link" href="#/cart" aria-label="Basket">
+        Basket <span class="basket-count" id="basketCount">0</span>
+      </a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="navlinks" id="menuBtn">Menu</button>
+    </nav>
+  </div>
+</header>
+
+<main id="app" aria-live="polite"></main>
+
+<section class="newsband">
+  <div class="wrap newsband-inner">
+    <div>
+      <h2>Press releases, occasionally.</h2>
+      <p>New drops &amp; workwear deals — a couple of emails a month, tops.</p>
+    </div>
+    <form class="newsform" id="newsForm" novalidate>
+      <label for="n-email" class="sr-only">Email address</label>
+      <input id="n-email" type="email" placeholder="you@example.com" required>
+      <button class="btn btn--solid" type="submit">Subscribe</button>
+    </form>
+    <p class="news-ok" id="newsOk" role="status">You're on the list ✓ (demo)</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-mark">Banners <em>&amp;</em><br>Beyond</div>
+      <p>Custom print, embroidery and signage from a small workshop in Cornwall. Designed by you, made by us.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#/shop">Full catalogue</a></li>
+        <li><a href="#/collection/gifting">Gifting</a></li>
+        <li><a href="#/collection/slates">Photo slates</a></li>
+        <li><a href="#/collection/hoodies">Hoodies</a></li>
+        <li><a href="#/collection/banners">Banners &amp; signs</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Business</h4>
+      <ul>
+        <li><a href="#/deals">Workwear deals</a></li>
+        <li><a href="#/bundle">Start-up bundle</a></li>
+        <li><a href="#/contact">Get a quote</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="https://www.facebook.com/cornwalldmc/" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://www.instagram.com/bannersandbeyondltd/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@bannerssndbeyond" target="_blank" rel="noopener">TikTok</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© <span id="year">2026</span> Banners and Beyond Ltd · Cornwall, UK</span>
+    <span>PayPal accepted</span>
+    <span style="display:inline-flex;align-items:center;gap:.6em">
+      <svg class="regmark" viewBox="0 0 32 32" style="color:var(--yellow)" aria-hidden="true"><use href="#regmark"/></svg>
+      Registration checked
+    </span>
+    <a href="https://bannersandbeyond.co.uk/policies/privacy-policy" target="_blank" rel="noopener" style="color:inherit">Privacy policy</a>
+  </div>
+  <div class="colorbar colorbar--thin" aria-hidden="true">
+    <span class="c"></span><span class="m"></span><span class="y"></span><span class="k50"></span>
+    <span class="c50"></span><span class="m50"></span><span class="y50"></span><span class="k50"></span>
+  </div>
+</footer>
+
+<!-- checkout modal -->
+<div class="modal-back" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   STATE + HELPERS
+   ════════════════════════════════════════════════════════════ */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const gbp = n => '£' + n.toFixed(2);
+
+let CART = [];        // in-memory basket
+let cartUid = 1;
+
+async function saveCart(){
+  try{
+    if(!window.storage) return;
+    const json = JSON.stringify(CART);
+    if(json.length > 4500000) return; // too big to persist — keep in memory only
+    await window.storage.set('bb_cart_v1', json);
+  }catch(e){ /* storage unavailable — in-memory only */ }
+}
+async function loadCart(){
+  try{
+    if(window.storage){
+      const r = await window.storage.get('bb_cart_v1');
+      if(r && r.value){ CART = JSON.parse(r.value); cartUid = Math.max(1, ...CART.map(l=>l.uid+1)); updateBadge(); }
+    }
+  }catch(e){ /* no saved cart */ }
+}
+function updateBadge(){
+  $('#basketCount').textContent = CART.reduce((n,l)=>n+l.qty,0);
+}
+
+/* ════════════════════════════════════════════════════════════
+   PRODUCT MOCKUPS — flat SVG renderers, viewBox 0 0 400 400
+   Each returns SVG markup for a given colour + side.
+   sh() adds a soft shading overlay for depth.
+   ════════════════════════════════════════════════════════════ */
+const INK = '#111013';
+const sw = 5; // stroke width
+const svgWrap = inner => `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${inner}</svg>`;
+const P = (d, fill, extra='') => `<path d="${d}" fill="${fill}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round" ${extra}/>`;
+const L = (d, extra='') => `<path d="${d}" fill="none" stroke="${INK}" stroke-width="${sw*0.7}" stroke-linecap="round" ${extra}/>`;
+const SH = d => `<path d="${d}" fill="${INK}" opacity="0.07"/>`;
+
+const MOCKS = {
+
+  tee: {
+    label:'T-shirt', sides:['front','back'],
+    area:{front:{x:138,y:170,w:124,h:135}, back:{x:135,y:158,w:130,h:150}},
+    draw(c, side){
+      const body = 'M132 96 L70 130 L92 192 L124 176 L124 344 L276 344 L276 176 L308 192 L330 130 L268 96 C255 121 231 133 200 133 C169 133 145 121 132 96 Z';
+      let d = P(body, c);
+      d += SH('M124 176 L124 344 L152 344 L152 200 Z');
+      d += L('M124 176 L124 200'); d += L('M276 176 L276 200');
+      if(side==='front'){
+        d += P('M156 98 C165 118 181 127 200 127 C219 127 235 118 244 98 C232 112 217 119 200 119 C183 119 168 112 156 98 Z', c);
+      } else {
+        d += L('M162 100 C174 112 186 116 200 116 C214 116 226 112 238 100');
+      }
+      return svgWrap(d);
+    }
+  },
+
+  hoodie: {
+    label:'Hoodie', sides:['front','back'],
+    area:{front:{x:143,y:190,w:114,h:98}, back:{x:135,y:168,w:130,h:145}},
+    zip:false,
+    draw(c, side, opts={}){
+      const zip = opts.zip;
+      const body = 'M130 106 L66 140 L90 204 L122 188 L122 348 L278 348 L278 188 L310 204 L334 140 L270 106 C258 128 232 140 200 140 C168 140 142 128 130 106 Z';
+      let d = P(body, c);
+      d += SH('M122 188 L122 348 L150 348 L150 210 Z');
+      d += L('M122 188 L122 212'); d += L('M278 188 L278 212');
+      if(side==='front'){
+        d += P('M148 104 C150 84 172 70 200 70 C228 70 250 84 252 104 C244 128 226 142 200 142 C174 142 156 128 148 104 Z', c); // hood
+        d += P('M166 108 C172 124 184 132 200 132 C216 132 228 124 234 108 C226 96 214 90 200 90 C186 90 174 96 166 108 Z', shade(c)); // hood opening
+        d += L('M188 140 L184 176'); d += L('M212 140 L216 176'); // drawstrings
+        d += `<circle cx="184" cy="180" r="4" fill="${INK}"/><circle cx="216" cy="180" r="4" fill="${INK}"/>`;
+        if(zip){ d += L('M200 142 L200 348'); d += `<rect x="195" y="200" width="10" height="18" fill="${INK}"/>`; }
+        else { d += P('M152 268 L172 244 L228 244 L248 268 L248 322 L152 322 Z', c); d += L('M172 244 L172 322'); d += L('M228 244 L228 322'); } // pocket
+      } else {
+        d += P('M144 118 C150 92 172 78 200 78 C228 78 250 92 256 118 C240 108 222 102 200 102 C178 102 160 108 144 118 Z', c); // hood from back
+      }
+      d += P('M122 330 L278 330 L278 348 L122 348 Z', shade(c)); // hem rib
+      return svgWrap(d);
+    }
+  },
+
+  crew: {
+    label:'Sweatshirt', sides:['front','back'],
+    area:{front:{x:140,y:172,w:120,h:130}, back:{x:136,y:162,w:128,h:145}},
+    draw(c, side){
+      const body = 'M132 102 L68 136 L92 198 L124 182 L124 344 L276 344 L276 182 L308 198 L332 136 L268 102 C256 124 230 136 200 136 C170 136 144 124 132 102 Z';
+      let d = P(body, c);
+      d += SH('M124 182 L124 344 L152 344 L152 204 Z');
+      d += P('M160 102 C168 122 182 131 200 131 C218 131 232 122 240 102 C230 114 216 120 200 120 C184 120 170 114 160 102 Z', shade(c));
+      d += P('M124 326 L276 326 L276 344 L124 344 Z', shade(c));
+      d += L('M124 182 L124 206'); d += L('M276 182 L276 206');
+      if(side==='back'){ d += L('M170 104 C180 112 190 115 200 115 C210 115 220 112 230 104'); }
+      return svgWrap(d);
+    }
+  },
+
+  polo: {
+    label:'Polo shirt', sides:['front','back'],
+    area:{front:{x:150,y:188,w:100,h:112}, back:{x:136,y:160,w:128,h:145}},
+    draw(c, side){
+      const body = 'M132 98 L70 132 L92 194 L124 178 L124 344 L276 344 L276 178 L308 194 L330 132 L268 98 C255 122 231 134 200 134 C169 134 145 122 132 98 Z';
+      let d = P(body, c);
+      d += SH('M124 178 L124 344 L152 344 L152 200 Z');
+      if(side==='front'){
+        d += P('M160 96 L184 128 L178 138 L152 112 Z', c);
+        d += P('M240 96 L216 128 L222 138 L248 112 Z', c);
+        d += L('M192 132 L192 178'); d += L('M208 132 L208 178');
+        d += `<circle cx="200" cy="146" r="3.5" fill="${INK}"/><circle cx="200" cy="164" r="3.5" fill="${INK}"/>`;
+      } else {
+        d += P('M158 96 C166 108 182 116 200 116 C218 116 234 108 242 96 L246 106 C236 120 220 128 200 128 C180 128 164 120 154 106 Z', c);
+      }
+      return svgWrap(d);
+    }
+  },
+
+  softshell: {
+    label:'Softshell jacket', sides:['front','back'],
+    area:{front:{x:222,y:186,w:56,h:64}, back:{x:136,y:166,w:128,h:140}},
+    draw(c, side){
+      const body = 'M134 100 L72 134 L94 198 L126 182 L126 348 L274 348 L274 182 L306 198 L328 134 L266 100 C254 118 230 128 200 128 C170 128 146 118 134 100 Z';
+      let d = P(body, c);
+      d += SH('M126 182 L126 348 L154 348 L154 204 Z');
+      if(side==='front'){
+        d += P('M164 96 L164 76 L236 76 L236 96 C226 110 214 116 200 116 C186 116 174 110 164 96 Z', c); // collar stand
+        d += L('M200 116 L200 348'); // zip
+        d += `<rect x="194" y="150" width="12" height="20" fill="${INK}"/>`;
+        d += L('M146 214 L176 214'); d += L('M254 214 L224 214'); // pocket zips
+        d += L('M126 300 L274 300', 'stroke-dasharray="3 8"');
+      } else {
+        d += P('M164 96 L164 78 L236 78 L236 96 C224 106 212 110 200 110 C188 110 176 106 164 96 Z', c);
+        d += L('M126 300 L274 300', 'stroke-dasharray="3 8"');
+      }
+      return svgWrap(d);
+    }
+  },
+
+  hivis: {
+    label:'Hi-vis vest', sides:['front','back'],
+    area:{front:{x:150,y:140,w:100,h:60}, back:{x:145,y:210,w:110,h:80}},
+    draw(c, side){
+      const body = 'M148 92 L120 110 L128 350 L272 350 L280 110 L252 92 C240 110 222 118 200 118 C178 118 160 110 148 92 Z';
+      let d = P(body, c);
+      // reflective bands
+      const band = y => `<rect x="127" y="${y}" width="146" height="26" fill="#8b8a85" stroke="${INK}" stroke-width="${sw*0.7}"/><rect x="127" y="${y+9}" width="146" height="8" fill="#e7e6e2"/>`;
+      if(side==='front'){
+        d += band(212); d += band(300);
+        d += L('M200 118 L200 350'); // front opening
+      } else {
+        d += band(150); d += band(300);
+      }
+      d += P('M148 92 L166 104 L160 130 L136 116 Z', c);
+      d += P('M252 92 L234 104 L240 130 L264 116 Z', c);
+      return svgWrap(d);
+    }
+  },
+
+  cap: {
+    label:'Cap', sides:['front'],
+    area:{front:{x:152,y:158,w:96,h:70}},
+    draw(c){
+      let d = P('M108 232 C108 160 148 112 200 112 C252 112 292 160 292 232 Z', c);
+      d += SH('M108 232 C108 160 148 112 200 112 C160 130 136 176 134 232 Z');
+      d += L('M160 122 C150 152 146 190 146 232');
+      d += L('M240 122 C250 152 254 190 254 232');
+      d += P('M84 232 L316 232 L328 252 C288 268 112 268 72 252 Z', c);
+      d += `<circle cx="200" cy="112" r="7" fill="${c}" stroke="${INK}" stroke-width="${sw*0.7}"/>`;
+      return svgWrap(d);
+    }
+  },
+
+  beanie: {
+    label:'Beanie', sides:['front'],
+    area:{front:{x:148,y:236,w:104,h:52}},
+    draw(c){
+      let d = P('M116 240 C116 156 152 104 200 104 C248 104 284 156 284 240 Z', c);
+      d += SH('M116 240 C116 156 152 104 200 104 C164 122 142 178 140 240 Z');
+      d += L('M168 116 C160 152 156 196 156 236');
+      d += L('M200 108 L200 236');
+      d += L('M232 116 C240 152 244 196 244 236');
+      d += P('M112 236 L288 236 L288 292 L112 292 Z', c);
+      d += L('M126 240 L126 288'); d += L('M146 240 L146 288'); d += L('M254 240 L254 288'); d += L('M274 240 L274 288');
+      return svgWrap(d);
+    }
+  },
+
+  bucket: {
+    label:'Bucket hat', sides:['front'],
+    area:{front:{x:158,y:158,w:84,h:60}},
+    draw(c){
+      let d = P('M144 148 C144 122 168 104 200 104 C232 104 256 122 256 148 L262 232 L138 232 Z', c);
+      d += SH('M138 232 L144 148 C144 130 156 116 174 108 C160 130 154 180 152 232 Z');
+      d += L('M141 156 L259 156');
+      d += P('M92 232 C120 220 280 220 308 232 C316 240 312 256 300 260 C260 246 140 246 100 260 C88 256 84 240 92 232 Z', c);
+      d += L('M100 244 C150 234 250 234 300 244', 'stroke-dasharray="2 7"');
+      return svgWrap(d);
+    }
+  },
+
+  mug: {
+    label:'Mug', sides:['front'],
+    area:{front:{x:120,y:130,w:140,h:150}},
+    draw(c){
+      let d = P('M282 128 L310 128 C336 128 348 148 348 180 C348 212 336 232 310 232 L282 232 L282 208 L306 208 C318 208 324 196 324 180 C324 164 318 152 306 152 L282 152 Z', '#FAFAF7');
+      d += P('M104 108 L276 108 L272 300 C272 312 262 320 250 320 L130 320 C118 320 108 312 108 300 Z', '#FAFAF7');
+      d += SH('M104 108 L134 108 L138 320 L130 320 C118 320 108 312 108 300 Z');
+      d += `<ellipse cx="190" cy="108" rx="86" ry="14" fill="#FAFAF7" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += `<ellipse cx="190" cy="108" rx="70" ry="9" fill="${shade('#FAFAF7')}" stroke="${INK}" stroke-width="${sw*0.6}"/>`;
+      return svgWrap(d);
+    }
+  },
+
+  pint: {
+    label:'Pint glass', sides:['front'],
+    area:{front:{x:146,y:140,w:108,h:140}},
+    draw(){
+      const glass = '#EAF4F8';
+      let d = P('M132 76 L268 76 L254 322 C254 334 244 342 232 342 L168 342 C156 342 146 334 146 322 Z', glass, 'opacity="0.96"');
+      d += `<ellipse cx="200" cy="76" rx="68" ry="11" fill="${glass}" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += L('M148 96 C150 170 152 250 156 316', 'opacity="0.5"');
+      d += `<circle cx="176" cy="118" r="4" fill="none" stroke="${INK}" stroke-width="3" opacity="0.4"/>`;
+      d += `<circle cx="228" cy="104" r="3" fill="none" stroke="${INK}" stroke-width="3" opacity="0.4"/>`;
+      return svgWrap(d);
+    }
+  },
+
+  stem: {
+    label:'Gin glass', sides:['front'],
+    area:{front:{x:148,y:112,w:104,h:96}},
+    draw(){
+      const glass = '#EAF4F8';
+      let d = P('M124 120 C124 64 168 48 200 48 C232 48 276 64 276 120 C276 176 240 216 200 216 C160 216 124 176 124 120 Z', glass, 'opacity="0.96"');
+      d += L('M200 216 L200 320');
+      d += P('M148 328 C148 320 172 316 200 316 C228 316 252 320 252 328 C252 338 228 342 200 342 C172 342 148 338 148 328 Z', glass);
+      d += L('M140 96 C138 150 158 192 184 206', 'opacity="0.45"');
+      return svgWrap(d);
+    }
+  },
+
+  slate: {
+    label:'Slate', sides:['front'], slateShape:'sq',
+    area:{front:{x:96,y:92,w:208,h:208}},
+    draw(c, side, opts={}){
+      const shape = opts.slateShape || 'sq';
+      const stone = '#2E2C30';
+      let d = '';
+      if(shape === 'wide'){
+        this.area.front = {x:56,y:130,w:288,h:150};
+        d += P('M50 124 L354 128 L348 284 L54 280 Z', stone);
+        d += chips(52,126,352,282);
+        d += P('M150 284 L250 284 L262 322 L138 322 Z', INK);
+      } else if(shape === 'heart'){
+        this.area.front = {x:96,y:104,w:208,h:190, clip:'heart'};
+        d += P('M200 316 C120 258 84 206 84 156 C84 118 112 92 146 92 C170 92 190 104 200 124 C210 104 230 92 254 92 C288 92 316 118 316 156 C316 206 280 258 200 316 Z', stone);
+        d += P('M164 316 L236 316 L248 348 L152 348 Z', INK);
+      } else {
+        this.area.front = {x:96,y:92,w:208,h:208};
+        d += P('M92 88 L310 94 L304 302 L96 296 Z', stone);
+        d += chips(94,90,306,298);
+        d += P('M150 300 L250 300 L262 338 L138 338 Z', INK);
+      }
+      return svgWrap(d);
+    }
+  },
+
+  coaster: {
+    label:'Slate coaster', sides:['front'],
+    area:{front:{x:118,y:118,w:164,h:164, clip:'circle'}},
+    draw(){
+      const stone = '#2E2C30';
+      let d = `<circle cx="212" cy="212" r="88" fill="${stone}" stroke="${INK}" stroke-width="${sw}" opacity="0.5"/>`;
+      d += `<circle cx="200" cy="200" r="88" fill="${stone}" stroke="${INK}" stroke-width="${sw}"/>`;
+      return svgWrap(d);
+    }
+  },
+
+  teddy: {
+    label:'Teddy bear', sides:['front'],
+    area:{front:{x:158,y:216,w:84,h:74}},
+    draw(c){
+      const fur = c;
+      let d = '';
+      d += `<circle cx="142" cy="106" r="26" fill="${fur}" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += `<circle cx="258" cy="106" r="26" fill="${fur}" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += `<circle cx="142" cy="106" r="12" fill="${shade(fur)}"/>`;
+      d += `<circle cx="258" cy="106" r="12" fill="${shade(fur)}"/>`;
+      d += `<circle cx="200" cy="140" r="62" fill="${fur}" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += `<ellipse cx="200" cy="162" rx="26" ry="20" fill="#F1E4CE" stroke="${INK}" stroke-width="${sw*0.7}"/>`;
+      d += `<circle cx="178" cy="128" r="5" fill="${INK}"/><circle cx="222" cy="128" r="5" fill="${INK}"/>`;
+      d += `<path d="M192 156 Q200 164 208 156" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`;
+      d += `<ellipse cx="200" cy="150" rx="8" ry="6" fill="${INK}"/>`;
+      d += `<ellipse cx="118" cy="252" rx="24" ry="42" fill="${fur}" stroke="${INK}" stroke-width="${sw}" transform="rotate(18 118 252)"/>`;
+      d += `<ellipse cx="282" cy="252" rx="24" ry="42" fill="${fur}" stroke="${INK}" stroke-width="${sw}" transform="rotate(-18 282 252)"/>`;
+      d += `<ellipse cx="154" cy="340" rx="30" ry="26" fill="${fur}" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += `<ellipse cx="246" cy="340" rx="30" ry="26" fill="${fur}" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += P('M146 214 C160 200 240 200 254 214 L252 288 C252 300 240 306 200 306 C160 306 148 300 148 288 Z', '#FAFAF7'); // tee
+      d += L('M162 208 L150 232'); d += L('M238 208 L250 232');
+      return svgWrap(d);
+    }
+  },
+
+  tote: {
+    label:'Tote bag', sides:['front'],
+    area:{front:{x:128,y:170,w:144,h:130}},
+    draw(c){
+      let d = L('M156 130 C156 84 176 64 200 64 C224 64 244 84 244 130', `stroke-width="${sw*1.6}"`);
+      d += P('M112 130 L288 130 L300 330 L100 330 Z', c);
+      d += SH('M100 330 L112 130 L140 130 L134 330 Z');
+      d += L('M112 152 L288 152', 'stroke-dasharray="2 8"');
+      return svgWrap(d);
+    }
+  },
+
+  cushion: {
+    label:'Cushion', sides:['front'],
+    area:{front:{x:104,y:104,w:192,h:192}},
+    draw(c){
+      let d = P('M84 84 C140 68 260 68 316 84 C332 140 332 260 316 316 C260 332 140 332 84 316 C68 260 68 140 84 84 Z', c);
+      d += SH('M84 84 C110 76 150 72 180 72 C130 120 108 220 116 308 C104 310 92 312 84 316 C68 260 68 140 84 84 Z');
+      d += L('M96 96 C146 84 254 84 304 96 C316 146 316 254 304 304 C254 316 146 316 96 304 C84 254 84 146 96 96 Z', 'stroke-dasharray="2 9"');
+      return svgWrap(d);
+    }
+  },
+
+  banner: {
+    label:'PVC banner', sides:['front'],
+    area:{front:{x:64,y:136,w:272,h:128}},
+    draw(c){
+      let d = P('M40 120 L360 120 L360 280 L40 280 Z', c);
+      d += L('M56 136 L344 136 L344 264 L56 264 Z', 'stroke-dasharray="3 8" opacity="0.5"');
+      const grom = (x,y)=>`<circle cx="${x}" cy="${y}" r="9" fill="#FAFAF7" stroke="${INK}" stroke-width="${sw*0.7}"/><circle cx="${x}" cy="${y}" r="4" fill="none" stroke="${INK}" stroke-width="3"/>`;
+      d += grom(58,138)+grom(200,138)+grom(342,138)+grom(58,262)+grom(200,262)+grom(342,262);
+      return svgWrap(d);
+    }
+  },
+
+  sign: {
+    label:'ACM sign', sides:['front'],
+    area:{front:{x:80,y:110,w:240,h:180}},
+    draw(c, side, opts={}){
+      const r = opts.rounded ? 22 : 4;
+      let d = `<rect x="64" y="94" width="272" height="212" rx="${r}" fill="${c}" stroke="${INK}" stroke-width="${sw}"/>`;
+      if(opts.rounded){
+        d += L('M64 200 C150 186 250 186 336 200', 'opacity="0.25"');
+      } else {
+        const screw=(x,y)=>`<circle cx="${x}" cy="${y}" r="7" fill="#d7d6d0" stroke="${INK}" stroke-width="3"/><path d="M${x-4} ${y} L${x+4} ${y} M${x} ${y-4} L${x} ${y+4}" stroke="${INK}" stroke-width="2.5"/>`;
+        d += screw(82,112)+screw(318,112)+screw(82,288)+screw(318,288);
+      }
+      return svgWrap(d);
+    }
+  },
+
+  sticker: {
+    label:'Sticker', sides:['front'],
+    area:{front:{x:110,y:110,w:180,h:180}},
+    draw(){
+      let d = `<rect x="96" y="96" width="208" height="208" rx="30" fill="#FAFAF7" stroke="${INK}" stroke-width="${sw}"/>`;
+      d += `<rect x="88" y="88" width="208" height="208" rx="30" fill="none" stroke="${INK}" stroke-width="${sw*0.6}" opacity="0.3"/>`;
+      d += P('M304 236 L304 304 L236 304 C262 292 292 262 304 236 Z', '#e7e6e2');
+      return svgWrap(d);
+    }
+  }
+};
+
+function chips(x1,y1,x2,y2){
+  // small light nicks along slate edges for texture
+  return `<path d="M${x1+30} ${y1} l14 6 l14 -6 M${x2-70} ${y1+2} l12 5 l12 -5 M${x1} ${y1+60} l6 12 l-6 12 M${x2} ${y2-80} l-6 12 l6 12" fill="none" stroke="#55525A" stroke-width="4" stroke-linecap="round"/>`;
+}
+function shade(hex){
+  // darken a hex colour ~14%
+  const n = parseInt(hex.slice(1),16);
+  const f = v => Math.max(0, Math.round(v*0.86));
+  return '#'+[f(n>>16&255),f(n>>8&255),f(n&255)].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+
+/* ════════════════════════════════════════════════════════════
+   COLOUR SETS + CATALOGUE DATA
+   ════════════════════════════════════════════════════════════ */
+const GARMENT = [
+  {name:'White', hex:'#F4F3EE'}, {name:'Black', hex:'#26242A'},
+  {name:'Heather', hex:'#B9B7B0'}, {name:'Navy', hex:'#22304E'},
+  {name:'Red', hex:'#D64545'}, {name:'Pink', hex:'#F2A9C6'},
+  {name:'Sky', hex:'#9AD4EA'}, {name:'Sand', hex:'#E4D6B0'}
+];
+const WORK = [
+  {name:'Black', hex:'#26242A'}, {name:'Navy', hex:'#22304E'},
+  {name:'Grey', hex:'#7A7873'}, {name:'Royal', hex:'#2456B8'},
+  {name:'Bottle', hex:'#1F5C3F'}, {name:'Red', hex:'#C23B3B'}
+];
+const HIVIS = [ {name:'Hi-Vis Yellow', hex:'#EFE81C'}, {name:'Hi-Vis Orange', hex:'#F97D2B'} ];
+const FUR = [ {name:'Honey', hex:'#D9A867'}, {name:'Brown', hex:'#9C6B3F'}, {name:'Grey', hex:'#A9A6A0'}, {name:'Cream', hex:'#EFE6D3'} ];
+const FACE = [ {name:'White', hex:'#F7F6F2'}, {name:'Yellow', hex:'#FFD100'}, {name:'Cyan', hex:'#8FD9F2'}, {name:'Ink', hex:'#1C1B1F'}, {name:'Red', hex:'#D64545'} ];
+const NAT = [ {name:'Natural', hex:'#E9DFC8'}, {name:'Black', hex:'#26242A'}, {name:'Navy', hex:'#22304E'} ];
+
+const ADULT = ['S','M','L','XL','2XL'];
+const KIDS = ['3-4','5-6','7-8','9-11','12-13'];
+
+const COLLECTIONS = {
+  kids:     {name:'Kids',                 blurb:'Little tees, big opinions. Names, numbers and drawings welcome.'},
+  hoodies:  {name:'Hoodies & Sweats',     blurb:'Heavyweight blanks with your artwork, front chest and full back.'},
+  hats:     {name:'Hats & Caps',          blurb:'Embroidered, never ironed-on.'},
+  gifting:  {name:'Gifting',              blurb:'One-offs for people who already have everything.'},
+  slates:   {name:'Photo Slates',         blurb:'Your best photo, printed straight onto real stone.'},
+  glassware:{name:'Glassware & Mugs',     blurb:'Pints, gin glasses and morning mugs with names, dates and in-jokes.'},
+  workwear: {name:'Workwear',             blurb:'Kit for the crew — logo front chest, full back, or both.'},
+  banners:  {name:'Banners & Signs',      blurb:'PVC banners, ACM signs, magnets and stickers by the metre.'}
+};
+
+const PRODUCTS = [
+  {id:'kid-tee', name:'Kids Classic Tee', price:12, mock:'tee', tags:['kids'], colors:GARMENT, sizes:KIDS, desc:'Soft cotton tee, printed front and back if you like. Draw it, scan it, wear it.'},
+  {id:'kid-hoodie', name:'Kids Pullover Hoodie', price:22, mock:'hoodie', tags:['kids','hoodies'], colors:GARMENT, sizes:KIDS, desc:'Cosy pullover with a kangaroo pocket. Survives school, mostly.'},
+  {id:'teddy', name:'Printed Teddy Bear', price:18, mock:'teddy', tags:['kids','gifting'], colors:FUR, sizes:null, desc:'A proper soft teddy wearing a tee printed with your design. New-baby classic.'},
+  {id:'hoodie', name:'Heavyweight Hoodie', price:30, mock:'hoodie', tags:['hoodies'], colors:GARMENT, sizes:ADULT, desc:'350gsm brushed-back fleece. Front chest and full back print included.'},
+  {id:'ziphood', name:'Zip-Through Hoodie', price:34, mock:'hoodie', mockOpts:{zip:true}, tags:['hoodies','workwear'], colors:WORK, sizes:ADULT, desc:'Full zip, two pockets, your logo. The site-to-pub layer.'},
+  {id:'crew', name:'Crewneck Sweatshirt', price:26, mock:'crew', tags:['hoodies'], colors:GARMENT, sizes:ADULT, desc:'Clean crew neck, ribbed cuffs and hem. Prints beautifully big.'},
+  {id:'cap', name:'Structured Snapback', price:14, mock:'cap', tags:['hats'], colors:WORK, sizes:null, desc:'Six-panel cap with your design stitched or pressed on the front panel.'},
+  {id:'beanie', name:'Cuffed Beanie', price:12, mock:'beanie', tags:['hats','workwear'], colors:WORK, sizes:null, desc:'Double-knit cuff with your logo front and centre. Cornwall-proof.'},
+  {id:'bucket', name:'Bucket Hat', price:16, mock:'bucket', tags:['hats'], colors:GARMENT, sizes:null, desc:'Festival-grade bucket with a printed front crown.'},
+  {id:'mug', name:'Classic Photo Mug', price:10, mock:'mug', tags:['gifting','glassware'], colors:null, sizes:null, desc:'11oz ceramic, dishwasher safe. Photos, names, terrible jokes — all welcome.'},
+  {id:'tote', name:'Canvas Tote', price:12, mock:'tote', tags:['gifting'], colors:NAT, sizes:null, desc:'Heavy cotton canvas with long handles and your artwork front and centre.'},
+  {id:'cushion', name:'Printed Cushion', price:20, mock:'cushion', tags:['gifting'], colors:FACE, sizes:null, desc:'45 × 45 cm cushion with a full-face print. Insert included.'},
+  {id:'coaster', name:'Slate Coaster Set (4)', price:14, mock:'coaster', tags:['gifting','slates'], colors:null, sizes:null, desc:'Four round slate coasters, each printed with your design. Feet included.'},
+  {id:'slate-sq', name:'Medium Square Slate', price:17.5, sale:15, mock:'slate', mockOpts:{slateShape:'sq'}, tags:['slates','gifting'], colors:null, sizes:null, desc:'14 × 14 cm gloss slate with your photo edge to edge. Stand included. Gift of the month.'},
+  {id:'slate-wide', name:'Large Panoramic Slate', price:24, mock:'slate', mockOpts:{slateShape:'wide'}, tags:['slates'], colors:null, sizes:null, desc:'30 × 20 cm landscape slate — made for beach panoramas and dog portraits.'},
+  {id:'slate-heart', name:'Heart Slate', price:18, mock:'slate', mockOpts:{slateShape:'heart'}, tags:['slates','gifting'], colors:null, sizes:null, desc:'Heart-shaped slate with your photo printed to the edge. Anniversary insurance.'},
+  {id:'pint', name:'Printed Pint Glass', price:11, mock:'pint', tags:['glassware'], colors:null, sizes:null, desc:'A proper pint with a name, date or crest printed on the front.'},
+  {id:'stem', name:'Stemmed Gin Glass', price:13, mock:'stem', tags:['glassware','gifting'], colors:null, sizes:null, desc:'Balloon gin glass, printed. Add a name and it becomes theirs forever.'},
+  {id:'polo', name:'Work Polo', price:16, mock:'polo', tags:['workwear'], colors:WORK, sizes:ADULT, desc:'Hardwearing pique polo, logo on the chest. The uniform staple.'},
+  {id:'work-tee', name:'Work Tee', price:11, mock:'tee', tags:['workwear'], colors:WORK, sizes:ADULT, desc:'Heavy cotton tee with front chest and full back print. Order by the armful.'},
+  {id:'softshell', name:'Softshell Jacket', price:38, mock:'softshell', tags:['workwear'], colors:WORK, sizes:ADULT, desc:'Windproof, shower-resistant, embroidered chest logo and full back print.'},
+  {id:'hivis', name:'Hi-Vis Vest', price:13, mock:'hivis', tags:['workwear'], colors:HIVIS, sizes:ADULT, desc:'EN ISO 20471 vest with your company name across the back.'},
+  {id:'banner', name:'PVC Banner', price:25, mock:'banner', tags:['banners'], colors:FACE, sizes:['1 m','2 m','3 m'], sizePrices:{'1 m':25,'2 m':40,'3 m':55}, desc:'440gsm PVC with hemmed edges and brass eyelets. Design the whole face below.'},
+  {id:'sign', name:'ACM Sign Board', price:30, mock:'sign', tags:['banners'], colors:FACE, sizes:['A2','A1'], sizePrices:{'A2':30,'A1':45}, desc:'Rigid aluminium composite sign, printed and ready to fix. Screw caps included.'},
+  {id:'magnet', name:'Vehicle Magnet Pair', price:28, mock:'sign', mockOpts:{rounded:true}, tags:['banners','workwear'], colors:FACE, sizes:null, desc:'Two 60 × 30 cm magnetic panels — turn any van into the work van.'},
+  {id:'sticker', name:'Die-Cut Stickers (per metre)', price:18, mock:'sticker', tags:['banners'], colors:null, sizes:null, desc:'A metre of weatherproof vinyl stickers in your design. Tools, kits, laptops.'}
+];
+const prodById = id => PRODUCTS.find(p => p.id === id);
+
+/* ════════════════════════════════════════════════════════════
+   CUSTOMISER — shared builders
+   ════════════════════════════════════════════════════════════ */
+const FONTS = {anton:"'Anton',sans-serif", archivo:"'Archivo',sans-serif", mono:"'IBM Plex Mono',monospace", script:"'Caveat',cursive"};
+const TEXTINKS = ['#111013','#FAFAF7','#00A8E1','#E5087E','#FFD100'];
+const BIGAREA = ['slate','banner','sign','cushion','sticker','coaster'];
+
+function newSide(){
+  return {
+    img:{src:null, x:0, y:0, scale:1, rot:0},
+    text:{value:'', font:'anton', color:'#111013', x:0, y:28, scale:1, rot:0}
+  };
+}
+function getArea(p, side){
+  const o = p.mockOpts || {};
+  if(p.mock === 'slate'){
+    if(o.slateShape === 'wide')  return {x:56,y:130,w:288,h:150};
+    if(o.slateShape === 'heart') return {x:96,y:104,w:208,h:190, clip:'heart'};
+    return {x:96,y:92,w:208,h:208};
+  }
+  const m = MOCKS[p.mock];
+  return (m.area[side] || m.area.front);
+}
+function sideHasContent(s){ return !!(s && ((s.img && s.img.src) || (s.text && s.text.value.trim()))); }
+
+function layerTransform(l){
+  return `translate(-50%,-50%) translate(${l.x}cqw, ${l.y}cqh) rotate(${l.rot}deg) scale(${l.scale})`;
+}
+function buildLayersHTML(sideState, p, interactive){
+  if(!sideState) return '';
+  let html = '';
+  const imgW = BIGAREA.includes(p.mock) ? 90 : 75;
+  const i = sideState.img;
+  if(i && i.src){
+    html += `<div class="layer layer-img" data-layer="img" style="width:${imgW}cqw;transform:${layerTransform(i)}"><img src="${i.src}" alt="Your uploaded design" draggable="false"></div>`;
+  }
+  const t = sideState.text;
+  if(t && t.value.trim()){
+    const stroke = t.color === '#FAFAF7' ? '-webkit-text-stroke:1.2px rgba(17,16,19,.45);' : '';
+    html += `<div class="layer layer-text" data-layer="text" style="font-family:${FONTS[t.font]};color:${t.color};font-size:16cqw;${stroke}transform:${layerTransform(t)}">${esc(t.value)}</div>`;
+  }
+  return html;
+}
+function windowStyle(area){
+  return `left:${area.x/4}%;top:${area.y/4}%;width:${area.w/4}%;height:${area.h/4}%;`;
+}
+function clipStyle(area){
+  if(area.clip === 'heart') return 'clip-path:url(#heartClip);';
+  return '';
+}
+function mockSVG(p, colorHex, side){
+  const m = MOCKS[p.mock];
+  return m.draw(colorHex || (p.colors ? p.colors[0].hex : '#F4F3EE'), side, p.mockOpts || {});
+}
+/* readonly preview used in cards + cart thumbs */
+function previewHTML(p, colorHex, sides){
+  const side = 'front';
+  const area = getArea(p, side);
+  const clipCls = area.clip === 'circle' ? ' clip-circle' : '';
+  return `<div class="mini-stage" style="pointer-events:none">
+    ${mockSVG(p, colorHex, side)}
+    <div class="print-window${clipCls}" style="${windowStyle(area)}${clipStyle(area)}">${buildLayersHTML(sides && sides[side], p, false)}</div>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   ICONS (collection tiles)
+   ════════════════════════════════════════════════════════════ */
+const ICONS = {
+  kids:`<svg viewBox="0 0 48 48"><path d="M17 10l-8 5 3 7 4-2v16h16V20l4 2 3-7-8-5c-1.5 2.5-4 4-7 4s-5.5-1.5-7-4z"/><path d="M20 26l2 2 4-5"/></svg>`,
+  hoodies:`<svg viewBox="0 0 48 48"><path d="M16 12l-9 5 3 8 4-2v15h20V23l4 2 3-8-9-5"/><path d="M16 12c0-4 3.5-6 8-6s8 2 8 6c0 3-3 5-8 5s-8-2-8-5z"/><path d="M21 17v6M27 17v6"/><path d="M18 30h12v8H18z"/></svg>`,
+  hats:`<svg viewBox="0 0 48 48"><path d="M10 26c0-8 6-14 14-14s14 6 14 14v3H10v-3z"/><path d="M10 29h24l8 4-2 4-30-3"/><circle cx="24" cy="12" r="1.5"/><path d="M24 12v6"/></svg>`,
+  gifting:`<svg viewBox="0 0 48 48"><path d="M8 20h32v6H8z"/><path d="M11 26h26v14H11z"/><path d="M24 20v20"/><path d="M24 20c-6 0-9-2-9-5s2-4 4-4c4 0 5 5 5 9zM24 20c6 0 9-2 9-5s-2-4-4-4c-4 0-5 5-5 9z"/></svg>`,
+  slates:`<svg viewBox="0 0 48 48"><path d="M9 9h30v26H9z"/><path d="M13 28l7-8 5 5 4-4 6 7"/><circle cx="18" cy="16" r="2.5"/><path d="M17 35l-4 6M31 35l4 6"/></svg>`,
+  glassware:`<svg viewBox="0 0 48 48"><path d="M14 7h14l-2 34h-10z"/><path d="M15 15h12"/><circle cx="20" cy="24" r="1.4"/><circle cx="23" cy="31" r="1.4"/><path d="M32 18h5c3 0 4 2 4 4s-1 4-4 4h-4"/><path d="M28 14h6l-1 22h-6"/></svg>`,
+  workwear:`<svg viewBox="0 0 48 48"><path d="M17 8l-4 3 2 30h18l2-30-4-3c-2 3-5 4-7 4s-5-1-7-4z"/><path d="M15 22h18M15 32h18"/><path d="M24 12v29"/></svg>`,
+  banners:`<svg viewBox="0 0 48 48"><path d="M6 14h36v20H6z"/><circle cx="10" cy="18" r="1.6"/><circle cx="38" cy="18" r="1.6"/><circle cx="10" cy="30" r="1.6"/><circle cx="38" cy="30" r="1.6"/><path d="M15 24h18" stroke-dasharray="2 4"/></svg>`
+};
+const FLOODS = ['var(--tint-c)','var(--tint-m)','var(--tint-y)'];
+
+/* ════════════════════════════════════════════════════════════
+   PAGE TEMPLATES
+   ════════════════════════════════════════════════════════════ */
+function tplHome(){
+  const tiles = Object.entries(COLLECTIONS).map(([id,c],i)=>`
+    <a class="tile reveal" style="--flood:${FLOODS[i%3]}" href="#/collection/${id}">
+      <span class="tile-ref">REF ${id.slice(0,2).toUpperCase()}-0${i+1}</span>
+      <span class="tile-icon" aria-hidden="true">${ICONS[id]}</span>
+      <h3>${c.name}</h3><p>${c.blurb}</p>
+      <span class="tile-go">Browse <span class="arr">→</span></span>
+    </a>`).join('');
+
+  return `
+  <section class="hero">
+    <svg class="hero-reg" viewBox="0 0 32 32" style="color:var(--ink)" aria-hidden="true"><use href="#regmark"/></svg>
+    <div class="wrap">
+      <p class="eyebrow">Cornwall, UK — Print · Embroidery · Signage</p>
+      <h1>
+        <span class="plate" data-text="Designed by you,">Designed by <em class="u-c">you</em>,</span>
+        <span class="plate" data-text="made by us.">made by <em class="u-m">us</em>.</span>
+      </h1>
+      <p class="hero-sub">Custom print and embroidery for workwear, gifts and everything in between. Upload your own design onto any product in the shop — every job set, proofed and checked by hand.</p>
+      <div class="hero-ctas">
+        <a class="btn btn--solid" href="#/shop">Start customising <span class="arr">→</span></a>
+        <a class="btn" href="#/deals">Workwear deals <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="hero-specrow">
+      <div class="wrap hero-spec">
+        <span>Sheet 01 / A</span><span>4/0 CMYK · 1440 dpi</span><span>Gloss OK</span><span>B&amp;B Press · Cornwall</span>
+      </div>
+      <div class="colorbar" aria-hidden="true"><span class="c"></span><span class="m"></span><span class="y"></span><span class="k"></span><span class="c50"></span><span class="m50"></span><span class="y50"></span><span class="k50"></span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">The catalogue</p>
+        <h2 class="display">Fresh off the press</h2>
+        <p class="lede">Every piece printed or stitched to order — and every single one customisable in the browser. Pick a category, upload your artwork, drag it into place.</p>
+      </div>
+      <div class="tiles">${tiles}</div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">The job docket</p>
+        <h2 class="display">What we can print</h2>
+      </div>
+      <div class="docket reveal">
+        <a class="job" style="--flood:var(--tint-c)" href="#/collection/gifting"><span class="job-no">JOB 01</span><div><h3>Custom gifting</h3><p>Mugs, slates, glassware and soft toys — printed or embroidered. One-offs welcome; no minimum order.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-m)" href="#/collection/workwear"><span class="job-no">JOB 02</span><div><h3>Workwear &amp; uniform</h3><p>Polos, tees, hoodies, softshells and hi-vis with your logo — front chest, full back, or both.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-y)" href="#/collection/slates"><span class="job-no">JOB 03</span><div><h3>Photo prints &amp; slate</h3><p>Your favourite shots made permanent — printed straight onto real stone.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-c)" href="#/shop"><span class="job-no">JOB 04</span><div><h3>Personalised apparel</h3><p>Your design, your wardrobe. Pet portraits actively encouraged.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-m)" href="#/collection/banners"><span class="job-no">JOB 05</span><div><h3>Banners, signs &amp; vehicles</h3><p>PVC banners, ACM signs, magnetic panels, vinyl decals and stickers by the metre.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="gotm section">
+    <div class="wrap gotm-grid">
+      <div class="proof-card reveal">
+        <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+        <div style="width:min(360px,86%)">${mockSVG(prodById('slate-sq'), null, 'front')}</div>
+        <span class="stamp">Proof · Approved</span>
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">Gift of the month</p>
+        <h2 class="display">Medium square slate</h2>
+        <p class="lede">A photo you love, printed edge-to-edge onto smooth, gloss-finished slate. Upload the photo right on the product page and see it before you buy.</p>
+        <div class="price-row"><span class="price-now">£15.00</span><span class="price-was">£17.50</span><span class="price-tag">On sale</span></div>
+        <a class="btn btn--solid" href="#/product/slate-sq">Personalise yours <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="deals">
+    <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Limited time</p>
+        <h2 class="display">Workwear deals</h2>
+        <p class="lede">Kit out the whole crew in one go. Four ready-made bundles, all printed front chest — bigger deals add back prints, banners, posters and vehicle magnets.</p>
+      </div>
+      <div class="deals-grid">
+        ${dealTicket(1,'var(--magenta)',true,['3 polos or 4 t-shirts','2 hoodies or sweatshirts','1 softshell jacket or gilet','Front chest &amp; back print','2 medium printed banners','2 A1 posters','Car magnets, 60 × 30 cm'])}
+        ${dealTicket(2,'var(--cyan)',false,['3 polos or 4 t-shirts','2 hoodies or sweatshirts','1 softshell jacket or gilet','Front chest &amp; back print','2 medium printed banners'])}
+        ${dealTicket(3,'var(--yellow)',false,['3 polos or 4 t-shirts','2 hoodies or sweatshirts','1 softshell jacket or gilet','Front chest &amp; back print'])}
+        ${dealTicket(4,'var(--cyan)',false,['3 polos or 4 t-shirts','2 hoodies or sweatshirts','1 softshell jacket or gilet','Front chest print'])}
+      </div>
+      <p class="deals-note reveal">Priced on enquiry — message us with your logo and sizes for a same-week quote.</p>
+    </div>
+  </section>
+
+  <section class="bundle section" id="bundle">
+    <div class="wrap">
+      <div class="bundle-grid">
+        <div class="reveal">
+          <p class="eyebrow">The K plate — our biggest job</p>
+          <h2 class="display">The full<br>business deal</h2>
+          <p class="lede">Launching a business? One box, everything branded — boots to business cards — ready for day one. Fully customisable: swap anything on the list for something that fits your trade.</p>
+          <div class="bundle-price">
+            <div class="amount">£1,200</div>
+            <div class="per">All-in · Fully branded · One workshop</div>
+            <a class="btn btn--yellow" href="#/contact?msg=${encodeURIComponent("Hi — I'd like to talk about the £1,200 Start-Up Bundle.")}">Start your bundle <span class="arr">→</span></a>
+          </div>
+        </div>
+        <div class="reveal">
+          <ul class="checklist">
+            <li>Pair of safety boots</li><li>3 × Regatta work trousers</li><li>3 polos or 4 t-shirts</li><li>2 hoodies or sweatshirts</li><li>Softshell jacket or gilet</li><li>Beanie or cap</li><li>2 × A3 door magnets</li><li>Vehicle vinyl decals</li><li>1 m printed banner</li><li>1 m of stickers</li><li>1 m tool &amp; equipment stickers</li><li>Printed mug</li><li>Digital business card</li><li>500 business cards</li><li>500 flyers</li><li>ACM sign</li>
+          </ul>
+          <p class="bundle-note">Know someone starting out? This is the head start you wish you'd had.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal"><p class="eyebrow">How a job runs</p><h2 class="display">From idea to ink</h2></div>
+      <div class="steps reveal">
+        <div class="step"><span class="step-no">Step 01</span><h3>Design it here</h3><p>Upload artwork or a photo on any product page, drag it into place, add text.</p></div>
+        <div class="step"><span class="step-no">Step 02</span><h3>Free proof</h3><p>You get a proof to approve before anything prints. No surprises, no wasted garments.</p></div>
+        <div class="step"><span class="step-no">Step 03</span><h3>Press &amp; stitch</h3><p>Printed and embroidered in-house in Cornwall, checked by hand as it comes off the press.</p></div>
+        <div class="step"><span class="step-no">Step 04</span><h3>Collect or ship</h3><p>Pick up from the workshop or have it delivered anywhere in the UK.</p></div>
+      </div>
+    </div>
+  </section>`;
+}
+function dealTicket(n, tik, feature, items){
+  return `<div class="ticket ${feature?'ticket--feature':''} reveal" style="--tik:${tik}">
+    ${feature?'<span class="ticket-flag">Most complete</span>':''}
+    <div class="ticket-head"><span class="kicker">Ticket № ${n}</span><h3>Deal 0${n}</h3></div>
+    <ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>
+    <div class="ticket-foot"><a class="btn ${feature?'btn--solid':''}" href="#/contact?msg=${encodeURIComponent(`Hi — I'd like a quote for workwear Deal 0${n}.`)}">Get this deal</a></div>
+  </div>`;
+}
+
+function tplShop(tag){
+  const list = tag ? PRODUCTS.filter(p=>p.tags.includes(tag)) : PRODUCTS;
+  const c = tag ? COLLECTIONS[tag] : null;
+  const chips = ['<a class="chip '+(!tag?'active':'')+'" href="#/shop">All</a>']
+    .concat(Object.entries(COLLECTIONS).map(([id,cc])=>`<a class="chip ${tag===id?'active':''}" href="#/collection/${id}">${cc.name}</a>`)).join('');
+  const cards = list.map((p,i)=>{
+    const price = p.sale
+      ? `<span>${gbp(p.sale)}</span><del>${gbp(p.price)}</del>`
+      : (p.sizePrices ? `<span>from ${gbp(Math.min(...Object.values(p.sizePrices)))}</span>` : `<span>${gbp(p.price)}</span>`);
+    return `<a class="pcard reveal" href="#/product/${p.id}" style="--pbg:${FLOODS[i%3]}">
+      <span class="pcard-art">${p.sale?'<span class="pcard-sale">Sale</span>':''}${mockSVG(p, null, 'front')}</span>
+      <span class="pcard-body">
+        <h3>${p.name}</h3>
+        <span class="pcard-meta">${MOCKS[p.mock].label} · Customisable</span>
+        <span class="pcard-price">${price}</span>
+        <span class="pcard-cta">Customise <span class="arr">→</span></span>
+      </span>
+    </a>`;
+  }).join('');
+  return `
+  <div class="wrap pagehead">
+    <p class="eyebrow">${c ? 'Collection' : 'Full catalogue'}</p>
+    <h1 class="display">${c ? c.name : 'Shop everything'}</h1>
+    <p class="lede">${c ? c.blurb : 'Every product below opens in the customiser — upload your own design, drag it into position, add text, and see exactly what we\'ll print.'}</p>
+    <div class="chipbar">${chips}</div>
+    <div class="pgrid" style="padding-bottom:clamp(3rem,7vw,5rem)">${cards}</div>
+  </div>`;
+}
+
+function tplProduct(p){
+  const sides = MOCKS[p.mock].sides;
+  const unit = p.sale ?? (p.sizePrices ? p.sizePrices[p.sizes[0]] : p.price);
+  const colorOpts = p.colors ? `
+    <div class="optrow"><span class="optlabel">Colour — <small id="colName">${p.colors[0].name}</small></span>
+      <div class="swatches" id="swatches">${p.colors.map((c,i)=>`<button class="swatch ${i===0?'on':''}" style="--sw:${c.hex}" data-i="${i}" aria-label="${c.name}"></button>`).join('')}</div>
+    </div>` : '';
+  const sizeOpts = p.sizes ? `
+    <div class="optrow"><span class="optlabel">Size</span>
+      <div class="sizechips" id="sizechips">${p.sizes.map((s,i)=>`<button class="sizechip ${i===0?'on':''}" data-s="${s}">${s}${p.sizePrices?` · ${gbp(p.sizePrices[s])}`:''}</button>`).join('')}</div>
+    </div>` : '';
+  const crumbTag = p.tags[0];
+  return `
+  <div class="wrap">
+    <nav class="crumbs"><a href="#/">Home</a><span>/</span><a href="#/collection/${crumbTag}">${COLLECTIONS[crumbTag].name}</a><span>/</span><span>${p.name}</span></nav>
+    <div class="pp-grid">
+      <div class="pp-preview">
+        <div class="proofbox">
+          <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+          ${sides.length>1?`<div class="side-toggle" id="sideToggle"><button class="on" data-side="front">Front</button><button data-side="back">Back</button></div>`:''}
+          <div class="mock-stage" id="stage">
+            <div class="mock-svg" id="mockSvg"></div>
+            <div class="print-window show-guide" id="printWin"></div>
+          </div>
+          <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
+        </div>
+        <p class="stage-hint">Drag your design to position it · scroll on it to resize</p>
+      </div>
+      <div class="pp-info">
+        <p class="eyebrow">Customisable ${MOCKS[p.mock].label}</p>
+        <h1 class="display">${p.name}</h1>
+        <div class="pp-meta"><span>REF ${p.id.toUpperCase()}</span><span>Print &amp; embroidery</span><span>Made in Cornwall</span></div>
+        <div class="pp-price">
+          <span class="now" id="ppPrice">${gbp(unit)}</span>
+          ${p.sale?`<del>${gbp(p.price)}</del><span class="save">On sale</span>`:''}
+        </div>
+        <p class="pp-desc">${p.desc}</p>
+
+        ${(colorOpts||sizeOpts)?`<div class="panel"><div class="panel-h" style="--phead:var(--tint-y)">Options</div><div class="panel-b">${colorOpts}${sizeOpts}</div></div>`:''}
+
+        <div class="panel">
+          <div class="panel-h" style="--phead:var(--tint-c)">Your design <span id="sideLabel">${sides.length>1?'· Front':''}</span></div>
+          <div class="panel-b">
+            <div class="dropzone" id="dropzone">
+              <p>Upload your design or photo</p>
+              <small>Click, or drag &amp; drop · PNG / JPG / SVG</small>
+              <input type="file" id="fileInput" accept="image/*" class="sr-only">
+            </div>
+            <div class="layer-tabs" style="margin-top:1rem">
+              <button class="on" data-tab="img" id="tabImg">Image layer</button>
+              <button data-tab="text" id="tabText">Text layer</button>
+            </div>
+            <div id="textTools" style="display:none">
+              <input class="textinput" id="textInput" type="text" maxlength="40" placeholder="Type your text — a name, a date, a slogan…">
+              <div class="fontpick" id="fontPick">
+                <button data-f="anton" class="on" style="font-family:'Anton'">POSTER</button>
+                <button data-f="archivo" style="font-family:'Archivo';font-weight:700">Clean</button>
+                <button data-f="mono" style="font-family:'IBM Plex Mono'">Mono</button>
+                <button data-f="script" style="font-family:'Caveat';font-size:1.15rem">Handwritten</button>
+              </div>
+              <span class="optlabel">Ink colour</span>
+              <div class="inkdots" id="inkDots">${TEXTINKS.map((c,i)=>`<button class="inkdot ${i===0?'on':''}" style="--sw:${c}" data-c="${c}" aria-label="Text colour"></button>`).join('')}</div>
+            </div>
+            <div class="toolrow"><label for="scaleR">Size</label><input type="range" id="scaleR" min="20" max="250" value="100"><output id="scaleO">100%</output></div>
+            <div class="toolrow"><label for="rotR">Rotate</label><input type="range" id="rotR" min="-180" max="180" value="0"><output id="rotO">0°</output></div>
+            <div class="toolbtns">
+              <button class="minibtn" id="centreBtn">Centre</button>
+              <button class="minibtn" id="resetBtn">Reset layer</button>
+              <button class="minibtn" id="removeBtn">Remove layer</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="buyrow">
+          <div class="qty"><button id="qMinus" aria-label="Decrease quantity">−</button><input id="qtyIn" value="1" inputmode="numeric" aria-label="Quantity"><button id="qPlus" aria-label="Increase quantity">+</button></div>
+          <button class="btn btn--solid" id="addBtn">Add to basket — <span id="addPrice">${gbp(unit)}</span></button>
+        </div>
+        <p class="stage-hint" style="text-align:left;margin-top:1rem">Every order gets a free human artwork check before printing.</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+function tplCart(){
+  if(!CART.length){
+    return `<div class="wrap pagehead"><p class="eyebrow">Basket</p><h1 class="display">Your basket</h1>
+      <div class="empty-cart" style="margin:2.5rem 0 4rem"><p>Nothing on the press yet</p><a class="btn btn--solid" href="#/shop">Start customising <span class="arr">→</span></a></div></div>`;
+  }
+  const lines = CART.map(l=>{
+    const p = prodById(l.pid);
+    const design = sideHasContent(l.sides.front)||sideHasContent(l.sides.back) ? 'Custom design' : 'No design (plain)';
+    return `<div class="cartline" data-uid="${l.uid}">
+      <div class="cl-thumb">${previewHTML(p, l.color?l.color.hex:null, l.sides)}</div>
+      <div class="cl-body">
+        <h3>${p.name}</h3>
+        <div class="cl-meta">${l.color?`<span>${l.color.name}</span>`:''}${l.size?`<span>Size ${l.size}</span>`:''}<span>${design}</span>${sideHasContent(l.sides.back)?'<span>Front + back</span>':''}</div>
+        <div class="cl-actions">
+          <div class="qty"><button data-act="minus" aria-label="Decrease">−</button><input value="${l.qty}" readonly aria-label="Quantity"><button data-act="plus" aria-label="Increase">+</button></div>
+          <button class="removebtn" data-act="remove">Remove</button>
+        </div>
+      </div>
+      <div class="cl-price">${gbp(l.unit*l.qty)}<br><small style="color:var(--grey);font-weight:400">${gbp(l.unit)} each</small></div>
+    </div>`;
+  }).join('');
+  const sub = CART.reduce((n,l)=>n+l.unit*l.qty,0);
+  return `<div class="wrap pagehead"><p class="eyebrow">Basket</p><h1 class="display">Your basket</h1>
+  <div class="cart-grid" style="padding-bottom:clamp(3rem,7vw,5rem)">
+    <div id="cartLines">${lines}</div>
+    <aside class="summary">
+      <h2>Job summary</h2>
+      <div class="sumline"><span>Items</span><span>${CART.reduce((n,l)=>n+l.qty,0)}</span></div>
+      <div class="sumline"><span>Subtotal</span><span>${gbp(sub)}</span></div>
+      <div class="sumline"><span>Delivery</span><span>At checkout</span></div>
+      <div class="sumline total"><span>Total</span><span>${gbp(sub)}</span></div>
+      <button class="btn btn--solid" id="checkoutBtn">Checkout <span class="arr">→</span></button>
+      <p class="stage-hint" style="margin-top:1rem">Free artwork check included on every line.</p>
+    </aside>
+  </div></div>`;
+}
+
+function tplContact(msg){
+  return `<div class="wrap pagehead">
+    <p class="eyebrow">Get in touch</p>
+    <h1 class="display">Tell us the job</h1>
+    <p class="lede">Quotes, questions, odd requests — send it over. We reply within one working day.</p>
+    <div class="contact-grid" style="padding-bottom:clamp(3rem,7vw,5rem)">
+      <div>
+        <form class="form-grid" id="contactForm" novalidate>
+          <div><label class="flabel" for="f-name">Name</label><input class="finput" id="f-name" type="text" autocomplete="name"></div>
+          <div><label class="flabel" for="f-phone">Phone</label><input class="finput" id="f-phone" type="tel" autocomplete="tel"></div>
+          <div class="full"><label class="flabel" for="f-email">Email <span class="req">*</span></label><input class="finput" id="f-email" type="email" required autocomplete="email"></div>
+          <div class="full"><label class="flabel" for="f-msg">What do you need printed?</label><textarea class="finput" id="f-msg" placeholder="e.g. 6 polos with our logo, front chest — plus a 2 m banner for the van…">${esc(msg||'')}</textarea></div>
+          <div class="full"><button class="btn btn--solid" type="submit">Send to the workshop <span class="arr">→</span></button></div>
+        </form>
+        <div class="form-ok" id="formOk" role="status"><strong>Sent to the workshop ✓</strong>Thanks — we'll get back to you within one working day.<br><br><span style="color:var(--grey)">(Demo form — wire this to your Shopify contact form or email provider when live.)</span></div>
+      </div>
+      <aside class="contact-aside">
+        <h3>Find us</h3>
+        <p>Banners &amp; Beyond Ltd<br>Cornwall, United Kingdom</p>
+        <p>Follow the press for new drops, deals and behind-the-scenes:</p>
+        <ul class="social-list">
+          <li><a href="https://www.facebook.com/cornwalldmc/" target="_blank" rel="noopener"><span>Facebook</span><span>→</span></a></li>
+          <li><a href="https://www.instagram.com/bannersandbeyondltd/" target="_blank" rel="noopener"><span>Instagram</span><span>→</span></a></li>
+          <li><a href="https://www.tiktok.com/@bannerssndbeyond" target="_blank" rel="noopener"><span>TikTok</span><span>→</span></a></li>
+        </ul>
+      </aside>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   PRODUCT PAGE — customiser engine
+   ════════════════════════════════════════════════════════════ */
+function priceFor(p, size){
+  return (p.sizePrices && size != null && p.sizePrices[size] != null)
+    ? p.sizePrices[size]
+    : (p.sale ?? p.price);
+}
+
+function initProduct(p){
+  const sides = MOCKS[p.mock].sides;
+  const CUST = {
+    side:'front',
+    sides:{front:newSide(), back:newSide()},
+    sel:'img',
+    colorIdx:0,
+    size: p.sizes ? p.sizes[0] : null,
+    qty:1,
+    guide:true
+  };
+
+  const stage = $('#stage'), win = $('#printWin'), mock = $('#mockSvg');
+  const scaleR = $('#scaleR'), scaleO = $('#scaleO'), rotR = $('#rotR'), rotO = $('#rotO');
+  const fileInput = $('#fileInput'), dropzone = $('#dropzone');
+
+  /* ---- rendering ---- */
+  function curColor(){ return p.colors ? p.colors[CUST.colorIdx].hex : null; }
+  function curLayer(){ return CUST.sides[CUST.side][CUST.sel]; }
+  function renderMock(){ mock.innerHTML = mockSVG(p, curColor(), CUST.side); }
+  function positionWindow(){
+    const area = getArea(p, CUST.side);
+    win.setAttribute('style', windowStyle(area) + clipStyle(area));
+    win.classList.toggle('clip-circle', area.clip === 'circle');
+    win.classList.toggle('show-guide', CUST.guide);
+  }
+  function renderLayers(){
+    win.innerHTML = buildLayersHTML(CUST.sides[CUST.side], p, true);
+    selectLayer(CUST.sel);
+  }
+  function selectLayer(key){
+    CUST.sel = key;
+    $('#tabImg').classList.toggle('on', key === 'img');
+    $('#tabText').classList.toggle('on', key === 'text');
+    $('#textTools').style.display = key === 'text' ? 'block' : 'none';
+    $$('.layer', win).forEach(el => el.classList.toggle('selected', el.dataset.layer === key));
+    syncSliders();
+  }
+  function syncSliders(){
+    const l = curLayer();
+    scaleR.value = Math.round(l.scale * 100);
+    rotR.value = Math.round(l.rot);
+    scaleO.textContent = Math.round(l.scale * 100) + '%';
+    rotO.textContent = Math.round(l.rot) + '°';
+  }
+  function syncTextUI(){
+    const t = CUST.sides[CUST.side].text;
+    $('#textInput').value = t.value;
+    $$('#fontPick button').forEach(b => b.classList.toggle('on', b.dataset.f === t.font));
+    $$('#inkDots .inkdot').forEach(b => b.classList.toggle('on', b.dataset.c === t.color));
+  }
+  function applyTransformLive(){
+    const el = win.querySelector(`[data-layer="${CUST.sel}"]`);
+    if(el) el.style.transform = layerTransform(curLayer());
+  }
+  function updatePrice(){
+    const unit = priceFor(p, CUST.size);
+    $('#ppPrice').textContent = gbp(unit);
+    $('#addPrice').textContent = gbp(unit * CUST.qty);
+  }
+
+  /* ---- drag to position ---- */
+  let drag = null;
+  win.addEventListener('pointerdown', e => {
+    const el = e.target.closest('.layer');
+    if(!el) return;
+    selectLayer(el.dataset.layer);
+    const l = curLayer();
+    drag = {el, r: win.getBoundingClientRect(), sx: e.clientX, sy: e.clientY, ox: l.x, oy: l.y};
+    win.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  win.addEventListener('pointermove', e => {
+    if(!drag) return;
+    const l = curLayer();
+    l.x = drag.ox + (e.clientX - drag.sx) / drag.r.width * 100;
+    l.y = drag.oy + (e.clientY - drag.sy) / drag.r.height * 100;
+    drag.el.style.transform = layerTransform(l);
+  });
+  ['pointerup','pointercancel'].forEach(ev => win.addEventListener(ev, () => { drag = null; }));
+
+  /* ---- wheel to resize ---- */
+  win.addEventListener('wheel', e => {
+    const l = curLayer();
+    const has = CUST.sel === 'img' ? !!l.src : !!l.value.trim();
+    if(!has) return;
+    e.preventDefault();
+    l.scale = Math.min(2.5, Math.max(0.2, l.scale * (e.deltaY < 0 ? 1.06 : 0.94)));
+    applyTransformLive();
+    syncSliders();
+  }, {passive:false});
+
+  /* ---- sliders + layer buttons ---- */
+  scaleR.addEventListener('input', () => { curLayer().scale = scaleR.value / 100; scaleO.textContent = scaleR.value + '%'; applyTransformLive(); });
+  rotR.addEventListener('input', () => { curLayer().rot = +rotR.value; rotO.textContent = rotR.value + '°'; applyTransformLive(); });
+  $('#tabImg').addEventListener('click', () => selectLayer('img'));
+  $('#tabText').addEventListener('click', () => selectLayer('text'));
+  $('#centreBtn').addEventListener('click', () => { const l = curLayer(); l.x = 0; l.y = 0; renderLayers(); });
+  $('#resetBtn').addEventListener('click', () => {
+    const l = curLayer();
+    l.x = 0; l.y = CUST.sel === 'text' ? 28 : 0; l.scale = 1; l.rot = 0;
+    renderLayers();
+  });
+  $('#removeBtn').addEventListener('click', () => {
+    const s = CUST.sides[CUST.side];
+    if(CUST.sel === 'img'){ s.img.src = null; fileInput.value = ''; }
+    else { s.text.value = ''; }
+    syncTextUI(); renderLayers();
+  });
+
+  /* ---- upload ---- */
+  function applyImg(src){
+    const s = CUST.sides[CUST.side];
+    s.img = {src, x:0, y:0, scale:1, rot:0};
+    renderLayers();
+    selectLayer('img');
+    showToast('Design added — drag it into place ✓');
+  }
+  function handleFile(file){
+    if(!file) return;
+    if(!file.type.startsWith('image/')){ showToast("That file isn't an image — PNG, JPG or SVG please."); return; }
+    const fr = new FileReader();
+    fr.onload = () => {
+      const src = fr.result;
+      if(file.type === 'image/svg+xml'){ applyImg(src); return; }
+      const im = new Image();
+      im.onload = () => {
+        const max = 1100;
+        let w = im.width, h = im.height;
+        if(Math.max(w, h) > max){ const k = max / Math.max(w, h); w = Math.round(w * k); h = Math.round(h * k); }
+        const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        cv.getContext('2d').drawImage(im, 0, 0, w, h);
+        let out; try{ out = cv.toDataURL('image/png'); }catch(err){ out = src; }
+        applyImg(out);
+      };
+      im.onerror = () => showToast("Couldn't read that image file.");
+      im.src = src;
+    };
+    fr.readAsDataURL(file);
+  }
+  dropzone.addEventListener('click', e => { if(e.target !== fileInput) fileInput.click(); });
+  fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+  ['dragover','dragenter'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add('over'); }));
+  ['dragleave','drop'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.remove('over'); }));
+  dropzone.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
+  stage.addEventListener('dragover', e => e.preventDefault());
+  stage.addEventListener('drop', e => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); });
+
+  /* ---- text tools ---- */
+  $('#textInput').addEventListener('input', e => {
+    CUST.sides[CUST.side].text.value = e.target.value;
+    renderLayers(); selectLayer('text');
+  });
+  $$('#fontPick button').forEach(b => b.addEventListener('click', () => {
+    CUST.sides[CUST.side].text.font = b.dataset.f;
+    syncTextUI(); renderLayers();
+  }));
+  $$('#inkDots .inkdot').forEach(b => b.addEventListener('click', () => {
+    CUST.sides[CUST.side].text.color = b.dataset.c;
+    syncTextUI(); renderLayers();
+  }));
+
+  /* ---- options ---- */
+  const swWrap = $('#swatches');
+  if(swWrap) swWrap.addEventListener('click', e => {
+    const b = e.target.closest('.swatch'); if(!b) return;
+    CUST.colorIdx = +b.dataset.i;
+    $$('.swatch', swWrap).forEach(x => x.classList.toggle('on', x === b));
+    $('#colName').textContent = p.colors[CUST.colorIdx].name;
+    renderMock();
+  });
+  const szWrap = $('#sizechips');
+  if(szWrap) szWrap.addEventListener('click', e => {
+    const b = e.target.closest('.sizechip'); if(!b) return;
+    CUST.size = b.dataset.s;
+    $$('.sizechip', szWrap).forEach(x => x.classList.toggle('on', x === b));
+    updatePrice();
+  });
+  const st = $('#sideToggle');
+  if(st) st.addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b || b.dataset.side === CUST.side) return;
+    CUST.side = b.dataset.side;
+    $$('button', st).forEach(x => x.classList.toggle('on', x === b));
+    $('#sideLabel').textContent = '· ' + (CUST.side === 'front' ? 'Front' : 'Back');
+    renderMock(); positionWindow(); renderLayers(); syncTextUI();
+  });
+  $('#guideToggle').addEventListener('click', () => {
+    CUST.guide = !CUST.guide;
+    win.classList.toggle('show-guide', CUST.guide);
+    const g = $('#guideToggle');
+    g.setAttribute('aria-pressed', CUST.guide);
+    g.textContent = '▣ Print area: ' + (CUST.guide ? 'on' : 'off');
+  });
+
+  /* ---- qty + add ---- */
+  const qtyIn = $('#qtyIn');
+  $('#qMinus').addEventListener('click', () => { CUST.qty = Math.max(1, CUST.qty - 1); qtyIn.value = CUST.qty; updatePrice(); });
+  $('#qPlus').addEventListener('click', () => { CUST.qty = Math.min(99, CUST.qty + 1); qtyIn.value = CUST.qty; updatePrice(); });
+  qtyIn.addEventListener('change', () => { CUST.qty = Math.min(99, Math.max(1, parseInt(qtyIn.value, 10) || 1)); qtyIn.value = CUST.qty; updatePrice(); });
+  $('#addBtn').addEventListener('click', () => {
+    const line = {
+      uid: cartUid++,
+      pid: p.id,
+      color: p.colors ? {...p.colors[CUST.colorIdx]} : null,
+      size: CUST.size,
+      qty: CUST.qty,
+      unit: priceFor(p, CUST.size),
+      sides: JSON.parse(JSON.stringify(CUST.sides))
+    };
+    CART.push(line);
+    updateBadge(); saveCart();
+    showToast('Added to basket ✓ &nbsp;·&nbsp; <a href="#/cart">View basket</a>');
+  });
+
+  /* ---- boot ---- */
+  renderMock(); positionWindow(); renderLayers(); syncTextUI(); updatePrice();
+}
+
+/* ════════════════════════════════════════════════════════════
+   CART PAGE + CHECKOUT
+   ════════════════════════════════════════════════════════════ */
+function initCart(){
+  const wrap = $('#cartLines');
+  if(wrap) wrap.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-act]');
+    if(!btn) return;
+    const uid = +btn.closest('.cartline').dataset.uid;
+    const line = CART.find(l => l.uid === uid);
+    if(!line) return;
+    const act = btn.dataset.act;
+    if(act === 'plus') line.qty = Math.min(99, line.qty + 1);
+    if(act === 'minus') line.qty = Math.max(1, line.qty - 1);
+    if(act === 'remove') CART = CART.filter(l => l.uid !== uid);
+    saveCart(); updateBadge(); route();
+  });
+  const co = $('#checkoutBtn');
+  if(co) co.addEventListener('click', openCheckout);
+}
+
+function openModal(html){ $('#modalBody').innerHTML = html; $('#modalBack').classList.add('open'); bindModalClose(); }
+function closeModal(){
+  $('#modalBack').classList.remove('open');
+  if(CURRENT_PATH === '/cart') route();
+}
+function bindModalClose(){ $$('#modalBody .modal-x').forEach(b => b.onclick = closeModal); }
+
+function openCheckout(){
+  const sub = CART.reduce((n,l) => n + l.unit * l.qty, 0);
+  const rows = CART.map(l => {
+    const p = prodById(l.pid);
+    return `<div class="sumline"><span>${l.qty} × ${esc(p.name)}${l.size ? ' · ' + esc(l.size) : ''}</span><span>${gbp(l.unit * l.qty)}</span></div>`;
+  }).join('');
+  openModal(`
+    <button class="modal-x" aria-label="Close">×</button>
+    <h2 id="modalTitle">Checkout</h2>
+    ${rows}
+    <div class="sumline total"><span>Total</span><span>${gbp(sub)}</span></div>
+    <p class="mono-note">Demo build — this is where the live site hands off to Shopify checkout or a Stripe payment link. No payment is taken.</p>
+    <button class="btn btn--solid" id="placeOrder">Place demo order</button>
+  `);
+  $('#placeOrder').addEventListener('click', () => {
+    const ref = 'BB-' + Math.floor(1000 + Math.random() * 9000);
+    CART = []; saveCart(); updateBadge();
+    $('#modalBody').innerHTML = `
+      <button class="modal-x" aria-label="Close">×</button>
+      <h2>Nice one.</h2>
+      <div class="order-stamp">Order approved</div>
+      <p>Job reference <strong>${ref}</strong>. On the live site you'd get a confirmation email and a free proof to approve before anything prints.</p>
+      <button class="btn" id="doneBtn" style="width:100%;margin-top:1.5rem">Back to the shop</button>
+    `;
+    bindModalClose();
+    $('#doneBtn').addEventListener('click', () => { closeModal(); navigate('/shop'); });
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   CONTACT PAGE
+   ════════════════════════════════════════════════════════════ */
+function initContact(){
+  const f = $('#contactForm');
+  f.addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('#f-email');
+    if(!em.value || !em.checkValidity()){ em.focus(); em.reportValidity && em.reportValidity(); return; }
+    f.style.display = 'none';
+    $('#formOk').style.display = 'block';
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   TOAST + REVEALS + ROUTER
+   ════════════════════════════════════════════════════════════ */
+let toastT;
+function showToast(html){
+  const t = $('#toast');
+  t.innerHTML = html;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 3800);
+}
+
+function setupReveals(){
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+  }), {threshold:.12});
+  $$('.reveal').forEach(el => io.observe(el));
+}
+
+let CURRENT_PATH = '/';
+function navigate(raw){
+  if(!raw || raw[0] !== '/') raw = '/' + (raw || '');
+  CURRENT_PATH = raw;
+  try{ if(location.hash !== '#' + raw) location.hash = '#' + raw; }catch(e){ /* sandboxed preview — state routing only */ }
+  route();
+}
+function route(){
+  const raw = CURRENT_PATH || '/';
+  const qIdx = raw.indexOf('?');
+  const path = qIdx === -1 ? raw : raw.slice(0, qIdx);
+  const query = qIdx === -1 ? '' : raw.slice(qIdx + 1);
+  const seg = path.split('/').filter(Boolean);
+  let html = '', init = null, navKey = '', scrollTarget = null;
+
+  if(path === '/' || path === ''){ html = tplHome(); }
+  else if(path === '/deals'){ html = tplHome(); navKey = 'deals'; scrollTarget = '#deals'; }
+  else if(path === '/bundle'){ html = tplHome(); navKey = 'deals'; scrollTarget = '#bundle'; }
+  else if(path === '/shop'){ html = tplShop(null); navKey = 'shop'; }
+  else if(seg[0] === 'collection'){
+    const id = COLLECTIONS[seg[1]] ? seg[1] : null;
+    html = tplShop(id);
+    navKey = id === 'workwear' ? 'workwear' : id === 'gifting' ? 'gifting' : 'shop';
+  }
+  else if(seg[0] === 'product'){
+    const p = prodById(seg[1]);
+    if(p){ html = tplProduct(p); init = () => initProduct(p); navKey = 'shop'; }
+    else { html = tplShop(null); navKey = 'shop'; }
+  }
+  else if(path === '/cart'){ html = tplCart(); init = initCart; }
+  else if(path === '/contact'){
+    const msg = new URLSearchParams(query).get('msg') || '';
+    html = tplContact(msg); init = initContact; navKey = 'contact';
+  }
+  else { html = tplHome(); }
+
+  $('#app').innerHTML = `<div class="page">${html}</div>`;
+  $$('.nav-links a').forEach(a => a.classList.toggle('active', !!navKey && a.dataset.nav === navKey));
+  $('#navlinks').classList.remove('open');
+  $('#menuBtn').setAttribute('aria-expanded', 'false');
+  if(init) init();
+  setupReveals();
+  if(scrollTarget){
+    requestAnimationFrame(() => { const el = $(scrollTarget); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); });
+  } else {
+    window.scrollTo({top:0});
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   BOOT
+   ════════════════════════════════════════════════════════════ */
+(function(){
+  $('#year').textContent = new Date().getFullYear();
+  $('#menuBtn').addEventListener('click', () => {
+    const nl = $('#navlinks');
+    const open = nl.classList.toggle('open');
+    $('#menuBtn').setAttribute('aria-expanded', open);
+  });
+  $('#navlinks').addEventListener('click', e => { if(e.target.closest('a')) $('#navlinks').classList.remove('open'); });
+  $('#newsForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const em = $('#n-email');
+    if(!em.value || !em.checkValidity()){ em.focus(); em.reportValidity && em.reportValidity(); return; }
+    $('#newsForm').style.display = 'none';
+    $('#newsOk').style.display = 'block';
+  });
+  $('#modalBack').addEventListener('click', e => { if(e.target.id === 'modalBack') closeModal(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && $('#modalBack').classList.contains('open')) closeModal();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#/"]');
+    if(!a) return;
+    e.preventDefault();
+    navigate(a.getAttribute('href').slice(1));
+  });
+  window.addEventListener('hashchange', () => {
+    const h = location.hash.slice(1) || '/';
+    if(h !== CURRENT_PATH){ CURRENT_PATH = h; route(); }
+  });
+  loadCart().finally(() => {
+    updateBadge();
+    const h = (location.hash || '').slice(1);
+    if(h && h[0] === '/') CURRENT_PATH = h;
+    route();
+  });
+})();
+</script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   v2 ENHANCEMENTS — design carry-over, gestures, proof sheets,
+   dpi checks, curved text, clipart, undo, bulk orders, search,
+   reviews, recently viewed. Overrides earlier builders cleanly.
+   ════════════════════════════════════════════════════════════ */
+let LAST_DESIGN = null;   // most recent design {img, text}
+let CARRY = null;         // design waiting to be applied to next product
+let RECENT = [];          // recently viewed pids
+let REVIEWS = {};         // pid -> user reviews
+const PAGE_CLEANUP = [];  // per-page listeners to remove on route
+
+function snapSide(s){ return JSON.parse(JSON.stringify({img:s.img, text:s.text})); }
+async function saveKV(k, v, guard){
+  try{
+    if(!window.storage) return;
+    const j = JSON.stringify(v);
+    if(guard && j.length > guard) return;
+    await window.storage.set(k, j);
+  }catch(e){}
+}
+async function loadKV(k){
+  try{
+    if(!window.storage) return null;
+    const r = await window.storage.get(k);
+    return r && r.value ? JSON.parse(r.value) : null;
+  }catch(e){ return null; }
+}
+const saveLast    = () => saveKV('bb_last_v1', LAST_DESIGN, 3500000);
+const saveRecent  = () => saveKV('bb_recent_v1', RECENT);
+const saveReviews = () => saveKV('bb_reviews_v1', REVIEWS);
+
+/* ---- richer side state: original-pixel dims, vector flag, text curve ---- */
+function newSide(){
+  return {
+    img:{src:null, ow:0, oh:0, vec:false, x:0, y:0, scale:1, rot:0},
+    text:{value:'', font:'anton', color:'#111013', curve:0, x:0, y:28, scale:1, rot:0}
+  };
+}
+
+/* ---- layer builder now renders curved text as SVG textPath ---- */
+function buildLayersHTML(sideState, p, interactive){
+  if(!sideState) return '';
+  let html = '';
+  const imgW = BIGAREA.includes(p.mock) ? 90 : 75;
+  const i = sideState.img;
+  if(i && i.src){
+    html += `<div class="layer layer-img" data-layer="img" style="width:${imgW}cqw;transform:${layerTransform(i)}"><img src="${i.src}" alt="Your uploaded design" draggable="false"></div>`;
+  }
+  const t = sideState.text;
+  if(t && t.value.trim()){
+    const curve = t.curve || 0;
+    if(Math.abs(curve) < 3){
+      const stroke = t.color === '#FAFAF7' ? '-webkit-text-stroke:1.2px rgba(17,16,19,.45);' : '';
+      html += `<div class="layer layer-text" data-layer="text" style="font-family:${FONTS[t.font]};color:${t.color};font-size:16cqw;${stroke}transform:${layerTransform(t)}">${esc(t.value)}</div>`;
+    } else {
+      const uid = 'tp' + Math.random().toString(36).slice(2, 9);
+      const s = Math.abs(curve) / 100 * 60, half = 180;
+      const R = (half * half + s * s) / (2 * s);
+      const sweep = curve > 0 ? 0 : 1;
+      const paint = t.color === '#FAFAF7' ? 'stroke="#111013" stroke-width="2.5" paint-order="stroke"' : '';
+      html += `<div class="layer layer-text" data-layer="text" style="width:100cqw;transform:${layerTransform(t)}">
+        <svg viewBox="0 0 400 160" style="display:block;width:100%;overflow:visible" aria-hidden="true">
+          <path id="${uid}" d="M 20 80 A ${R} ${R} 0 0 ${sweep} 380 80" fill="none"/>
+          <text font-size="50" font-weight="600" fill="${t.color}" ${paint} style="font-family:${FONTS[t.font]}"><textPath href="#${uid}" startOffset="50%" text-anchor="middle">${esc(t.value)}</textPath></text>
+        </svg></div>`;
+    }
+  }
+  return html;
+}
+
+/* ---- physical print-area sizes (cm) for dpi checks ---- */
+function physFor(p, size, side){
+  const M = {tee:{f:[28,32],b:[30,38]}, crew:{f:[28,32],b:[30,38]}, polo:{f:[24,26],b:[30,38]},
+    hoodie:{f:[26,22],b:[30,38]}, softshell:{f:[10,11],b:[30,35]}, hivis:{f:[20,12],b:[30,22]},
+    cap:{f:[12,8]}, beanie:{f:[12,6]}, bucket:{f:[10,7]}, mug:{f:[20,9]}, pint:{f:[8,10]},
+    stem:{f:[7,6]}, teddy:{f:[9,8]}, tote:{f:[30,28]}, cushion:{f:[42,42]}, coaster:{f:[9,9]},
+    sticker:{f:[18,18]}, slate:{f:[14,14]}, banner:{f:[100,47]}, sign:{f:[59.4,42]}};
+  const d = M[p.mock] || {f:[20,20]};
+  const a = (side === 'back' && d.b) ? d.b : d.f;
+  let w = a[0], h = a[1];
+  if(p.id === 'slate-wide'){ w = 30; h = 20; }
+  else if(p.id === 'slate-heart'){ w = 14; h = 13; }
+  if(p.mock === 'banner' && size){ w = (parseFloat(size) || 1) * 100; h = w * 128 / 272; }
+  if(p.mock === 'sign' && size === 'A1'){ w = 84.1; h = 59.4; }
+  if(p.id === 'magnet'){ w = 60; h = 30; }
+  return {w, h};
+}
+
+/* ---- bulk price breaks ---- */
+const BREAKS = [{min:25, off:.15}, {min:10, off:.10}, {min:5, off:.05}];
+const breakFor = q => { for(const b of BREAKS) if(q >= b.min) return b.off; return 0; };
+
+/* ---- starter clipart (vector, recoloured to the chosen ink) ---- */
+const CLIPARTS = [
+ {name:'Star',   svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="${c}" d="M100 12l26 56 62 8-45 43 11 61-54-29-54 29 11-61-45-43 62-8z"/></svg>`},
+ {name:'Heart',  svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="${c}" d="M100 178C56 144 22 112 22 76c0-26 20-44 44-44 14 0 27 7 34 18 7-11 20-18 34-18 24 0 44 18 44 44 0 36-34 68-78 102z"/></svg>`},
+ {name:'Bolt',   svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="${c}" d="M116 10L40 112h44l-14 78 90-114h-48z"/></svg>`},
+ {name:'Wave',   svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="none" stroke="${c}" stroke-width="16" stroke-linecap="round" d="M14 70c22-24 42-24 62 0s42 24 62 0 34-20 48-6M14 130c22-24 42-24 62 0s42 24 62 0 34-20 48-6"/></svg>`},
+ {name:'Paw',    svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g fill="${c}"><ellipse cx="60" cy="58" rx="19" ry="25"/><ellipse cx="140" cy="58" rx="19" ry="25"/><ellipse cx="25" cy="104" rx="16" ry="21"/><ellipse cx="175" cy="104" rx="16" ry="21"/><path d="M100 92c30 0 56 26 56 52 0 22-16 34-34 30-10-2-15-6-22-6s-12 4-22 6c-18 4-34-8-34-30 0-26 26-52 56-52z"/></g></svg>`},
+ {name:'Anchor', svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g fill="none" stroke="${c}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><circle cx="100" cy="38" r="18"/><path d="M100 56v112M60 92h80"/><path d="M30 122c6 36 34 58 70 58s64-22 70-58l-26 10M30 122l26 10"/></g></svg>`},
+ {name:'Smiley', svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="82" fill="none" stroke="${c}" stroke-width="14"/><circle cx="72" cy="82" r="10" fill="${c}"/><circle cx="128" cy="82" r="10" fill="${c}"/><path d="M60 122c12 20 28 28 40 28s28-8 40-28" fill="none" stroke="${c}" stroke-width="14" stroke-linecap="round"/></svg>`},
+ {name:'Sun',    svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40" fill="${c}"/><g stroke="${c}" stroke-width="12" stroke-linecap="round"><path d="M100 20v22M100 158v22M20 100h22M158 100h22M43 43l16 16M141 141l16 16M157 43l-16 16M59 141l-16 16"/></g></svg>`}
+];
+
+/* ---- seeded reviews ---- */
+const SEEDREV = {
+ 'slate-sq':[{n:'Megan T',s:5,t:'Photo of our wedding day on real stone — the colours came out unreal.'},{n:'Dan P',s:5,t:'Bought it for my mum. She cried. Ten out of ten.'},{n:'Chloe R',s:4,t:'Lovely gloss finish, and the stand is sturdier than I expected.'}],
+ 'hoodie':[{n:'Jake M',s:5,t:'Heavy, warm, and the print is still crisp after a dozen washes.'},{n:'Sophie L',s:4,t:'Runs slightly big — perfect if you like it baggy.'}],
+ 'mug':[{n:'Ellie W',s:5,t:'My dog\u2019s face on a mug. Best tenner I\u2019ve ever spent.'},{n:'Rob H',s:4,t:'Print wraps round nicely and the handle side stays clear.'}],
+ 'teddy':[{n:'Hannah B',s:5,t:'New-baby gift sorted. The little printed tee is adorable.'},{n:'Owen C',s:5,t:'Proper quality bear, not a cheap claw-machine one.'}],
+ 'banner':[{n:'Cornish Roofing Co',s:5,t:'Two-metre banner for the yard — bold print and proper brass eyelets.'},{n:'Tamsin F',s:4,t:'Birthday banner survived a full week of rain outside.'}],
+ 'polo':[{n:'JB Landscapes',s:5,t:'Ordered eight with our logo. The stitching is spot on.'},{n:'Mark D',s:4,t:'Smart and comfortable, and the colour matches our van.'}],
+ 'cap':[{n:'Lewis G',s:5,t:'Embroidery beats a pressed print on caps every single time.'}],
+ 'pint':[{n:'Katie S',s:5,t:'Best-man gift — the printed crest looks class in the pub.'}]
+};
+function ratingFor(pid){
+  const arr = [...(SEEDREV[pid] || []), ...(REVIEWS[pid] || [])];
+  if(!arr.length) return null;
+  return {avg: arr.reduce((n,r) => n + r.s, 0) / arr.length, count: arr.length};
+}
+function starsHTML(avg){
+  const f = Math.max(0, Math.min(5, Math.round(avg)));
+  return '★'.repeat(f) + (f < 5 ? `<span class="dim">${'★'.repeat(5 - f)}</span>` : '');
+}
+
+/* ---- shop template: search + ratings ---- */
+function tplShop(tag, q){
+  let list = tag ? PRODUCTS.filter(p => p.tags.includes(tag)) : PRODUCTS;
+  if(q){
+    const s = q.toLowerCase();
+    list = list.filter(p => (p.name + ' ' + p.tags.join(' ') + ' ' + p.desc).toLowerCase().includes(s));
+  }
+  const c = tag ? COLLECTIONS[tag] : null;
+  const chips = ['<a class="chip ' + (!tag && !q ? 'active' : '') + '" href="#/shop">All</a>']
+    .concat(Object.entries(COLLECTIONS).map(([id, cc]) => `<a class="chip ${tag === id ? 'active' : ''}" href="#/collection/${id}">${cc.name}</a>`)).join('');
+  const cards = list.map((p, i) => {
+    const price = p.sale
+      ? `<span>${gbp(p.sale)}</span><del>${gbp(p.price)}</del>`
+      : (p.sizePrices ? `<span>from ${gbp(Math.min(...Object.values(p.sizePrices)))}</span>` : `<span>${gbp(p.price)}</span>`);
+    const r = ratingFor(p.id);
+    return `<a class="pcard reveal" href="#/product/${p.id}" style="--pbg:${FLOODS[i % 3]}">
+      <span class="pcard-art">${p.sale ? '<span class="pcard-sale">Sale</span>' : ''}${mockSVG(p, null, 'front')}</span>
+      <span class="pcard-body">
+        <h3>${p.name}</h3>
+        <span class="pcard-meta">${MOCKS[p.mock].label} · Customisable</span>
+        ${r ? `<span class="pcard-rate"><span class="stars">${starsHTML(r.avg)}</span> ${r.avg.toFixed(1)} (${r.count})</span>` : ''}
+        <span class="pcard-price">${price}</span>
+        <span class="pcard-cta">Customise <span class="arr">→</span></span>
+      </span>
+    </a>`;
+  }).join('');
+  const head = q ? 'Search' : (c ? c.name : 'Shop everything');
+  const lede = q
+    ? `${list.length} match${list.length === 1 ? '' : 'es'} for \u201C${esc(q)}\u201D.${list.length ? '' : ' Try a broader word, or browse a collection below.'}`
+    : (c ? c.blurb : 'Every product below opens in the customiser — upload your own design, drag it into position, add text, and see exactly what we\u2019ll print.');
+  return `
+  <div class="wrap pagehead">
+    <p class="eyebrow">${q ? 'Results' : c ? 'Collection' : 'Full catalogue'}</p>
+    <h1 class="display">${head}</h1>
+    <p class="lede">${lede}</p>
+    <div class="chipbar">${chips}</div>
+    <div class="pgrid" style="padding-bottom:clamp(3rem,7vw,5rem)">${cards}</div>
+  </div>`;
+}
+
+/* ---- recently viewed strip ---- */
+function tplRecent(exclude){
+  const list = RECENT.filter(id => id !== exclude).map(prodById).filter(Boolean).slice(0, 6);
+  if(!list.length) return '';
+  const cards = list.map((p, i) => `<a class="pcard" href="#/product/${p.id}" style="--pbg:${FLOODS[i % 3]}"><span class="pcard-art">${mockSVG(p, null, 'front')}</span><span class="pcard-body"><h3>${p.name}</h3><span class="pcard-price"><span>${p.sizePrices ? 'from ' + gbp(Math.min(...Object.values(p.sizePrices))) : gbp(p.sale ?? p.price)}</span></span></span></a>`).join('');
+  return `<section class="recent-strip section" style="padding-top:2.5rem;padding-bottom:3rem"><div class="wrap"><p class="eyebrow">Recently viewed</p><div class="pgrid pgrid--mini" style="margin-top:1.25rem">${cards}</div></div></section>`;
+}
+
+/* ---- cart line shows bulk discounts ---- */
+function tplCart(){
+  if(!CART.length){
+    return `<div class="wrap pagehead"><p class="eyebrow">Basket</p><h1 class="display">Your basket</h1>
+      <div class="empty-cart" style="margin:2.5rem 0 4rem"><p>Nothing on the press yet</p><a class="btn btn--solid" href="#/shop">Start customising <span class="arr">→</span></a></div></div>`;
+  }
+  const lines = CART.map(l => {
+    const p = prodById(l.pid);
+    const design = sideHasContent(l.sides.front) || sideHasContent(l.sides.back) ? 'Custom design' : 'No design (plain)';
+    return `<div class="cartline" data-uid="${l.uid}">
+      <div class="cl-thumb">${previewHTML(p, l.color ? l.color.hex : null, l.sides)}</div>
+      <div class="cl-body">
+        <h3>${p.name}</h3>
+        <div class="cl-meta">${l.color ? `<span>${l.color.name}</span>` : ''}${l.size ? `<span>Size ${l.size}</span>` : ''}<span>${design}</span>${sideHasContent(l.sides.back) ? '<span>Front + back</span>' : ''}${l.disc ? `<span style="color:var(--magenta)">Bulk −${Math.round(l.disc * 100)}%</span>` : ''}</div>
+        <div class="cl-actions">
+          <div class="qty"><button data-act="minus" aria-label="Decrease">−</button><input value="${l.qty}" readonly aria-label="Quantity"><button data-act="plus" aria-label="Increase">+</button></div>
+          <button class="removebtn" data-act="remove">Remove</button>
+        </div>
+      </div>
+      <div class="cl-price">${gbp(l.unit * l.qty)}<br><small style="color:var(--grey);font-weight:400">${gbp(l.unit)} each</small></div>
+    </div>`;
+  }).join('');
+  const sub = CART.reduce((n, l) => n + l.unit * l.qty, 0);
+  return `<div class="wrap pagehead"><p class="eyebrow">Basket</p><h1 class="display">Your basket</h1>
+  <div class="cart-grid" style="padding-bottom:clamp(3rem,7vw,5rem)">
+    <div id="cartLines">${lines}</div>
+    <aside class="summary">
+      <h2>Job summary</h2>
+      <div class="sumline"><span>Items</span><span>${CART.reduce((n, l) => n + l.qty, 0)}</span></div>
+      <div class="sumline"><span>Subtotal</span><span>${gbp(sub)}</span></div>
+      <div class="sumline"><span>Delivery</span><span>At checkout</span></div>
+      <div class="sumline total"><span>Total</span><span>${gbp(sub)}</span></div>
+      <button class="btn btn--solid" id="checkoutBtn">Checkout <span class="arr">→</span></button>
+      <p class="stage-hint" style="margin-top:1rem">Free artwork check included on every line.</p>
+    </aside>
+  </div></div>`;
+}
+
+/* ---- product template: clipart, curve, dpi, bulk, proof, reviews ---- */
+function tplProduct(p){
+  const sides = MOCKS[p.mock].sides;
+  const unit = p.sale ?? (p.sizePrices ? p.sizePrices[p.sizes[0]] : p.price);
+  const colorOpts = p.colors ? `
+    <div class="optrow"><span class="optlabel">Colour — <small id="colName">${p.colors[0].name}</small></span>
+      <div class="swatches" id="swatches">${p.colors.map((c,i)=>`<button class="swatch ${i===0?'on':''}" style="--sw:${c.hex}" data-i="${i}" aria-label="${c.name}"></button>`).join('')}</div>
+    </div>` : '';
+  const sizeOpts = p.sizes ? `
+    <div class="optrow"><span class="optlabel">Size</span>
+      <div class="sizechips" id="sizechips">${p.sizes.map((s,i)=>`<button class="sizechip ${i===0?'on':''}" data-s="${s}">${s}${p.sizePrices?` · ${gbp(p.sizePrices[s])}`:''}</button>`).join('')}</div>
+    </div>` : '';
+  const crumbTag = p.tags[0];
+  const r = ratingFor(p.id);
+  return `
+  <div class="wrap">
+    <nav class="crumbs"><a href="#/">Home</a><span>/</span><a href="#/collection/${crumbTag}">${COLLECTIONS[crumbTag].name}</a><span>/</span><span>${p.name}</span></nav>
+    <div class="pp-grid">
+      <div class="pp-preview">
+        <div class="proofbox">
+          <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+          ${sides.length>1?`<div class="side-toggle" id="sideToggle"><button class="on" data-side="front">Front</button><button data-side="back">Back</button></div>`:''}
+          <div class="mock-stage" id="stage">
+            <div class="mock-svg" id="mockSvg"></div>
+            <div class="print-window show-guide" id="printWin"></div>
+          </div>
+          <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
+        </div>
+        <p class="stage-hint">Drag to position · scroll or pinch to resize · two fingers to rotate</p>
+        <div class="proofbtn-row"><button class="minibtn" id="proofBtn">⬇ Download proof sheet</button></div>
+      </div>
+      <div class="pp-info">
+        <p class="eyebrow">Customisable ${MOCKS[p.mock].label}</p>
+        <h1 class="display">${p.name}</h1>
+        <div class="pp-meta"><span>REF ${p.id.toUpperCase()}</span>${r?`<span class="stars">${starsHTML(r.avg)}</span><span>${r.avg.toFixed(1)} · ${r.count} review${r.count>1?'s':''}</span>`:''}<span>Made in Cornwall</span></div>
+        <div class="pp-price">
+          <span class="now" id="ppPrice">${gbp(unit)}</span>
+          ${p.sale?`<del>${gbp(p.price)}</del><span class="save">On sale</span>`:''}
+        </div>
+        <p class="pp-desc">${p.desc}</p>
+
+        ${(colorOpts||sizeOpts)?`<div class="panel"><div class="panel-h" style="--phead:var(--tint-y)">Options</div><div class="panel-b">${colorOpts}${sizeOpts}</div></div>`:''}
+
+        <div class="panel">
+          <div class="panel-h" style="--phead:var(--tint-c)">Your design <span id="sideLabel">${sides.length>1?'· Front':''}</span></div>
+          <div class="panel-b">
+            <div class="dropzone" id="dropzone">
+              <p>Upload your design or photo</p>
+              <small>Click, or drag &amp; drop · PNG / JPG / SVG</small>
+              <input type="file" id="fileInput" accept="image/*" class="sr-only">
+            </div>
+            <div class="dpi-badge" id="dpiBadge"><i></i><span></span></div>
+            <button class="minibtn" id="lastBtn" style="display:none;margin-top:.9rem">↺ Use my last design</button>
+            <span class="optlabel" style="margin-top:1.2rem">No artwork? Start with a shape</span>
+            <div class="clipgrid" id="clipGrid">${CLIPARTS.map((c,i)=>`<button class="clipbtn" data-i="${i}" title="${c.name}" aria-label="Add ${c.name} clipart">${c.svg('#111013')}</button>`).join('')}</div>
+            <div class="layer-tabs" style="margin-top:1.25rem">
+              <button class="on" data-tab="img" id="tabImg">Image layer</button>
+              <button data-tab="text" id="tabText">Text layer</button>
+            </div>
+            <div id="textTools" style="display:none">
+              <input class="textinput" id="textInput" type="text" maxlength="40" placeholder="Type your text — a name, a date, a slogan…">
+              <div class="fontpick" id="fontPick">
+                <button data-f="anton" class="on" style="font-family:'Anton'">POSTER</button>
+                <button data-f="archivo" style="font-family:'Archivo';font-weight:700">Clean</button>
+                <button data-f="mono" style="font-family:'IBM Plex Mono'">Mono</button>
+                <button data-f="script" style="font-family:'Caveat';font-size:1.15rem">Handwritten</button>
+              </div>
+              <span class="optlabel">Ink colour</span>
+              <div class="inkdots" id="inkDots">${TEXTINKS.map((c,i)=>`<button class="inkdot ${i===0?'on':''}" style="--sw:${c}" data-c="${c}" aria-label="Text colour"></button>`).join('')}</div>
+              <div class="toolrow"><label for="curveR">Curve</label><input type="range" id="curveR" min="-100" max="100" value="0"><output id="curveO">0</output></div>
+            </div>
+            <div class="toolrow"><label for="scaleR">Size</label><input type="range" id="scaleR" min="20" max="250" value="100"><output id="scaleO">100%</output></div>
+            <div class="toolrow"><label for="rotR">Rotate</label><input type="range" id="rotR" min="-180" max="180" value="0"><output id="rotO">0°</output></div>
+            <div class="toolbtns">
+              <button class="minibtn" id="centreBtn">Centre</button>
+              <button class="minibtn" id="resetBtn">Reset layer</button>
+              <button class="minibtn" id="removeBtn">Remove layer</button>
+              <button class="minibtn" id="undoBtn">↩ Undo</button>
+            </div>
+            <div class="applystrip" id="applyStrip" style="display:none">
+              <span class="optlabel">Reuse this design on…</span>
+              <div class="applyminis" id="applyMinis"></div>
+            </div>
+          </div>
+        </div>
+
+        ${p.sizes?`<div class="layer-tabs" id="buyTabs" style="margin-top:1.5rem"><button class="on" data-m="single">Single item</button><button data-m="bulk">Bulk sizes</button></div>`:''}
+        <div class="buyrow" id="singleBox">
+          <div class="qty"><button id="qMinus" aria-label="Decrease quantity">−</button><input id="qtyIn" value="1" inputmode="numeric" aria-label="Quantity"><button id="qPlus" aria-label="Increase quantity">+</button></div>
+          <button class="btn btn--solid" id="addBtn">Add to basket — <span id="addPrice">${gbp(unit)}</span></button>
+        </div>
+        ${p.sizes?`<div id="bulkBox" style="display:none">
+          <div class="bulkgrid">${p.sizes.map(s=>`<div><label>${s}</label><input type="number" min="0" max="99" value="0" data-bs="${s}" inputmode="numeric" aria-label="Quantity size ${s}"></div>`).join('')}</div>
+          <p class="bulkinfo" id="bulkInfo">0 items — enter quantities above</p>
+          <p class="breakshint">5+ save 5% · 10+ save 10% · 25+ save 15%</p>
+          <div class="buyrow" style="margin-top:1rem"><button class="btn btn--solid" id="bulkAddBtn" disabled>Add bulk order</button></div>
+        </div>`:''}
+        <p class="stage-hint" style="text-align:left;margin-top:1rem">Every order gets a free human artwork check before printing.</p>
+      </div>
+    </div>
+
+    <section class="section" style="padding-top:3.5rem;padding-bottom:clamp(3rem,6vw,4.5rem)">
+      <p class="eyebrow">Reviews</p>
+      <h2 class="display" style="font-size:clamp(1.6rem,3vw,2.2rem)">What customers say</h2>
+      <div class="rev-summary" id="revSummary"></div>
+      <div id="revList" style="max-width:720px"></div>
+      <form class="rev-form" id="revForm" novalidate>
+        <div class="form-grid">
+          <div><label class="flabel" for="rv-name">Name</label><input class="finput" id="rv-name" maxlength="30"></div>
+          <div><label class="flabel" for="rv-stars">Rating</label><select id="rv-stars"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3">★★★</option><option value="2">★★</option><option value="1">★</option></select></div>
+        </div>
+        <div><label class="flabel" for="rv-text">Your review</label><textarea class="finput" id="rv-text" style="min-height:90px" maxlength="280"></textarea></div>
+        <div><button class="btn" type="submit">Post review (demo)</button></div>
+      </form>
+    </section>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   PRODUCT PAGE ENGINE v2
+   ════════════════════════════════════════════════════════════ */
+function initProduct(p){
+  const CUST = {
+    side:'front',
+    sides:{front:newSide(), back:newSide()},
+    sel:'img',
+    colorIdx:0,
+    size: p.sizes ? p.sizes[0] : null,
+    qty:1,
+    guide:true
+  };
+  RECENT = [p.id, ...RECENT.filter(x => x !== p.id)].slice(0, 8); saveRecent();
+
+  const stage = $('#stage'), win = $('#printWin'), mock = $('#mockSvg');
+  const scaleR = $('#scaleR'), scaleO = $('#scaleO'), rotR = $('#rotR'), rotO = $('#rotO');
+  const fileInput = $('#fileInput'), dropzone = $('#dropzone');
+
+  /* ---- history (undo) ---- */
+  let HISTARR = [], histT = null;
+  const pushHist = () => { HISTARR.push(JSON.stringify(CUST.sides)); if(HISTARR.length > 40) HISTARR.shift(); };
+  const debHist = () => { clearTimeout(histT); histT = setTimeout(() => { pushHist(); updateLast(); }, 500); };
+  function undo(){
+    if(HISTARR.length < 2){ showToast('Nothing to undo'); return; }
+    HISTARR.pop();
+    CUST.sides = JSON.parse(HISTARR[HISTARR.length - 1]);
+    renderLayers(); syncTextUI(); updateDpi(); updateLast();
+  }
+
+  /* ---- rendering ---- */
+  function curColor(){ return p.colors ? p.colors[CUST.colorIdx].hex : null; }
+  function curLayer(){ return CUST.sides[CUST.side][CUST.sel]; }
+  function layerHas(l, key){ return key === 'img' ? !!l.src : !!(l.value && l.value.trim()); }
+  function renderMock(){ mock.innerHTML = mockSVG(p, curColor(), CUST.side); }
+  function positionWindow(){
+    const area = getArea(p, CUST.side);
+    win.setAttribute('style', windowStyle(area) + clipStyle(area));
+    win.classList.toggle('clip-circle', area.clip === 'circle');
+    win.classList.toggle('show-guide', CUST.guide);
+  }
+  function renderLayers(){
+    win.innerHTML = buildLayersHTML(CUST.sides[CUST.side], p, true);
+    selectLayer(CUST.sel);
+    updateApplyVis();
+  }
+  function selectLayer(key){
+    CUST.sel = key;
+    $('#tabImg').classList.toggle('on', key === 'img');
+    $('#tabText').classList.toggle('on', key === 'text');
+    $('#textTools').style.display = key === 'text' ? 'block' : 'none';
+    $$('.layer', win).forEach(el => el.classList.toggle('selected', el.dataset.layer === key));
+    syncSliders();
+  }
+  function syncSliders(){
+    const l = curLayer();
+    scaleR.value = Math.round(l.scale * 100);
+    rotR.value = Math.round(l.rot);
+    scaleO.textContent = Math.round(l.scale * 100) + '%';
+    rotO.textContent = Math.round(l.rot) + '°';
+  }
+  function syncTextUI(){
+    const t = CUST.sides[CUST.side].text;
+    $('#textInput').value = t.value;
+    $$('#fontPick button').forEach(b => b.classList.toggle('on', b.dataset.f === t.font));
+    $$('#inkDots .inkdot').forEach(b => b.classList.toggle('on', b.dataset.c === t.color));
+    $('#curveR').value = t.curve || 0;
+    $('#curveO').textContent = t.curve || 0;
+  }
+  function applyTransformLive(){
+    const el = win.querySelector(`[data-layer="${CUST.sel}"]`);
+    if(el) el.style.transform = layerTransform(curLayer());
+  }
+  function updatePrice(){
+    const unit = priceFor(p, CUST.size);
+    $('#ppPrice').textContent = gbp(unit);
+    $('#addPrice').textContent = gbp(unit * CUST.qty);
+  }
+  function updateLast(){
+    const s = CUST.sides[CUST.side];
+    if(sideHasContent(s)){ LAST_DESIGN = snapSide(s); saveLast(); }
+    updateApplyVis();
+  }
+  function updateApplyVis(){
+    const has = sideHasContent(CUST.sides[CUST.side]);
+    $('#applyStrip').style.display = has ? 'block' : 'none';
+    $('#lastBtn').style.display = (!has && LAST_DESIGN) ? 'inline-block' : 'none';
+  }
+  function updateDpi(){
+    const b = $('#dpiBadge'); if(!b) return;
+    const s = CUST.sides[CUST.side].img;
+    if(!s.src){ b.style.display = 'none'; return; }
+    b.style.display = 'inline-flex';
+    const lbl = b.querySelector('span'), dot = b.querySelector('i');
+    if(s.vec){ lbl.textContent = 'Vector artwork — sharp at any print size'; dot.style.background = 'var(--cyan)'; return; }
+    const phys = physFor(p, CUST.size, CUST.side);
+    const base = BIGAREA.includes(p.mock) ? 90 : 75;
+    const wcm = (base / 100) * s.scale * phys.w;
+    const ppi = s.ow / ((wcm / 2.54) || 1);
+    let txt, col;
+    if(ppi >= 150){ txt = `Sharp print — ${Math.round(ppi)} dpi at this size`; col = 'var(--cyan)'; }
+    else if(ppi >= 90){ txt = `Good — ${Math.round(ppi)} dpi at this size`; col = 'var(--cyan)'; }
+    else if(ppi >= 60){ txt = `Borderline — ${Math.round(ppi)} dpi, consider printing smaller`; col = 'var(--yellow)'; }
+    else { txt = `Low res — ${Math.round(ppi)} dpi, may print blurry`; col = 'var(--magenta)'; }
+    lbl.textContent = txt; dot.style.background = col;
+  }
+
+  /* ---- drag + pinch/rotate gestures ---- */
+  const PTS = new Map();
+  let drag = null, gest = null, wheelT = null;
+  win.addEventListener('pointerdown', e => {
+    win.setPointerCapture(e.pointerId);
+    PTS.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    if(PTS.size === 1){
+      const el = e.target.closest('.layer');
+      if(el){
+        selectLayer(el.dataset.layer);
+        const l = curLayer();
+        drag = {el, r: win.getBoundingClientRect(), sx:e.clientX, sy:e.clientY, ox:l.x, oy:l.y};
+      }
+    } else if(PTS.size === 2){
+      drag = null;
+      const l = curLayer();
+      if(layerHas(l, CUST.sel)){
+        const [a, b] = [...PTS.values()];
+        gest = {d0: Math.hypot(b.x - a.x, b.y - a.y) || 1, a0: Math.atan2(b.y - a.y, b.x - a.x), s0: l.scale, r0: l.rot};
+      }
+    }
+    e.preventDefault();
+  });
+  win.addEventListener('pointermove', e => {
+    if(!PTS.has(e.pointerId)) return;
+    PTS.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    if(gest && PTS.size >= 2){
+      const [a, b] = [...PTS.values()];
+      const d = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+      const an = Math.atan2(b.y - a.y, b.x - a.x);
+      const l = curLayer();
+      l.scale = Math.min(2.5, Math.max(0.2, gest.s0 * d / gest.d0));
+      l.rot = Math.round(gest.r0 + (an - gest.a0) * 180 / Math.PI);
+      applyTransformLive(); syncSliders();
+    } else if(drag){
+      const l = curLayer();
+      l.x = drag.ox + (e.clientX - drag.sx) / drag.r.width * 100;
+      l.y = drag.oy + (e.clientY - drag.sy) / drag.r.height * 100;
+      drag.el.style.transform = layerTransform(l);
+    }
+  });
+  function endPt(e){
+    PTS.delete(e.pointerId);
+    if(gest && PTS.size < 2){ gest = null; pushHist(); updateDpi(); updateLast(); syncSliders(); }
+    if(drag && PTS.size === 0){ drag = null; pushHist(); updateLast(); }
+  }
+  ['pointerup','pointercancel'].forEach(ev => win.addEventListener(ev, endPt));
+
+  win.addEventListener('wheel', e => {
+    const l = curLayer();
+    if(!layerHas(l, CUST.sel)) return;
+    e.preventDefault();
+    l.scale = Math.min(2.5, Math.max(0.2, l.scale * (e.deltaY < 0 ? 1.06 : 0.94)));
+    applyTransformLive(); syncSliders(); updateDpi();
+    clearTimeout(wheelT); wheelT = setTimeout(() => { pushHist(); updateLast(); }, 400);
+  }, {passive:false});
+
+  /* ---- keyboard: arrows nudge, ctrl/cmd+Z undo ---- */
+  let keyT = null;
+  function onKey(e){
+    if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z'){ e.preventDefault(); undo(); return; }
+    const l = curLayer();
+    if(!layerHas(l, CUST.sel)) return;
+    const step = e.shiftKey ? 5 : 1;
+    let moved = true;
+    if(e.key === 'ArrowLeft') l.x -= step;
+    else if(e.key === 'ArrowRight') l.x += step;
+    else if(e.key === 'ArrowUp') l.y -= step;
+    else if(e.key === 'ArrowDown') l.y += step;
+    else moved = false;
+    if(moved){
+      e.preventDefault(); applyTransformLive();
+      clearTimeout(keyT); keyT = setTimeout(() => { pushHist(); updateLast(); }, 500);
+    }
+  }
+  document.addEventListener('keydown', onKey);
+  PAGE_CLEANUP.push(() => document.removeEventListener('keydown', onKey));
+
+  /* ---- sliders + layer buttons ---- */
+  scaleR.addEventListener('input', () => { curLayer().scale = scaleR.value / 100; scaleO.textContent = scaleR.value + '%'; applyTransformLive(); updateDpi(); });
+  rotR.addEventListener('input', () => { curLayer().rot = +rotR.value; rotO.textContent = rotR.value + '°'; applyTransformLive(); });
+  [scaleR, rotR].forEach(r => r.addEventListener('change', () => { pushHist(); updateLast(); }));
+  $('#tabImg').addEventListener('click', () => selectLayer('img'));
+  $('#tabText').addEventListener('click', () => selectLayer('text'));
+  $('#centreBtn').addEventListener('click', () => { const l = curLayer(); l.x = 0; l.y = 0; renderLayers(); pushHist(); updateLast(); });
+  $('#resetBtn').addEventListener('click', () => {
+    const l = curLayer();
+    l.x = 0; l.y = CUST.sel === 'text' ? 28 : 0; l.scale = 1; l.rot = 0;
+    if(CUST.sel === 'text') CUST.sides[CUST.side].text.curve = 0;
+    renderLayers(); syncTextUI(); updateDpi(); pushHist(); updateLast();
+  });
+  $('#removeBtn').addEventListener('click', () => {
+    const s = CUST.sides[CUST.side];
+    if(CUST.sel === 'img'){ s.img.src = null; s.img.vec = false; fileInput.value = ''; }
+    else { s.text.value = ''; }
+    syncTextUI(); renderLayers(); updateDpi(); pushHist(); updateLast();
+  });
+  $('#undoBtn').addEventListener('click', undo);
+
+  /* ---- upload + clipart ---- */
+  function applyImg(src, ow, oh, vec){
+    const s = CUST.sides[CUST.side];
+    s.img = {src, ow: ow || 0, oh: oh || 0, vec: !!vec, x:0, y:0, scale:1, rot:0};
+    renderLayers(); selectLayer('img'); updateDpi(); pushHist(); updateLast();
+    showToast('Design added — drag it into place ✓');
+  }
+  function handleFile(file){
+    if(!file) return;
+    if(!file.type.startsWith('image/')){ showToast("That file isn't an image — PNG, JPG or SVG please."); return; }
+    const fr = new FileReader();
+    fr.onload = () => {
+      const src = fr.result;
+      if(file.type === 'image/svg+xml'){ applyImg(src, 0, 0, true); return; }
+      const im = new Image();
+      im.onload = () => {
+        const ow = im.width, oh = im.height;
+        const max = 1100;
+        let w = ow, h = oh;
+        if(Math.max(w, h) > max){ const k = max / Math.max(w, h); w = Math.round(w * k); h = Math.round(h * k); }
+        const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        cv.getContext('2d').drawImage(im, 0, 0, w, h);
+        let out; try{ out = cv.toDataURL('image/png'); }catch(err){ out = src; }
+        applyImg(out, ow, oh, false);
+      };
+      im.onerror = () => showToast("Couldn't read that image file.");
+      im.src = src;
+    };
+    fr.readAsDataURL(file);
+  }
+  dropzone.addEventListener('click', e => { if(e.target !== fileInput) fileInput.click(); });
+  fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+  ['dragover','dragenter'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add('over'); }));
+  ['dragleave','drop'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.remove('over'); }));
+  dropzone.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
+  stage.addEventListener('dragover', e => e.preventDefault());
+  stage.addEventListener('drop', e => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); });
+  $('#clipGrid').addEventListener('click', e => {
+    const b = e.target.closest('.clipbtn'); if(!b) return;
+    const ink = CUST.sides[CUST.side].text.color || '#111013';
+    const src = 'data:image/svg+xml;utf8,' + encodeURIComponent(CLIPARTS[+b.dataset.i].svg(ink));
+    applyImg(src, 0, 0, true);
+  });
+
+  /* ---- carry-over: apply, offer, reuse ---- */
+  function applyCarry(d){
+    if(!d) return;
+    const s = CUST.sides[CUST.side];
+    if(d.img && d.img.src) s.img = Object.assign({}, newSide().img, d.img);
+    if(d.text && d.text.value) s.text = Object.assign({}, newSide().text, d.text);
+    renderLayers(); syncTextUI(); updateDpi(); pushHist(); updateLast();
+  }
+  $('#lastBtn').addEventListener('click', () => { applyCarry(LAST_DESIGN); showToast('Last design applied ✓'); });
+  const APPLY_SET = ['tee','hoodie','mug','cap','tote','slate-sq','pint','sticker'].filter(id => id !== p.id).slice(0, 7);
+  $('#applyMinis').innerHTML = APPLY_SET.map(id => {
+    const q = prodById(id);
+    return `<button class="applymini" data-pid="${id}" title="${q.name}" aria-label="Apply design to ${q.name}">${mockSVG(q, null, 'front')}</button>`;
+  }).join('');
+  $('#applyMinis').addEventListener('click', e => {
+    const b = e.target.closest('.applymini'); if(!b) return;
+    CARRY = snapSide(CUST.sides[CUST.side]);
+    navigate('/product/' + b.dataset.pid);
+  });
+
+  /* ---- text tools ---- */
+  let txtT = null;
+  $('#textInput').addEventListener('input', e => {
+    CUST.sides[CUST.side].text.value = e.target.value;
+    renderLayers(); selectLayer('text');
+    clearTimeout(txtT); txtT = setTimeout(() => { pushHist(); updateLast(); }, 600);
+  });
+  $$('#fontPick button').forEach(b => b.addEventListener('click', () => {
+    CUST.sides[CUST.side].text.font = b.dataset.f;
+    syncTextUI(); renderLayers(); pushHist(); updateLast();
+  }));
+  $$('#inkDots .inkdot').forEach(b => b.addEventListener('click', () => {
+    CUST.sides[CUST.side].text.color = b.dataset.c;
+    syncTextUI(); renderLayers(); pushHist(); updateLast();
+  }));
+  $('#curveR').addEventListener('input', e => {
+    CUST.sides[CUST.side].text.curve = +e.target.value;
+    $('#curveO').textContent = e.target.value;
+    renderLayers();
+  });
+  $('#curveR').addEventListener('change', () => { pushHist(); updateLast(); });
+
+  /* ---- options ---- */
+  const swWrap = $('#swatches');
+  if(swWrap) swWrap.addEventListener('click', e => {
+    const b = e.target.closest('.swatch'); if(!b) return;
+    CUST.colorIdx = +b.dataset.i;
+    $$('.swatch', swWrap).forEach(x => x.classList.toggle('on', x === b));
+    $('#colName').textContent = p.colors[CUST.colorIdx].name;
+    renderMock();
+  });
+  const szWrap = $('#sizechips');
+  if(szWrap) szWrap.addEventListener('click', e => {
+    const b = e.target.closest('.sizechip'); if(!b) return;
+    CUST.size = b.dataset.s;
+    $$('.sizechip', szWrap).forEach(x => x.classList.toggle('on', x === b));
+    updatePrice(); updateDpi();
+  });
+  const st = $('#sideToggle');
+  if(st) st.addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b || b.dataset.side === CUST.side) return;
+    CUST.side = b.dataset.side;
+    $$('button', st).forEach(x => x.classList.toggle('on', x === b));
+    $('#sideLabel').textContent = '· ' + (CUST.side === 'front' ? 'Front' : 'Back');
+    renderMock(); positionWindow(); renderLayers(); syncTextUI(); updateDpi();
+  });
+  $('#guideToggle').addEventListener('click', () => {
+    CUST.guide = !CUST.guide;
+    win.classList.toggle('show-guide', CUST.guide);
+    const g = $('#guideToggle');
+    g.setAttribute('aria-pressed', CUST.guide);
+    g.textContent = '▣ Print area: ' + (CUST.guide ? 'on' : 'off');
+  });
+
+  /* ---- qty + single add ---- */
+  const qtyIn = $('#qtyIn');
+  $('#qMinus').addEventListener('click', () => { CUST.qty = Math.max(1, CUST.qty - 1); qtyIn.value = CUST.qty; updatePrice(); });
+  $('#qPlus').addEventListener('click', () => { CUST.qty = Math.min(99, CUST.qty + 1); qtyIn.value = CUST.qty; updatePrice(); });
+  qtyIn.addEventListener('change', () => { CUST.qty = Math.min(99, Math.max(1, parseInt(qtyIn.value, 10) || 1)); qtyIn.value = CUST.qty; updatePrice(); });
+  $('#addBtn').addEventListener('click', () => {
+    CART.push({
+      uid: cartUid++, pid: p.id,
+      color: p.colors ? {...p.colors[CUST.colorIdx]} : null,
+      size: CUST.size, qty: CUST.qty, unit: priceFor(p, CUST.size), disc: 0,
+      sides: JSON.parse(JSON.stringify(CUST.sides))
+    });
+    updateBadge(); saveCart(); updateLast();
+    showToast('Added ✓ · <a href="#/cart">Basket</a> · <a href="#/shop" data-carry="1">Reuse design →</a>');
+  });
+
+  /* ---- bulk mode ---- */
+  if(p.sizes){
+    const tabs = $('#buyTabs'), bulkBox = $('#bulkBox'), singleBox = $('#singleBox');
+    tabs.addEventListener('click', e => {
+      const b = e.target.closest('button'); if(!b) return;
+      $$('button', tabs).forEach(x => x.classList.toggle('on', x === b));
+      const bulk = b.dataset.m === 'bulk';
+      bulkBox.style.display = bulk ? 'block' : 'none';
+      singleBox.style.display = bulk ? 'none' : 'flex';
+    });
+    const inputs = $$('#bulkBox input');
+    function calcBulk(){
+      let tot = 0, sum = 0;
+      const rows = [];
+      inputs.forEach(i => {
+        const q = Math.max(0, parseInt(i.value, 10) || 0);
+        tot += q;
+        rows.push({size: i.dataset.bs, q});
+      });
+      const off = breakFor(tot);
+      rows.forEach(r => { r.unit = +(priceFor(p, r.size) * (1 - off)).toFixed(2); sum += r.unit * r.q; });
+      $('#bulkInfo').innerHTML = tot
+        ? `${tot} items · ${off ? `<strong>${Math.round(off * 100)}% bulk discount</strong> · ` : ''}total ${gbp(+sum.toFixed(2))}`
+        : '0 items — enter quantities above';
+      $('#bulkAddBtn').disabled = !tot;
+      return {tot, off, rows};
+    }
+    inputs.forEach(i => i.addEventListener('input', calcBulk));
+    $('#bulkAddBtn').addEventListener('click', () => {
+      const {tot, off, rows} = calcBulk(); if(!tot) return;
+      rows.forEach(r => {
+        if(!r.q) return;
+        CART.push({uid: cartUid++, pid: p.id, color: p.colors ? {...p.colors[CUST.colorIdx]} : null,
+          size: r.size, qty: r.q, unit: r.unit, disc: off, sides: JSON.parse(JSON.stringify(CUST.sides))});
+      });
+      inputs.forEach(i => i.value = 0);
+      calcBulk(); updateBadge(); saveCart(); updateLast();
+      showToast(`Bulk order added ✓ — ${tot} items${off ? ` (−${Math.round(off * 100)}%)` : ''} · <a href="#/cart">Basket</a>`);
+    });
+  }
+
+  /* ---- reviews ---- */
+  function renderReviews(){
+    const arr = [...(SEEDREV[p.id] || []), ...(REVIEWS[p.id] || [])];
+    const sum = $('#revSummary'), list = $('#revList');
+    if(!arr.length){
+      sum.innerHTML = '<span class="pcard-rate">No reviews yet — be the first.</span>';
+      list.innerHTML = '';
+      return;
+    }
+    const avg = arr.reduce((n, r) => n + r.s, 0) / arr.length;
+    sum.innerHTML = `<span class="rev-avg">${avg.toFixed(1)}</span><span class="stars" style="font-size:1.2rem">${starsHTML(avg)}</span><span class="pcard-rate">${arr.length} review${arr.length > 1 ? 's' : ''}</span>`;
+    list.innerHTML = arr.map(r => `<div class="rev-item"><h4><span>${esc(r.n)}</span><span class="stars">${starsHTML(r.s)}</span></h4><p>${esc(r.t)}</p></div>`).join('');
+  }
+  $('#revForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const n = $('#rv-name').value.trim() || 'Anonymous';
+    const s = +$('#rv-stars').value;
+    const t = $('#rv-text').value.trim();
+    if(!t){ $('#rv-text').focus(); return; }
+    (REVIEWS[p.id] = REVIEWS[p.id] || []).push({n, s, t});
+    saveReviews();
+    $('#rv-name').value = ''; $('#rv-text').value = '';
+    renderReviews(); showToast('Review posted ✓ (demo)');
+  });
+  renderReviews();
+
+  /* ---- proof sheet ---- */
+  function svgToImg(svgStr){
+    return new Promise((res, rej) => {
+      const b = new Blob([svgStr], {type:'image/svg+xml'});
+      const u = URL.createObjectURL(b);
+      const im = new Image();
+      im.onload = () => { URL.revokeObjectURL(u); res(im); };
+      im.onerror = rej;
+      im.src = u;
+    });
+  }
+  const loadImg = src => new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; });
+
+  function drawArc(ctx, text, curve, chord, fpx, color, stroke){
+    const s = Math.abs(curve) / 100 * (chord * 0.33);
+    const half = chord / 2;
+    const R = (half * half + s * s) / (2 * s);
+    const up = curve > 0;
+    const cy = up ? (R - s) : (s - R);
+    const theta = ctx.measureText(text).width / R;
+    let a = up ? (-Math.PI / 2 - theta / 2) : (Math.PI / 2 + theta / 2);
+    const dir = up ? 1 : -1;
+    for(const ch of text){
+      const da = (ctx.measureText(ch).width / 2) / R * dir;
+      a += da;
+      const x = Math.cos(a) * R, y = cy + Math.sin(a) * R;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(a + (up ? Math.PI / 2 : -Math.PI / 2));
+      if(stroke){ ctx.lineWidth = fpx * .08; ctx.strokeStyle = '#111013'; ctx.strokeText(ch, 0, 0); }
+      ctx.fillStyle = color; ctx.fillText(ch, 0, 0);
+      ctx.restore();
+      a += da;
+    }
+  }
+
+  async function drawSidePanel(ctx, px, py, pw, side){
+    const svgStr = mockSVG(p, curColor(), side).replace('<svg ', '<svg width="800" height="800" ');
+    ctx.drawImage(await svgToImg(svgStr), px, py, pw, pw);
+    const area = getArea(p, side), k = pw / 400;
+    const ax = px + area.x * k, ay = py + area.y * k, aw = area.w * k, ah = area.h * k;
+    ctx.save();
+    const path = new Path2D();
+    if(area.clip === 'circle'){ path.ellipse(ax + aw / 2, ay + ah / 2, aw / 2, ah / 2, 0, 0, Math.PI * 2); }
+    else if(area.clip === 'heart'){
+      const u = new Path2D('M0.5 1 C0.08 0.66 0 0.38 0 0.26 C0 0.08 0.14 0 0.30 0 C0.42 0 0.47 0.08 0.5 0.16 C0.53 0.08 0.58 0 0.70 0 C0.86 0 1 0.08 1 0.26 C1 0.38 0.92 0.66 0.5 1 Z');
+      const m = new DOMMatrix(); m.translateSelf(ax, ay); m.scaleSelf(aw, ah);
+      path.addPath(u, m);
+    }
+    else path.rect(ax, ay, aw, ah);
+    ctx.clip(path);
+    const S = CUST.sides[side];
+    if(S.img && S.img.src){
+      const im = await loadImg(S.img.src);
+      const baseW = (BIGAREA.includes(p.mock) ? 90 : 75) / 100 * aw * S.img.scale;
+      const ratio = (im.naturalHeight || 1) / (im.naturalWidth || 1);
+      const cx = ax + aw / 2 + S.img.x / 100 * aw, cyy = ay + ah / 2 + S.img.y / 100 * ah;
+      ctx.save(); ctx.translate(cx, cyy); ctx.rotate(S.img.rot * Math.PI / 180);
+      ctx.drawImage(im, -baseW / 2, -baseW * ratio / 2, baseW, baseW * ratio);
+      ctx.restore();
+    }
+    const T = S.text;
+    if(T && T.value.trim()){
+      const cx = ax + aw / 2 + T.x / 100 * aw, cyy = ay + ah / 2 + T.y / 100 * ah;
+      const fpx = 0.16 * aw * T.scale;
+      ctx.save(); ctx.translate(cx, cyy); ctx.rotate(T.rot * Math.PI / 180);
+      ctx.font = `600 ${fpx}px ${FONTS[T.font]}`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const doStroke = T.color === '#FAFAF7';
+      if(Math.abs(T.curve || 0) < 3){
+        if(doStroke){ ctx.lineWidth = fpx * .08; ctx.strokeStyle = '#111013'; ctx.strokeText(T.value, 0, 0); }
+        ctx.fillStyle = T.color; ctx.fillText(T.value, 0, 0);
+      } else {
+        drawArc(ctx, T.value, T.curve, aw * 0.9, fpx, T.color, doStroke);
+      }
+      ctx.restore();
+    }
+    ctx.restore();
+    ctx.strokeStyle = '#111013'; ctx.lineWidth = 3; ctx.strokeRect(px, py, pw, pw);
+    ctx.font = '600 20px "IBM Plex Mono"'; ctx.fillStyle = '#75736C';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText(side.toUpperCase(), px, py + pw + 30);
+  }
+
+  async function makeProof(){
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    const hasBack = MOCKS[p.mock].sides.includes('back') && sideHasContent(CUST.sides.back);
+    const W = 1240, H = 1560;
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#FAFAF7'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#111013'; ctx.lineWidth = 2;
+    const cm = (x, y, dx, dy) => { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx * 26, y); ctx.moveTo(x, y); ctx.lineTo(x, y + dy * 26); ctx.stroke(); };
+    cm(36, 36, 1, 1); cm(W - 36, 36, -1, 1); cm(36, H - 36, 1, -1); cm(W - 36, H - 36, -1, -1);
+    ctx.fillStyle = '#111013'; ctx.font = '400 52px Anton'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('BANNERS & BEYOND — CUSTOMER PROOF', 70, 118);
+    const ref = 'BB-' + Math.floor(1000 + Math.random() * 9000);
+    ctx.font = '500 20px "IBM Plex Mono"'; ctx.fillStyle = '#75736C';
+    ctx.fillText(`REF ${p.id.toUpperCase()} · JOB ${ref} · ${new Date().toLocaleDateString('en-GB')}`, 70, 154);
+    ctx.strokeStyle = '#111013'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(70, 180); ctx.lineTo(W - 70, 180); ctx.stroke();
+    const pw = hasBack ? 500 : 640;
+    const gap = hasBack ? (W - 2 * pw) / 3 : (W - pw) / 2;
+    const py = 230;
+    if(hasBack){ await drawSidePanel(ctx, gap, py, pw, 'front'); await drawSidePanel(ctx, gap * 2 + pw, py, pw, 'back'); }
+    else await drawSidePanel(ctx, gap, py, pw, 'front');
+    let sy = py + pw + 92;
+    ctx.font = '400 36px Anton'; ctx.fillStyle = '#111013';
+    ctx.fillText(p.name.toUpperCase(), 70, sy); sy += 46;
+    ctx.font = '500 20px "IBM Plex Mono"';
+    const fImg = CUST.sides.front.img;
+    [['Colour', p.colors ? p.colors[CUST.colorIdx].name : '—'],
+     ['Size', CUST.size || 'One size'],
+     ['Quantity', String(CUST.qty)],
+     ['Unit price', gbp(priceFor(p, CUST.size))],
+     ['Artwork', fImg.src ? (fImg.vec ? 'Vector supplied' : 'Raster supplied') : 'Text / none']
+    ].forEach(r => {
+      ctx.fillStyle = '#75736C'; ctx.fillText(r[0].toUpperCase(), 70, sy);
+      ctx.fillStyle = '#111013'; ctx.fillText(r[1], 320, sy);
+      sy += 34;
+    });
+    ctx.save(); ctx.translate(W - 250, sy - 130); ctx.rotate(-0.1);
+    ctx.strokeStyle = '#E5087E'; ctx.lineWidth = 5; ctx.strokeRect(-150, -42, 310, 84);
+    ctx.fillStyle = '#E5087E'; ctx.font = '600 30px "IBM Plex Mono"'; ctx.textAlign = 'center';
+    ctx.fillText('PROOF ONLY', 5, 10); ctx.restore();
+    ctx.textAlign = 'left';
+    const cols = ['#00A8E1','#E5087E','#FFD100','#111013','#C9EEFB','#FBD3E6','#FFF2BC','#8b8a85'];
+    const bw = (W - 140) / 8;
+    cols.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(70 + i * bw, H - 120, bw, 30); });
+    ctx.font = '500 15px "IBM Plex Mono"'; ctx.fillStyle = '#75736C';
+    ctx.fillText('GENERATED IN-BROWSER · CHECK SPELLING & PLACEMENT · APPROVAL REQUIRED BEFORE PRODUCTION', 70, H - 62);
+    const url = cv.toDataURL('image/png');
+    openModal(`<button class="modal-x" aria-label="Close">×</button><h2>Your proof sheet</h2><img class="proof-img" src="${url}" alt="Proof sheet preview"><a class="btn btn--solid" style="width:100%" download="proof-${p.id}-${ref}.png" href="${url}">Download PNG</a><p class="mono-note">If download is blocked in this preview, right-click or long-press the image and save it.</p>`);
+  }
+  $('#proofBtn').addEventListener('click', () => { makeProof().catch(() => showToast('Could not generate the proof — try again.')); });
+
+  /* ---- boot ---- */
+  renderMock(); positionWindow(); renderLayers(); syncTextUI(); updatePrice(); updateDpi();
+  pushHist();
+  if(CARRY){ const d = CARRY; CARRY = null; applyCarry(d); showToast('Design carried over ✓ — adjust and add to basket'); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   ROUTER v2 — search route, page cleanup, recently-viewed strip
+   ════════════════════════════════════════════════════════════ */
+function route(){
+  while(PAGE_CLEANUP.length){ try{ PAGE_CLEANUP.pop()(); }catch(e){} }
+  const raw = CURRENT_PATH || '/';
+  const qIdx = raw.indexOf('?');
+  const path = qIdx === -1 ? raw : raw.slice(0, qIdx);
+  const query = qIdx === -1 ? '' : raw.slice(qIdx + 1);
+  const seg = path.split('/').filter(Boolean);
+  let html = '', init = null, navKey = '', scrollTarget = null;
+
+  if(path === '/' || path === ''){ html = tplHome(); }
+  else if(path === '/deals'){ html = tplHome(); navKey = 'deals'; scrollTarget = '#deals'; }
+  else if(path === '/bundle'){ html = tplHome(); navKey = 'deals'; scrollTarget = '#bundle'; }
+  else if(path === '/shop'){ html = tplShop(null); navKey = 'shop'; }
+  else if(path === '/search'){
+    const q = new URLSearchParams(query).get('q') || '';
+    html = tplShop(null, q); navKey = 'shop';
+  }
+  else if(seg[0] === 'collection'){
+    const id = COLLECTIONS[seg[1]] ? seg[1] : null;
+    html = tplShop(id);
+    navKey = id === 'workwear' ? 'workwear' : id === 'gifting' ? 'gifting' : 'shop';
+  }
+  else if(seg[0] === 'product'){
+    const p = prodById(seg[1]);
+    if(p){ html = tplProduct(p); init = () => initProduct(p); navKey = 'shop'; }
+    else { html = tplShop(null); navKey = 'shop'; }
+  }
+  else if(path === '/cart'){ html = tplCart(); init = initCart; }
+  else if(path === '/contact'){
+    const msg = new URLSearchParams(query).get('msg') || '';
+    html = tplContact(msg); init = initContact; navKey = 'contact';
+  }
+  else { html = tplHome(); }
+
+  const showRecent = RECENT.length && (path === '/' || path === '/shop' || path === '/search' || seg[0] === 'collection' || seg[0] === 'product');
+  const exclude = seg[0] === 'product' ? seg[1] : null;
+  $('#app').innerHTML = `<div class="page">${html}${showRecent ? tplRecent(exclude) : ''}</div>`;
+  $$('.nav-links a').forEach(a => a.classList.toggle('active', !!navKey && a.dataset.nav === navKey));
+  $('#navlinks').classList.remove('open');
+  $('#menuBtn').setAttribute('aria-expanded', 'false');
+  if(init) init();
+  setupReveals();
+  if(scrollTarget){
+    requestAnimationFrame(() => { const el = $(scrollTarget); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); });
+  } else {
+    window.scrollTo({top:0});
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   BOOT v2 — header search, carry-link capture, load extras
+   ════════════════════════════════════════════════════════════ */
+(function(){
+  const mkSearch = () => {
+    const f = document.createElement('form');
+    f.className = 'searchbar';
+    f.innerHTML = '<input type="search" placeholder="Search products…" aria-label="Search products"><button type="submit">Go</button>';
+    return f;
+  };
+  const nr = document.querySelector('.nav-right');
+  nr.insertBefore(mkSearch(), nr.querySelector('.basket-link'));
+  const li = document.createElement('li');
+  li.appendChild(mkSearch());
+  document.getElementById('navlinks').appendChild(li);
+
+  document.addEventListener('submit', e => {
+    const f = e.target.closest('.searchbar');
+    if(!f) return;
+    e.preventDefault();
+    const v = f.querySelector('input').value.trim();
+    navigate(v ? '/search?q=' + encodeURIComponent(v) : '/shop');
+  });
+
+  // capture-phase: links flagged data-carry stash the last design before navigation
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[data-carry]');
+    if(a && LAST_DESIGN) CARRY = snapSide(LAST_DESIGN);
+  }, true);
+
+  (async () => {
+    REVIEWS = (await loadKV('bb_reviews_v1')) || {};
+    RECENT = (await loadKV('bb_recent_v1')) || [];
+    LAST_DESIGN = await loadKV('bb_last_v1');
+    route();
+  })();
+})();
+</script>
+</body>
+</html>
