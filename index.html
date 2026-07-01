@@ -198,6 +198,10 @@ h1.display,h2.display{font-family:var(--display);font-weight:400;text-transform:
 .layer-handle{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--paper);border:2px solid var(--ink);pointer-events:auto;touch-action:none;cursor:grab;box-shadow:2px 2px 0 rgba(17,16,19,.25)}
 .layer-handle:active{cursor:grabbing}
 .handle-resize{background:var(--magenta);border-radius:6px;cursor:nwse-resize}
+.mock-stage.previewing .print-window{outline:none}
+.mock-stage.previewing .print-window::after{display:none}
+.mock-stage.previewing .layer.selected{outline:none}
+.mock-stage.previewing .handle-layer,.mock-stage.previewing .area-handles{display:none}
 .stage-hint{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);text-align:center;margin-top:1rem}
 .side-toggle{position:absolute;top:.9rem;right:.9rem;z-index:5;display:flex;border:2px solid var(--ink);background:var(--paper)}
 .side-toggle button{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.5em .9em;border:0;background:transparent;cursor:pointer}
@@ -2109,6 +2113,7 @@ function tplProduct(p){
             <div class="area-handles" id="areaHandles"></div>
           </div>
           <div class="guide-row">
+            <button class="minibtn mode-toggle" id="previewBtn" aria-pressed="false">👁 Preview design</button>
             <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
             <button class="minibtn mode-toggle" id="areaModeBtn" aria-pressed="false">⛶ Adjust print area</button>
             <button class="minibtn" id="resetAreaBtn">↺ Reset print area</button>
@@ -2217,7 +2222,8 @@ function initProduct(p){
     size: p.sizes ? p.sizes[0] : null,
     qty:1,
     guide:true,
-    areaMode:false // when true, show print-area handles instead of design handles so they never overlap
+    areaMode:false, // when true, show print-area handles instead of design handles so they never overlap
+    previewing:false // when true, hide all editing chrome (guide, selection outline, handles) for a clean look
   };
   RECENT = [p.id, ...RECENT.filter(x => x !== p.id)].slice(0, 8); saveRecent();
 
@@ -2244,7 +2250,7 @@ function initProduct(p){
      they stay grabbable even when the design is dragged past the print area ---- */
   function positionHandles(){
     if(!handleLayer) return;
-    if(CUST.areaMode){ handleLayer.innerHTML = ''; return; } // avoid overlapping the print-area handles
+    if(CUST.areaMode || CUST.previewing){ handleLayer.innerHTML = ''; return; } // avoid overlapping the print-area handles
     const l = curLayer();
     const el = win.querySelector(`[data-layer="${CUST.sel}"]`);
     if(!layerHas(l, CUST.sel) || !el){ handleLayer.innerHTML = ''; return; }
@@ -2289,7 +2295,7 @@ function initProduct(p){
   }
   function positionAreaHandles(){
     if(!areaHandles) return;
-    if(!CUST.guide || !CUST.areaMode){ areaHandles.innerHTML = ''; return; }
+    if(!CUST.guide || !CUST.areaMode || CUST.previewing){ areaHandles.innerHTML = ''; return; }
     const sRect = stage.getBoundingClientRect(), r = win.getBoundingClientRect();
     const L = r.left - sRect.left, T = r.top - sRect.top, W = r.width, H = r.height;
     const corners = [['tl', L, T], ['tr', L + W, T], ['bl', L, T + H], ['br', L + W, T + H]];
@@ -2643,6 +2649,16 @@ function initProduct(p){
     b.textContent = on ? '✕ Done adjusting print area' : '⛶ Adjust print area';
     positionHandles(); positionAreaHandles();
   }
+  function setPreview(on){
+    CUST.previewing = on;
+    stage.classList.toggle('previewing', on);
+    const b = $('#previewBtn');
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on);
+    b.textContent = on ? '✎ Back to editing' : '👁 Preview design';
+    positionHandles(); positionAreaHandles();
+  }
+  $('#previewBtn').addEventListener('click', () => setPreview(!CUST.previewing));
   $('#guideToggle').addEventListener('click', () => {
     CUST.guide = !CUST.guide;
     win.classList.toggle('show-guide', CUST.guide);
