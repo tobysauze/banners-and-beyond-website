@@ -203,7 +203,8 @@ h1.display,h2.display{font-family:var(--display);font-weight:400;text-transform:
 .side-toggle button{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.5em .9em;border:0;background:transparent;cursor:pointer}
 .side-toggle button.on{background:var(--ink);color:var(--paper)}
 .guide-toggle{position:absolute;bottom:.9rem;right:.9rem;z-index:5;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;display:flex;gap:.5em;align-items:center;background:var(--paper);border:1.5px solid var(--ink);padding:.4em .7em;cursor:pointer}
-.guide-row{margin-top:.9rem;display:flex;justify-content:flex-end}
+.guide-row{margin-top:.9rem;display:flex;justify-content:flex-end;gap:.6rem}
+.guide-row .guide-toggle{position:static}
 .area-handles{position:absolute;inset:0;pointer-events:none;z-index:7}
 .area-handle{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:auto;touch-action:none;background:var(--paper);border:2px solid var(--cyan);box-shadow:2px 2px 0 rgba(17,16,19,.2)}
 .area-corner{width:16px;height:16px}
