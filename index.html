@@ -1072,6 +1072,20 @@ const FONTS = {anton:"'Anton',sans-serif", archivo:"'Archivo',sans-serif", mono:
 const TEXTINKS = ['#111013','#FAFAF7','#00A8E1','#E5087E','#FFD100'];
 const BIGAREA = ['slate','banner','sign','cushion','sticker','coaster'];
 
+/* Print location presets — map to physical position, scale, size tier and surcharge */
+const PRINT_LOCS = [
+  {id:'left-chest',   label:'Left Chest',   side:'front', x:-22, y:-16, scale:0.50, mm:100, surcharge:2.50},
+  {id:'right-chest',  label:'Right Chest',  side:'front', x: 22, y:-16, scale:0.50, mm:100, surcharge:2.50},
+  {id:'centre-front', label:'Large Front',  side:'front', x:  0, y:  0, scale:1.05, mm:300, surcharge:5.00},
+  {id:'xl-front',     label:'XL Front',     side:'front', x:  0, y:  0, scale:1.30, mm:500, surcharge:10.00},
+  {id:'left-sleeve',  label:'Left Sleeve',  side:'front', x:-35, y:  2, scale:0.45, mm:100, surcharge:2.50},
+  {id:'right-sleeve', label:'Right Sleeve', side:'front', x: 35, y:  2, scale:0.45, mm:100, surcharge:2.50},
+  {id:'large-back',   label:'Large Back',   side:'back',  x:  0, y:  0, scale:1.05, mm:300, surcharge:5.00},
+  {id:'xl-back',      label:'XL Back',      side:'back',  x:  0, y:  0, scale:1.30, mm:500, surcharge:10.00},
+];
+const LOC_STANDARD = {id:'standard', label:'Standard', side:'front', x:0, y:0, scale:1, mm:0, surcharge:0};
+const locById = id => PRINT_LOCS.find(l => l.id === id) || LOC_STANDARD;
+
 function newSide(){
   return {
     img:{src:null, x:0, y:0, scale:1, rot:0},
@@ -2055,11 +2069,13 @@ function tplCart(){
   const lines = CART.map(l => {
     const p = prodById(l.pid);
     const design = sideHasContent(l.sides.front) || sideHasContent(l.sides.back) ? 'Custom design' : 'No design (plain)';
+    const locFront = l.locs && l.locs.front ? locById(l.locs.front) : null;
+    const locStr = locFront && locFront.id !== 'standard' && sideHasContent(l.sides.front) ? `<span>${locFront.label} · +${gbp(locFront.surcharge)}</span>` : '';
     return `<div class="cartline" data-uid="${l.uid}">
       <div class="cl-thumb">${previewHTML(p, l.color ? l.color.hex : null, l.sides, l.areas)}</div>
       <div class="cl-body">
         <h3>${p.name}</h3>
-        <div class="cl-meta">${l.color ? `<span>${l.color.name}</span>` : ''}${l.size ? `<span>Size ${l.size}</span>` : ''}<span>${design}</span>${sideHasContent(l.sides.back) ? '<span>Front + back</span>' : ''}${l.disc ? `<span style="color:var(--magenta)">Bulk −${Math.round(l.disc * 100)}%</span>` : ''}</div>
+        <div class="cl-meta">${l.color ? `<span>${l.color.name}</span>` : ''}${l.size ? `<span>Size ${l.size}</span>` : ''}<span>${design}</span>${locStr}${sideHasContent(l.sides.back) ? '<span>Front + back</span>' : ''}${l.disc ? `<span style="color:var(--magenta)">Bulk −${Math.round(l.disc * 100)}%</span>` : ''}</div>
         <div class="cl-actions">
           <div class="qty"><button data-act="minus" aria-label="Decrease">−</button><input value="${l.qty}" readonly aria-label="Quantity"><button data-act="plus" aria-label="Increase">+</button></div>
           <button class="removebtn" data-act="remove">Remove</button>
@@ -2144,6 +2160,7 @@ function tplProduct(p){
             </div>
             <div class="dpi-badge" id="dpiBadge"><i></i><span></span></div>
             <button class="minibtn" id="lastBtn" style="display:none;margin-top:.9rem">↺ Use my last design</button>
+${sides.length>1?`            <div class="locrow" id="locRow"><span class="optlabel" style="margin-top:.9rem">Print location</span><div class="sizechips" id="locChips"></div></div>`:''}
             <span class="optlabel" style="margin-top:1.2rem">No artwork? Start with a shape</span>
             <div class="clipgrid" id="clipGrid">${CLIPARTS.map((c,i)=>`<button class="clipbtn" data-i="${i}" title="${c.name}" aria-label="Add ${c.name} clipart">${c.svg('#111013')}</button>`).join('')}</div>
             <div class="layer-tabs" style="margin-top:1.25rem">
@@ -2223,7 +2240,8 @@ function initProduct(p){
     qty:1,
     guide:true,
     areaMode:false, // when true, show print-area handles instead of design handles so they never overlap
-    previewing:false // when true, hide all editing chrome (guide, selection outline, handles) for a clean look
+    previewing:false, // when true, hide all editing chrome (guide, selection outline, handles) for a clean look
+    locs:{front:'centre-front', back:'large-back'}
   };
   RECENT = [p.id, ...RECENT.filter(x => x !== p.id)].slice(0, 8); saveRecent();
 
@@ -2337,7 +2355,7 @@ function initProduct(p){
     positionHandles();
   }
   function updatePrice(){
-    const unit = priceFor(p, CUST.size);
+    const unit = priceFor(p, CUST.size) + printSurcharge();
     $('#ppPrice').textContent = gbp(unit);
     $('#addPrice').textContent = gbp(unit * CUST.qty);
   }
@@ -2350,6 +2368,25 @@ function initProduct(p){
     const has = sideHasContent(CUST.sides[CUST.side]);
     $('#applyStrip').style.display = has ? 'block' : 'none';
     $('#lastBtn').style.display = (!has && LAST_DESIGN) ? 'inline-block' : 'none';
+  }
+  function renderLocChips(){
+    const wrap = $('#locChips'); if(!wrap) return;
+    const locs = PRINT_LOCS.filter(l => l.side === CUST.side);
+    const cur = CUST.locs[CUST.side];
+    wrap.innerHTML = locs.map(l =>
+      `<button class="sizechip${l.id===cur?' on':''}" data-loc="${l.id}" title="${l.label} — ${l.mm}mm · +${gbp(l.surcharge)}">${l.label} · +${gbp(l.surcharge)}</button>`
+    ).join('');
+  }
+  function printSurcharge(){
+    const sides = MOCKS[p.mock].sides;
+    if(sides.length < 2) return 0;
+    let s = 0;
+    for(const side of sides){
+      if(!sideHasContent(CUST.sides[side])) continue;
+      const loc = locById(CUST.locs[side]);
+      s += loc.surcharge;
+    }
+    return s;
   }
   function updateDpi(){
     const b = $('#dpiBadge'); if(!b) return;
@@ -2527,7 +2564,7 @@ function initProduct(p){
     const s = CUST.sides[CUST.side];
     if(CUST.sel === 'img'){ s.img.src = null; s.img.vec = false; fileInput.value = ''; }
     else { s.text.value = ''; }
-    syncTextUI(); renderLayers(); updateDpi(); pushHist(); updateLast();
+    syncTextUI(); renderLayers(); updatePrice(); updateDpi(); pushHist(); updateLast();
   });
   $('#undoBtn').addEventListener('click', undo);
 
@@ -2535,7 +2572,7 @@ function initProduct(p){
   function applyImg(src, ow, oh, vec){
     const s = CUST.sides[CUST.side];
     s.img = {src, ow: ow || 0, oh: oh || 0, vec: !!vec, x:0, y:0, scale:1, rot:0};
-    renderLayers(); selectLayer('img'); updateDpi(); pushHist(); updateLast();
+    renderLayers(); selectLayer('img'); updatePrice(); updateDpi(); pushHist(); updateLast();
     showToast('Design added — drag it into place ✓');
   }
   function handleFile(file){
@@ -2581,7 +2618,7 @@ function initProduct(p){
     const s = CUST.sides[CUST.side];
     if(d.img && d.img.src) s.img = Object.assign({}, newSide().img, d.img);
     if(d.text && d.text.value) s.text = Object.assign({}, newSide().text, d.text);
-    renderLayers(); syncTextUI(); updateDpi(); pushHist(); updateLast();
+    renderLayers(); syncTextUI(); updateDpi(); updatePrice(); pushHist(); updateLast();
   }
   $('#lastBtn').addEventListener('click', () => { applyCarry(LAST_DESIGN); showToast('Last design applied ✓'); });
   const APPLY_SET = ['work-tee','hoodie','mug','cap','tote','slate-sq','pint','sticker'].filter(id => id !== p.id).slice(0, 7);
@@ -2599,7 +2636,7 @@ function initProduct(p){
   let txtT = null;
   $('#textInput').addEventListener('input', e => {
     CUST.sides[CUST.side].text.value = e.target.value;
-    renderLayers(); selectLayer('text');
+    renderLayers(); selectLayer('text'); updatePrice();
     clearTimeout(txtT); txtT = setTimeout(() => { pushHist(); updateLast(); }, 600);
   });
   $$('#fontPick button').forEach(b => b.addEventListener('click', () => {
@@ -2639,7 +2676,19 @@ function initProduct(p){
     CUST.side = b.dataset.side;
     $$('button', st).forEach(x => x.classList.toggle('on', x === b));
     $('#sideLabel').textContent = '· ' + (CUST.side === 'front' ? 'Front' : 'Back');
-    renderMock(); positionWindow(); renderLayers(); syncTextUI(); updateDpi();
+    renderMock(); positionWindow(); renderLayers(); syncTextUI(); updateDpi(); renderLocChips(); updatePrice();
+  });
+  const locWrap = $('#locChips');
+  if(locWrap) locWrap.addEventListener('click', e => {
+    const b = e.target.closest('.sizechip'); if(!b) return;
+    const locId = b.dataset.loc, loc = locById(locId);
+    CUST.locs[CUST.side] = locId;
+    const s = CUST.sides[CUST.side];
+    s.img.x = loc.x; s.img.y = loc.y; s.img.scale = loc.scale; s.img.rot = 0;
+    s.text.x = loc.x; s.text.y = loc.y + 28; s.text.scale = loc.scale; s.text.rot = 0;
+    renderLayers(); syncTextUI(); updatePrice(); updateDpi(); pushHist(); updateLast();
+    renderLocChips();
+    showToast(`Print location: ${loc.label} · +${gbp(loc.surcharge)}`);
   });
   function setAreaMode(on){
     CUST.areaMode = on;
@@ -2690,9 +2739,10 @@ function initProduct(p){
     CART.push({
       uid: cartUid++, pid: p.id,
       color: p.colors ? {...p.colors[CUST.colorIdx]} : null,
-      size: CUST.size, qty: CUST.qty, unit: priceFor(p, CUST.size), disc: 0,
+      size: CUST.size, qty: CUST.qty, unit: priceFor(p, CUST.size) + printSurcharge(), disc: 0,
       sides: JSON.parse(JSON.stringify(CUST.sides)),
-      areas: JSON.parse(JSON.stringify(CUST.areas))
+      areas: JSON.parse(JSON.stringify(CUST.areas)),
+      locs: {...CUST.locs}
     });
     updateBadge(); saveCart(); updateLast();
     showToast('Added ✓ · <a href="#/cart">Basket</a> · <a href="#/shop" data-carry="1">Reuse design →</a>');
@@ -2731,8 +2781,8 @@ function initProduct(p){
       rows.forEach(r => {
         if(!r.q) return;
         CART.push({uid: cartUid++, pid: p.id, color: p.colors ? {...p.colors[CUST.colorIdx]} : null,
-          size: r.size, qty: r.q, unit: r.unit, disc: off, sides: JSON.parse(JSON.stringify(CUST.sides)),
-          areas: JSON.parse(JSON.stringify(CUST.areas))});
+          size: r.size, qty: r.q, unit: +(r.unit + printSurcharge()).toFixed(2), disc: off, sides: JSON.parse(JSON.stringify(CUST.sides)),
+          areas: JSON.parse(JSON.stringify(CUST.areas)), locs: {...CUST.locs}});
       });
       inputs.forEach(i => i.value = 0);
       calcBulk(); updateBadge(); saveCart(); updateLast();
@@ -2878,7 +2928,7 @@ function initProduct(p){
     [['Colour', p.colors ? p.colors[CUST.colorIdx].name : '—'],
      ['Size', CUST.size || 'One size'],
      ['Quantity', String(CUST.qty)],
-     ['Unit price', gbp(priceFor(p, CUST.size))],
+     ['Unit price', gbp(priceFor(p, CUST.size) + printSurcharge())],
      ['Artwork', fImg.src ? (fImg.vec ? 'Vector supplied' : 'Raster supplied') : 'Text / none']
     ].forEach(r => {
       ctx.fillStyle = '#75736C'; ctx.fillText(r[0].toUpperCase(), 70, sy);
@@ -2901,7 +2951,7 @@ function initProduct(p){
   $('#proofBtn').addEventListener('click', () => { makeProof().catch(() => showToast('Could not generate the proof — try again.')); });
 
   /* ---- boot ---- */
-  renderMock(); positionWindow(); renderLayers(); syncTextUI(); updatePrice(); updateDpi();
+  renderMock(); positionWindow(); renderLayers(); syncTextUI(); updatePrice(); updateDpi(); renderLocChips();
   pushHist();
   if(CARRY){ const d = CARRY; CARRY = null; applyCarry(d); showToast('Design carried over ✓ — adjust and add to basket'); }
 }
