@@ -203,6 +203,14 @@ h1.display,h2.display{font-family:var(--display);font-weight:400;text-transform:
 .side-toggle button{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.5em .9em;border:0;background:transparent;cursor:pointer}
 .side-toggle button.on{background:var(--ink);color:var(--paper)}
 .guide-toggle{position:absolute;bottom:.9rem;right:.9rem;z-index:5;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;display:flex;gap:.5em;align-items:center;background:var(--paper);border:1.5px solid var(--ink);padding:.4em .7em;cursor:pointer}
+.guide-row{margin-top:.9rem;display:flex;justify-content:flex-end}
+.area-handles{position:absolute;inset:0;pointer-events:none;z-index:7}
+.area-handle{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:auto;touch-action:none;background:var(--paper);border:2px solid var(--cyan);box-shadow:2px 2px 0 rgba(17,16,19,.2)}
+.area-corner{width:16px;height:16px}
+.ac-tl,.ac-br{cursor:nwse-resize}
+.ac-tr,.ac-bl{cursor:nesw-resize}
+.area-move{width:26px;height:26px;border-radius:50%;cursor:grab;font-size:13px;color:var(--cyan)}
+.area-move:active{cursor:grabbing}
 
 /* --- product info / controls --- */
 .pp-info h1{font-size:clamp(2rem,4.5vw,3.2rem)}
@@ -1106,9 +1114,9 @@ function mockSVG(p, colorHex, side){
   return m.draw(colorHex || (p.colors ? p.colors[0].hex : '#F4F3EE'), side, p.mockOpts || {});
 }
 /* readonly preview used in cards + cart thumbs */
-function previewHTML(p, colorHex, sides){
+function previewHTML(p, colorHex, sides, areas){
   const side = 'front';
-  const area = getArea(p, side);
+  const area = (areas && areas[side]) || getArea(p, side);
   const clipCls = area.clip === 'circle' ? ' clip-circle' : '';
   return `<div class="mini-stage" style="pointer-events:none">
     ${mockSVG(p, colorHex, side)}
@@ -2042,7 +2050,7 @@ function tplCart(){
     const p = prodById(l.pid);
     const design = sideHasContent(l.sides.front) || sideHasContent(l.sides.back) ? 'Custom design' : 'No design (plain)';
     return `<div class="cartline" data-uid="${l.uid}">
-      <div class="cl-thumb">${previewHTML(p, l.color ? l.color.hex : null, l.sides)}</div>
+      <div class="cl-thumb">${previewHTML(p, l.color ? l.color.hex : null, l.sides, l.areas)}</div>
       <div class="cl-body">
         <h3>${p.name}</h3>
         <div class="cl-meta">${l.color ? `<span>${l.color.name}</span>` : ''}${l.size ? `<span>Size ${l.size}</span>` : ''}<span>${design}</span>${sideHasContent(l.sides.back) ? '<span>Front + back</span>' : ''}${l.disc ? `<span style="color:var(--magenta)">Bulk −${Math.round(l.disc * 100)}%</span>` : ''}</div>
@@ -2096,10 +2104,14 @@ function tplProduct(p){
             <div class="mock-svg" id="mockSvg"></div>
             <div class="print-window show-guide" id="printWin"></div>
             <div class="handle-layer" id="handleLayer"></div>
+            <div class="area-handles" id="areaHandles"></div>
           </div>
-          <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
+          <div class="guide-row">
+            <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
+            <button class="minibtn" id="resetAreaBtn">↺ Reset print area</button>
+          </div>
         </div>
-        <p class="stage-hint">Drag to position · drag the pink handle to resize, the round handle to rotate</p>
+        <p class="stage-hint">Drag to position · pink handles resize/rotate your design · cyan handles move/resize the print area itself</p>
         <div class="proofbtn-row"><button class="minibtn" id="proofBtn">⬇ Download proof sheet</button></div>
       </div>
       <div class="pp-info">
@@ -2196,6 +2208,7 @@ function initProduct(p){
   const CUST = {
     side:'front',
     sides:{front:newSide(), back:newSide()},
+    areas:{front:null, back:null}, // customer-adjusted print-area overrides; null = use product default
     sel:'img',
     colorIdx:0,
     size: p.sizes ? p.sizes[0] : null,
@@ -2204,7 +2217,7 @@ function initProduct(p){
   };
   RECENT = [p.id, ...RECENT.filter(x => x !== p.id)].slice(0, 8); saveRecent();
 
-  const stage = $('#stage'), win = $('#printWin'), mock = $('#mockSvg'), handleLayer = $('#handleLayer');
+  const stage = $('#stage'), win = $('#printWin'), mock = $('#mockSvg'), handleLayer = $('#handleLayer'), areaHandles = $('#areaHandles');
   const scaleR = $('#scaleR'), scaleO = $('#scaleO'), rotR = $('#rotR'), rotO = $('#rotO');
   const fileInput = $('#fileInput'), dropzone = $('#dropzone');
 
@@ -2242,11 +2255,41 @@ function initProduct(p){
       <span class="layer-handle handle-resize" data-h="resize" title="Drag to resize" style="left:${sx}px;top:${sy}px"></span>`;
   }
   function renderMock(){ mock.innerHTML = mockSVG(p, curColor(), CUST.side); }
+  /* ---- customer-movable print area: customers can drag/resize the print
+     window itself, not just the design inside it. Clamped to the 400x400
+     mock canvas so it can't be dragged fully off the garment artwork. ---- */
+  function curArea(){ return CUST.areas[CUST.side] || getArea(p, CUST.side); }
+  function clampArea(a){
+    let {x, y, w, h} = a;
+    w = Math.max(60, Math.min(w, 400));
+    h = Math.max(60, Math.min(h, 400));
+    x = Math.max(0, Math.min(x, 400 - w));
+    y = Math.max(0, Math.min(y, 400 - h));
+    return {x, y, w, h};
+  }
+  function resizeFromCorner(corner, start, dx, dy){
+    let {x, y, w, h} = start;
+    if(corner === 'br'){ w += dx; h += dy; }
+    else if(corner === 'tr'){ y += dy; w += dx; h -= dy; }
+    else if(corner === 'bl'){ x += dx; w -= dx; h += dy; }
+    else { x += dx; y += dy; w -= dx; h -= dy; } // tl
+    return clampArea({x, y, w, h});
+  }
   function positionWindow(){
-    const area = getArea(p, CUST.side);
+    const area = curArea();
     win.setAttribute('style', windowStyle(area) + clipStyle(area));
     win.classList.toggle('clip-circle', area.clip === 'circle');
     win.classList.toggle('show-guide', CUST.guide);
+    positionAreaHandles();
+  }
+  function positionAreaHandles(){
+    if(!areaHandles) return;
+    if(!CUST.guide){ areaHandles.innerHTML = ''; return; }
+    const sRect = stage.getBoundingClientRect(), r = win.getBoundingClientRect();
+    const L = r.left - sRect.left, T = r.top - sRect.top, W = r.width, H = r.height;
+    const corners = [['tl', L, T], ['tr', L + W, T], ['bl', L, T + H], ['br', L + W, T + H]];
+    const cornersHTML = corners.map(([c, x, y]) => `<span class="area-handle area-corner ac-${c}" data-c="${c}" style="left:${x}px;top:${y}px" title="Drag to resize print area"></span>`).join('');
+    areaHandles.innerHTML = cornersHTML + `<span class="area-handle area-move" data-c="move" style="left:${L + W / 2}px;top:${T - 18}px" title="Drag to move print area">✥</span>`;
   }
   function renderLayers(){
     win.innerHTML = buildLayersHTML(CUST.sides[CUST.side], p, true);
@@ -2306,7 +2349,8 @@ function initProduct(p){
     if(s.vec){ lbl.textContent = 'Vector artwork — sharp at any print size'; dot.style.background = 'var(--cyan)'; return; }
     const phys = physFor(p, CUST.size, CUST.side);
     const base = BIGAREA.includes(p.mock) ? 90 : 75;
-    const wcm = (base / 100) * s.scale * phys.w;
+    const defArea = getArea(p, CUST.side), areaScale = defArea.w ? (curArea().w / defArea.w) : 1;
+    const wcm = (base / 100) * s.scale * phys.w * areaScale;
     const ppi = s.ow / ((wcm / 2.54) || 1);
     let txt, col;
     if(ppi >= 150){ txt = `Sharp print — ${Math.round(ppi)} dpi at this size`; col = 'var(--cyan)'; }
@@ -2366,42 +2410,63 @@ function initProduct(p){
   ['pointerup','pointercancel'].forEach(ev => win.addEventListener(ev, endPt));
 
   /* ---- mouse-friendly resize/rotate handles (single-pointer drag, no pinch needed) ---- */
-  let handleDrag = null;
+  let handleDrag = null, areaDrag = null;
   stage.addEventListener('pointerdown', e => {
     const h = e.target.closest('.layer-handle');
-    if(!h) return;
-    stage.setPointerCapture(e.pointerId);
-    const l = curLayer();
-    const el = win.querySelector(`[data-layer="${CUST.sel}"]`);
-    if(!el) return;
-    const r = el.getBoundingClientRect();
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    if(h.dataset.h === 'resize'){
-      handleDrag = {mode:'resize', cx, cy, d0: Math.hypot(e.clientX - cx, e.clientY - cy) || 1, s0: l.scale};
-    } else {
-      handleDrag = {mode:'rotate', cx, cy, a0: Math.atan2(e.clientY - cy, e.clientX - cx), r0: l.rot};
+    if(h){
+      stage.setPointerCapture(e.pointerId);
+      const l = curLayer();
+      const el = win.querySelector(`[data-layer="${CUST.sel}"]`);
+      if(!el) return;
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      if(h.dataset.h === 'resize'){
+        handleDrag = {mode:'resize', cx, cy, d0: Math.hypot(e.clientX - cx, e.clientY - cy) || 1, s0: l.scale};
+      } else {
+        handleDrag = {mode:'rotate', cx, cy, a0: Math.atan2(e.clientY - cy, e.clientX - cx), r0: l.rot};
+      }
+      e.preventDefault(); e.stopPropagation();
+      return;
     }
-    e.preventDefault(); e.stopPropagation();
+    const a = e.target.closest('.area-handle');
+    if(a){
+      stage.setPointerCapture(e.pointerId);
+      const sRect = stage.getBoundingClientRect();
+      areaDrag = {corner: a.dataset.c, start: {...curArea()}, sx: e.clientX, sy: e.clientY, k: 400 / sRect.width};
+      e.preventDefault(); e.stopPropagation();
+    }
   });
   stage.addEventListener('pointermove', e => {
-    if(!handleDrag) return;
-    const l = curLayer();
-    if(handleDrag.mode === 'resize'){
-      const d = Math.hypot(e.clientX - handleDrag.cx, e.clientY - handleDrag.cy) || 1;
-      l.scale = Math.min(2.5, Math.max(0.2, handleDrag.s0 * d / handleDrag.d0));
-      updateDpi();
-    } else {
-      const a = Math.atan2(e.clientY - handleDrag.cy, e.clientX - handleDrag.cx);
-      l.rot = Math.round(handleDrag.r0 + (a - handleDrag.a0) * 180 / Math.PI);
+    if(handleDrag){
+      const l = curLayer();
+      if(handleDrag.mode === 'resize'){
+        const d = Math.hypot(e.clientX - handleDrag.cx, e.clientY - handleDrag.cy) || 1;
+        l.scale = Math.min(2.5, Math.max(0.2, handleDrag.s0 * d / handleDrag.d0));
+        updateDpi();
+      } else {
+        const ang = Math.atan2(e.clientY - handleDrag.cy, e.clientX - handleDrag.cx);
+        l.rot = Math.round(handleDrag.r0 + (ang - handleDrag.a0) * 180 / Math.PI);
+      }
+      applyTransformLive(); syncSliders();
+      return;
     }
-    applyTransformLive(); syncSliders();
+    if(areaDrag){
+      const dx = (e.clientX - areaDrag.sx) * areaDrag.k, dy = (e.clientY - areaDrag.sy) * areaDrag.k;
+      const next = areaDrag.corner === 'move'
+        ? clampArea({x: areaDrag.start.x + dx, y: areaDrag.start.y + dy, w: areaDrag.start.w, h: areaDrag.start.h})
+        : resizeFromCorner(areaDrag.corner, areaDrag.start, dx, dy);
+      CUST.areas[CUST.side] = next;
+      positionWindow(); // resizes/repositions the print window (container-query units keep the design layer aligned automatically)
+      positionHandles(); updateDpi();
+    }
   });
   ['pointerup','pointercancel'].forEach(ev => stage.addEventListener(ev, () => {
-    if(!handleDrag) return;
-    handleDrag = null; pushHist(); updateDpi(); updateLast(); syncSliders();
+    if(handleDrag){ handleDrag = null; pushHist(); updateDpi(); updateLast(); syncSliders(); }
+    if(areaDrag){ areaDrag = null; updateDpi(); }
   }));
-  window.addEventListener('resize', positionHandles);
-  PAGE_CLEANUP.push(() => window.removeEventListener('resize', positionHandles));
+  const onWinResize = () => { positionHandles(); positionAreaHandles(); };
+  window.addEventListener('resize', onWinResize);
+  PAGE_CLEANUP.push(() => window.removeEventListener('resize', onWinResize));
 
   win.addEventListener('wheel', e => {
     const l = curLayer();
@@ -2571,6 +2636,12 @@ function initProduct(p){
     const g = $('#guideToggle');
     g.setAttribute('aria-pressed', CUST.guide);
     g.textContent = '▣ Print area: ' + (CUST.guide ? 'on' : 'off');
+    positionAreaHandles();
+  });
+  $('#resetAreaBtn').addEventListener('click', () => {
+    CUST.areas[CUST.side] = null;
+    positionWindow(); renderLayers(); syncTextUI(); updateDpi();
+    showToast('Print area reset to default ✓');
   });
 
   /* ---- qty + single add ---- */
@@ -2583,7 +2654,8 @@ function initProduct(p){
       uid: cartUid++, pid: p.id,
       color: p.colors ? {...p.colors[CUST.colorIdx]} : null,
       size: CUST.size, qty: CUST.qty, unit: priceFor(p, CUST.size), disc: 0,
-      sides: JSON.parse(JSON.stringify(CUST.sides))
+      sides: JSON.parse(JSON.stringify(CUST.sides)),
+      areas: JSON.parse(JSON.stringify(CUST.areas))
     });
     updateBadge(); saveCart(); updateLast();
     showToast('Added ✓ · <a href="#/cart">Basket</a> · <a href="#/shop" data-carry="1">Reuse design →</a>');
@@ -2622,7 +2694,8 @@ function initProduct(p){
       rows.forEach(r => {
         if(!r.q) return;
         CART.push({uid: cartUid++, pid: p.id, color: p.colors ? {...p.colors[CUST.colorIdx]} : null,
-          size: r.size, qty: r.q, unit: r.unit, disc: off, sides: JSON.parse(JSON.stringify(CUST.sides))});
+          size: r.size, qty: r.q, unit: r.unit, disc: off, sides: JSON.parse(JSON.stringify(CUST.sides)),
+          areas: JSON.parse(JSON.stringify(CUST.areas))});
       });
       inputs.forEach(i => i.value = 0);
       calcBulk(); updateBadge(); saveCart(); updateLast();
@@ -2693,7 +2766,7 @@ function initProduct(p){
   async function drawSidePanel(ctx, px, py, pw, side){
     const svgStr = mockSVG(p, curColor(), side).replace('<svg ', '<svg width="800" height="800" ');
     ctx.drawImage(await svgToImg(svgStr), px, py, pw, pw);
-    const area = getArea(p, side), k = pw / 400;
+    const area = CUST.areas[side] || getArea(p, side), k = pw / 400;
     const ax = px + area.x * k, ay = py + area.y * k, aw = area.w * k, ah = area.h * k;
     ctx.save();
     const path = new Path2D();
