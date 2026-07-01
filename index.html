@@ -2443,7 +2443,7 @@ function initProduct(p){
     renderLayers(); syncTextUI(); updateDpi(); pushHist(); updateLast();
   }
   $('#lastBtn').addEventListener('click', () => { applyCarry(LAST_DESIGN); showToast('Last design applied ✓'); });
-  const APPLY_SET = ['tee','hoodie','mug','cap','tote','slate-sq','pint','sticker'].filter(id => id !== p.id).slice(0, 7);
+  const APPLY_SET = ['work-tee','hoodie','mug','cap','tote','slate-sq','pint','sticker'].filter(id => id !== p.id).slice(0, 7);
   $('#applyMinis').innerHTML = APPLY_SET.map(id => {
     const q = prodById(id);
     return `<button class="applymini" data-pid="${id}" title="${q.name}" aria-label="Apply design to ${q.name}">${mockSVG(q, null, 'front')}</button>`;
