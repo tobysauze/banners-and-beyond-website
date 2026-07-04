@@ -1,15 +1,24 @@
 import { state, snapSide } from './state.js';
 import { prodById, COLLECTIONS } from './data.js';
 import { $, $$, setupReveals } from './utils.js';
-import { tplHome, tplShop, tplProduct, tplCart, tplContact, tplRecent, initCart, initContact } from './templates.js';
+import { tplHome, tplShop, tplProduct, tplCart, tplContact, tplRecent, tplPrivacy, tplDelivery, initCart, initContact } from './templates.js';
 import { initProduct } from './customizer.js';
 
 const router = { path: '/' };
 export { router };
 
 export function navigate(p){
-  router.path = p.startsWith('/') ? p : '/' + p;
-  location.hash = '#/' + (router.path.startsWith('/') ? router.path.slice(1) : router.path);
+  const path = p.startsWith('/') ? p : '/' + p;
+  const target = '#' + path;
+  // Setting a new hash fires `hashchange`, which routes. If we're already on
+  // the target hash (e.g. re-submitting the same search), route directly —
+  // and don't pre-set router.path, or the hashchange guard would skip routing.
+  if(location.hash === target){
+    router.path = path;
+    route();
+  } else {
+    location.hash = target;
+  }
 }
 
 export function route(){
@@ -44,6 +53,8 @@ export function route(){
     const msg = new URLSearchParams(query).get('msg') || '';
     html = tplContact(msg); init = initContact; navKey = 'contact';
   }
+  else if(path === '/privacy'){ html = tplPrivacy(); }
+  else if(path === '/delivery' || path === '/returns'){ html = tplDelivery(); }
   else { html = tplHome(); }
 
   const showRecent = state.RECENT.length && (path === '/' || path === '/shop' || path === '/search' || seg[0] === 'collection' || seg[0] === 'product');

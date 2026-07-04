@@ -454,16 +454,10 @@ export const CLIPARTS = [
  {name:'Sun',    svg:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40" fill="${c}"/><g stroke="${c}" stroke-width="12" stroke-linecap="round"><path d="M100 20v22M100 158v22M20 100h22M158 100h22M43 43l16 16M141 141l16 16M157 43l-16 16M59 141l-16 16"/></g></svg>`}
 ];
 
-export const SEEDREV = {
- 'slate-sq':[{n:'Megan T',s:5,t:'Photo of our wedding day on real stone — the colours came out unreal.'},{n:'Dan P',s:5,t:'Bought it for my mum. She cried. Ten out of ten.'},{n:'Chloe R',s:4,t:'Lovely gloss finish, and the stand is sturdier than I expected.'}],
- 'hoodie':[{n:'Jake M',s:5,t:'Heavy, warm, and the print is still crisp after a dozen washes.'},{n:'Sophie L',s:4,t:'Runs slightly big — perfect if you like it baggy.'}],
- 'mug':[{n:'Ellie W',s:5,t:'My dog\u2019s face on a mug. Best tenner I\u2019ve ever spent.'},{n:'Rob H',s:4,t:'Print wraps round nicely and the handle side stays clear.'}],
- 'teddy':[{n:'Hannah B',s:5,t:'New-baby gift sorted. The little printed tee is adorable.'},{n:'Owen C',s:5,t:'Proper quality bear, not a cheap claw-machine one.'}],
- 'banner':[{n:'Cornish Roofing Co',s:5,t:'Two-metre banner for the yard — bold print and proper brass eyelets.'},{n:'Tamsin F',s:4,t:'Birthday banner survived a full week of rain outside.'}],
- 'polo':[{n:'JB Landscapes',s:5,t:'Ordered eight with our logo. The stitching is spot on.'},{n:'Mark D',s:4,t:'Smart and comfortable, and the colour matches our van.'}],
- 'cap':[{n:'Lewis G',s:5,t:'Embroidery beats a pressed print on caps every single time.'}],
- 'pint':[{n:'Katie S',s:5,t:'Best-man gift — the printed crest looks class in the pub.'}]
-};
+/* No seeded reviews. Publishing invented reviews (named people/businesses) is a
+   banned practice under the DMCC Act 2024, so this ships empty. Populate only with
+   genuine, permissioned customer reviews once there is server-side storage. */
+export const SEEDREV = {};
 
 export function ratingFor(pid){
   const arr = [...(SEEDREV[pid] || []), ...(REVIEWS[pid] || [])];

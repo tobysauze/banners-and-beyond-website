@@ -1,6 +1,10 @@
 import { $, $$, esc, gbp } from './utils.js';
 import { MOCKS, COLLECTIONS, PRODUCTS, prodById, ICONS, FLOODS, FONTS, TEXTINKS, BIGAREA, PRINT_TYPES, locById, CLIPARTS, ratingFor, starsHTML, SEEDREV } from './data.js';
 import { state, saveCart, saveReviews, updateBadge } from './state.js';
+import { openCheckout } from './main.js';
+import { route } from './router.js';
+import { submitNetlifyForm } from './forms.js';
+import { BUSINESS, DELIVERY, priceNote } from './config.js';
 
 /* ---- helpers ---- */
 function sideHasContent(s){ return !!(s && ((s.img && s.img.src) || (s.text && s.text.value.trim()))); }
@@ -295,10 +299,10 @@ export function tplCart(){
       <h2>Job summary</h2>
       <div class="sumline"><span>Items</span><span>${state.CART.reduce((n, l) => n + l.qty, 0)}</span></div>
       <div class="sumline"><span>Subtotal</span><span>${gbp(sub)}</span></div>
-      <div class="sumline"><span>Delivery</span><span>At checkout</span></div>
+      <div class="sumline"><span>Delivery</span><span>Quoted with order</span></div>
       <div class="sumline total"><span>Total</span><span>${gbp(sub)}</span></div>
-      <button class="btn btn--solid" id="checkoutBtn">Checkout <span class="arr">→</span></button>
-      <p class="stage-hint" style="margin-top:1rem">Free artwork check included on every line.</p>
+      <button class="btn btn--solid" id="checkoutBtn">Request order <span class="arr">→</span></button>
+      <p class="stage-hint" style="margin-top:1rem">${priceNote}. Free artwork check &amp; proof on every line. <a href="#/delivery">Delivery &amp; returns</a></p>
     </aside>
   </div></div>`;
 }
@@ -408,7 +412,12 @@ ${sides.length>1?`            <div class="locrow" id="locRow"><span class="optla
           <p class="breakshint">5+ save 5% · 10+ save 10% · 25+ save 15%</p>
           <div class="buyrow" style="margin-top:1rem"><button class="btn btn--solid" id="bulkAddBtn" disabled>Add bulk order</button></div>
         </div>`:''}
-        <p class="stage-hint" style="text-align:left;margin-top:1rem">Every order gets a free human artwork check before printing.</p>
+        <ul class="deliver-strip">
+          <li><strong>Free proof</strong> — artwork checked by hand, proof in ${DELIVERY.proofDays}</li>
+          <li><strong>Turnaround</strong> — ${DELIVERY.turnaround}</li>
+          <li><strong>Delivery</strong> — collect free from Bodmin, or UK delivery quoted at checkout</li>
+          <li>${priceNote} · <a href="#/delivery">Delivery &amp; returns</a></li>
+        </ul>
       </div>
     </div>
 
@@ -433,7 +442,7 @@ export function tplContact(msg){
   return `<div class="wrap pagehead">
     <p class="eyebrow">Get in touch</p>
     <h1 class="display">Tell us the job</h1>
-    <p class="lede">Quotes, questions, odd requests — send it over. We reply within one working day.</p>
+    <p class="lede">Quotes, questions, odd requests — send it over and we'll get back to you as soon as we can.</p>
     <div class="contact-grid" style="padding-bottom:clamp(3rem,7vw,5rem)">
       <div>
         <form class="form-grid" id="contactForm" novalidate>
@@ -441,22 +450,66 @@ export function tplContact(msg){
           <div><label class="flabel" for="f-phone">Phone</label><input class="finput" id="f-phone" type="tel" autocomplete="tel"></div>
           <div class="full"><label class="flabel" for="f-email">Email <span class="req">*</span></label><input class="finput" id="f-email" type="email" required autocomplete="email"></div>
           <div class="full"><label class="flabel" for="f-msg">What do you need printed?</label><textarea class="finput" id="f-msg" placeholder="e.g. 6 polos with our logo, front chest — plus a 2 m banner for the van…">${esc(msg||'')}</textarea></div>
+          <div class="full"><label class="radline" style="align-items:flex-start"><input type="checkbox" id="f-consent" required> <span>I agree to Banners &amp; Beyond storing these details to reply to my enquiry (see our <a href="#/privacy">Privacy notice</a>).</span></label></div>
           <div class="full"><button class="btn btn--solid" type="submit">Send to the workshop <span class="arr">→</span></button></div>
         </form>
-        <div class="form-ok" id="formOk" role="status"><strong>Sent to the workshop ✓</strong>Thanks — we'll get back to you within one working day.<br><br><span style="color:var(--grey)">(Demo form — wire this to your Shopify contact form or email provider when live.)</span></div>
+        <div class="form-ok" id="formOk" role="status"><strong>Sent to the workshop ✓</strong>Thanks — we'll get back to you as soon as we can.</div>
       </div>
       <aside class="contact-aside">
         <h3>Find us</h3>
-        <p>Banners &amp; Beyond Ltd<br>Cornwall, United Kingdom</p>
+        <p><strong>Banners &amp; Beyond Ltd</strong><br>14 Fore Street<br>Bodmin, Cornwall<br>PL31 2HQ</p>
+        <p><a href="${BUSINESS.phoneHref}">${BUSINESS.phone}</a><br><a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a></p>
         <p>Follow the press for new drops, deals and behind-the-scenes:</p>
         <ul class="social-list">
-          <li><a href="https://www.facebook.com/cornwalldmc/" target="_blank" rel="noopener"><span>Facebook</span><span>→</span></a></li>
-          <li><a href="https://www.instagram.com/bannersandbeyondltd/" target="_blank" rel="noopener"><span>Instagram</span><span>→</span></a></li>
-          <li><a href="https://www.tiktok.com/@bannerssndbeyond" target="_blank" rel="noopener"><span>TikTok</span><span>→</span></a></li>
+          <li><a href="${BUSINESS.social.facebook}" target="_blank" rel="noopener"><span>Facebook</span><span>→</span></a></li>
+          <li><a href="${BUSINESS.social.instagram}" target="_blank" rel="noopener"><span>Instagram</span><span>→</span></a></li>
+          <li><a href="${BUSINESS.social.tiktok}" target="_blank" rel="noopener"><span>TikTok</span><span>→</span></a></li>
         </ul>
       </aside>
     </div>
   </div>`;
+}
+
+function legalPage(title, eyebrow, bodyHTML){
+  return `<div class="wrap pagehead legal">
+    <p class="eyebrow">${eyebrow}</p>
+    <h1 class="display">${title}</h1>
+    <div class="legal-body" style="max-width:60ch;padding-bottom:clamp(3rem,7vw,5rem)">${bodyHTML}</div>
+  </div>`;
+}
+
+export function tplPrivacy(){
+  const a = BUSINESS.addressLines.join(', ');
+  return legalPage('Privacy notice', 'Your data', `
+    <p>${BUSINESS.name} (“we”) respects your privacy. This notice explains what we collect and why. Questions? Email <a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a>.</p>
+    <h3>What we collect</h3>
+    <p>When you contact us, sign up to our newsletter, or place an order we collect the details you give us: your name, email, phone number, delivery address, order details and any artwork or photos you upload.</p>
+    <h3>Why we use it</h3>
+    <p>To reply to enquiries, prepare proofs, fulfil and deliver your order, and (only if you opt in) to send occasional updates. Our legal bases are performing our contract with you, our legitimate interest in running the business, and your consent for marketing.</p>
+    <h3>Who we share it with</h3>
+    <p>We don't sell your data. We use trusted providers to run the site and receive form submissions (our website host) and to communicate with you (email). Your artwork is used only to produce your order.</p>
+    <h3>How long we keep it</h3>
+    <p>Order records are kept as long as needed for the order and our legal/accounting obligations. You can ask us to delete data we no longer need.</p>
+    <h3>Your rights</h3>
+    <p>You can ask to see, correct or delete your data, or unsubscribe from marketing at any time, by emailing <a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a>. You can also complain to the ICO (ico.org.uk).</p>
+    <h3>Cookies &amp; storage</h3>
+    <p>We use your browser's local storage to remember your basket and designs on this device. We don't use advertising or tracking cookies.</p>
+    <p style="color:var(--grey);font-size:.85em;margin-top:1.5rem">${BUSINESS.name}, ${a}.</p>`);
+}
+
+export function tplDelivery(){
+  return legalPage('Delivery, turnaround &amp; returns', 'The details', `
+    <h3>Turnaround</h3>
+    <p>Every order gets a free artwork check and a proof for you to approve before we print. Proofs usually go out within ${DELIVERY.proofDays}. Once you approve, most orders are ready in ${DELIVERY.turnaround}. Larger or trade jobs may take longer — we'll always tell you.</p>
+    <h3>Collection &amp; delivery</h3>
+    <p>${DELIVERY.collect}. ${DELIVERY.ukPostage} — we'll confirm the postage cost with your order total before payment.</p>
+    <h3>Approval &amp; artwork</h3>
+    <p>Because everything is made to your design, please check your proof carefully — spelling, colours and placement. We print exactly what's approved. By uploading artwork you confirm you have the right to use it.</p>
+    <h3>Returns</h3>
+    <p>Personalised and made-to-order items can't be returned for a change of mind (your statutory right to cancel doesn't apply to bespoke goods). This doesn't affect your rights if an item is faulty, damaged or not what you approved — if something's wrong with your order, contact us within 14 days of receiving it and we'll put it right with a reprint or refund.</p>
+    <h3>Pricing</h3>
+    <p>${priceNote}. Prices for bespoke and trade work are confirmed by quote.</p>
+    <p style="margin-top:1.5rem">Questions before you order? Call <a href="${BUSINESS.phoneHref}">${BUSINESS.phone}</a> or email <a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a>.</p>`);
 }
 
 /* ---- init functions ---- */
@@ -481,10 +534,22 @@ export function initCart(){
 
 export function initContact(){
   const f = $('#contactForm');
-  f.addEventListener('submit', e => {
+  f.addEventListener('submit', async e => {
     e.preventDefault();
     const em = $('#f-email');
+    const consent = $('#f-consent');
     if(!em.value || !em.checkValidity()){ em.focus(); em.reportValidity && em.reportValidity(); return; }
+    if(!consent.checked){ consent.focus(); return; }
+    const btn = f.querySelector('button[type="submit"]');
+    if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+    try{
+      await submitNetlifyForm('contact', {
+        name: $('#f-name').value, email: em.value, phone: $('#f-phone').value, message: $('#f-msg').value
+      });
+    }catch(err){
+      console.warn('Contact submit failed (works once deployed to Netlify):', err.message);
+      $('#formOk').innerHTML = `<strong>Couldn't send automatically</strong>Please email us directly at <a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a>.`;
+    }
     f.style.display = 'none';
     $('#formOk').style.display = 'block';
   });

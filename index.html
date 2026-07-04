@@ -12,6 +12,18 @@
 </head>
 <body>
 
+<!-- Hidden forms so Netlify registers them at build time. The visible forms are
+     rendered by JS and submitted programmatically (see src/forms.js). -->
+<form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="text" name="bot-field"><input type="text" name="name"><input type="email" name="email"><input type="tel" name="phone"><textarea name="message"></textarea>
+</form>
+<form name="newsletter" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="text" name="bot-field"><input type="email" name="email">
+</form>
+<form name="order" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="text" name="bot-field"><input type="text" name="name"><input type="email" name="email"><input type="tel" name="phone"><input type="text" name="fulfilment"><textarea name="address"></textarea><textarea name="notes"></textarea><input type="text" name="order_ref"><textarea name="order_summary"></textarea><textarea name="order_json"></textarea>
+</form>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <g id="regmark">
@@ -51,7 +63,13 @@
         <li><a href="#/collection/workwear" data-nav="workwear">Workwear</a></li>
         <li><a href="#/collection/gifting" data-nav="gifting">Gifting</a></li>
         <li><a href="#/deals" data-nav="deals">Deals</a></li>
+        <li><a href="#/contact" data-nav="contact">Contact</a></li>
+        <li><form class="searchbar" role="search" autocomplete="off"><input type="search" name="q" placeholder="Search products…" aria-label="Search products"><button type="submit" aria-label="Search">⌕</button></form></li>
       </ul>
+      <form class="searchbar" role="search" autocomplete="off">
+        <input type="search" name="q" placeholder="Search products…" aria-label="Search products">
+        <button type="submit" aria-label="Search">⌕</button>
+      </form>
       <a class="basket-link" href="#/cart">Basket <span class="basket-count" id="basketCount">0</span></a>
       <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">Menu</button>
     </nav>
@@ -78,11 +96,16 @@
       <p>Custom print and embroidery built to last — designed in-browser by you, printed and stitched by us in Cornwall.</p>
     </div>
     <div><h4>Shop</h4><ul><li><a href="#/shop">Full catalogue</a></li><li><a href="#/collection/workwear">Workwear</a></li><li><a href="#/collection/gifting">Gifting</a></li><li><a href="#/collection/slates">Photo slates</a></li></ul></div>
-    <div><h4>Info</h4><ul><li><a href="#/contact">Contact</a></li><li><a href="#/deals">Deals</a></li><li><a href="#/bundle">Start-up bundle</a></li></ul></div>
-    <div><h4>Social</h4><ul><li><a href="https://www.facebook.com/cornwalldmc/" target="_blank" rel="noopener">Facebook</a></li><li><a href="https://www.instagram.com/bannersandbeyondltd/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.tiktok.com/@bannerssndbeyond" target="_blank" rel="noopener">TikTok</a></li></ul></div>
+    <div><h4>Info</h4><ul><li><a href="#/contact">Contact</a></li><li><a href="#/deals">Deals</a></li><li><a href="#/bundle">Start-up bundle</a></li><li><a href="#/delivery">Delivery &amp; returns</a></li><li><a href="#/privacy">Privacy</a></li></ul></div>
+    <div><h4>Visit &amp; contact</h4><ul class="foot-contact">
+      <li><a href="tel:+441726214123">01726 214123</a></li>
+      <li><a href="mailto:bannersandbeyondltd@gmail.com">bannersandbeyondltd@gmail.com</a></li>
+      <li>14 Fore Street, Bodmin<br>Cornwall PL31 2HQ</li>
+      <li class="foot-social"><a href="https://www.facebook.com/cornwalldmc/" target="_blank" rel="noopener">Facebook</a> · <a href="https://www.instagram.com/bannersandbeyondltd/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.tiktok.com/@bannerssndbeyond" target="_blank" rel="noopener">TikTok</a></li>
+    </ul></div>
   </div>
   <div class="wrap foot-bottom">
-    <span>© <span id="year"></span> Banners &amp; Beyond Ltd</span>
+    <span>© <span id="year"></span> Banners &amp; Beyond Ltd<span id="footCompany"></span></span>
     <span style="display:flex;align-items:center;gap:.5em"><svg class="regmark" viewBox="0 0 32 32" style="color:var(--yellow)" aria-hidden="true"><use href="#regmark"/></svg>Built in Cornwall · Printed in Cornwall</span>
   </div>
 </footer>

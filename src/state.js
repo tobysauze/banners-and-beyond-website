@@ -8,23 +8,29 @@ const state = {
   RECENT: [],
   LAST_DESIGN: null,
   CARRY: null,
+  DRAFTS: {},        // in-progress customiser state, keyed by product id
   PAGE_CLEANUP: []
 };
 export { state };
 
+/* Persistence is localStorage-backed. The original build used a `window.storage`
+   sandbox API that does not exist in real browsers, so nothing persisted on the
+   deployed site (the basket emptied on every refresh). */
+function lsSet(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsRemove(k){ try{ localStorage.removeItem(k); }catch(e){} }
+
 async function saveKV(k, v, guard){
   try{
-    if(!window.storage) return;
     const j = JSON.stringify(v);
-    if(guard && j.length > guard) return;
-    await window.storage.set(k, j);
+    if(guard && j.length > guard) return; // too big to persist — skip
+    lsSet(k, j);
   }catch(e){}
 }
 export async function loadKV(k){
   try{
-    if(!window.storage) return null;
-    const r = await window.storage.get(k);
-    return r && r.value ? JSON.parse(r.value) : null;
+    const r = lsGet(k);
+    return r ? JSON.parse(r) : null;
   }catch(e){ return null; }
 }
 
@@ -32,24 +38,31 @@ export const saveLast    = () => saveKV('bb_last_v1', state.LAST_DESIGN, 3500000
 export const saveRecent  = () => saveKV('bb_recent_v1', state.RECENT);
 export const saveReviews = () => saveKV('bb_reviews_v1', state.REVIEWS);
 
+/* strip the heavy base64 artwork out of a sides object (keeps text + placement) */
+function stripArt(sides){
+  const c = JSON.parse(JSON.stringify(sides || {}));
+  for(const k of ['front','back']){ if(c[k] && c[k].img) c[k].img.src = null; }
+  return c;
+}
+
 export async function saveCart(){
   try{
-    if(!window.storage) return;
-    const json = JSON.stringify(state.CART);
-    if(json.length > 4500000) return;
-    await window.storage.set('bb_cart_v1', json);
+    const full = JSON.stringify(state.CART);
+    if(full.length < 4500000 && lsSet('bb_cart_v1', full)) return;
+    // Cart too big for localStorage (base64 artwork). Persist a skeleton without
+    // image data so the basket still survives a reload; flag the affected lines.
+    const skeleton = state.CART.map(l => ({ ...l, sides: stripArt(l.sides), artStripped: true }));
+    lsSet('bb_cart_v1', JSON.stringify(skeleton));
   }catch(e){}
 }
 
 export async function loadCart(){
   try{
-    if(window.storage){
-      const r = await window.storage.get('bb_cart_v1');
-      if(r && r.value){
-        state.CART = JSON.parse(r.value);
-        state.cartUid = Math.max(1, ...state.CART.map(l=>l.uid+1));
-        updateBadge();
-      }
+    const r = lsGet('bb_cart_v1');
+    if(r){
+      state.CART = JSON.parse(r);
+      state.cartUid = state.CART.length ? Math.max(1, ...state.CART.map(l=>l.uid+1)) : 1;
+      updateBadge();
     }
   }catch(e){}
 }

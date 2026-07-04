@@ -2,6 +2,8 @@ import { $, esc, gbp } from './utils.js';
 import { state, loadCart, updateBadge, loadKV, saveCart } from './state.js';
 import { prodById } from './data.js';
 import { router, navigate, route } from './router.js';
+import { submitNetlifyForm } from './forms.js';
+import { BUSINESS, DELIVERY, priceNote, stripeLinkFor } from './config.js';
 
 window.addEventListener('error', (e) => {
   const app = document.getElementById('app');
@@ -26,6 +28,20 @@ window.addEventListener('unhandledrejection', (e) => {
     state.LAST_DESIGN = await loadKV('bb_last_v1');
 
     document.getElementById('year').textContent = new Date().getFullYear();
+    const fc = document.getElementById('footCompany');
+    if(fc && BUSINESS.companyNo) fc.textContent = ` · Company no. ${BUSINESS.companyNo}` + (BUSINESS.vatNo ? ` · VAT ${BUSINESS.vatNo}` : '');
+
+    // Header search (desktop + mobile menu share one delegated handler)
+    document.addEventListener('submit', e => {
+      const sf = e.target.closest('.searchbar');
+      if(!sf) return;
+      e.preventDefault();
+      const input = sf.querySelector('input');
+      const q = (input.value || '').trim();
+      navigate(q ? '/search?q=' + encodeURIComponent(q) : '/shop');
+      document.getElementById('navlinks').classList.remove('open');
+      input.blur();
+    });
 
     const menuBtn = document.getElementById('menuBtn');
     menuBtn.addEventListener('click', () => {
@@ -37,10 +53,14 @@ window.addEventListener('unhandledrejection', (e) => {
       if(e.target.closest('a')) document.getElementById('navlinks').classList.remove('open');
     });
 
-    document.getElementById('newsForm').addEventListener('submit', e => {
+    document.getElementById('newsForm').addEventListener('submit', async e => {
       e.preventDefault();
       const em = document.getElementById('n-email');
       if(!em.value || !em.checkValidity()){ em.focus(); em.reportValidity && em.reportValidity(); return; }
+      const btn = document.getElementById('newsForm').querySelector('button');
+      if(btn){ btn.disabled = true; btn.textContent = 'Signing up…'; }
+      try{ await submitNetlifyForm('newsletter', { email: em.value }); }
+      catch(err){ console.warn('Newsletter submit failed (works once deployed to Netlify):', err.message); }
       document.getElementById('newsForm').style.display = 'none';
       document.getElementById('newsOk').style.display = 'block';
     });
@@ -112,25 +132,92 @@ export function openCheckout(){
     const p = prodById(l.pid);
     return `<div class="sumline"><span>${l.qty} × ${esc(p.name)}${l.size ? ' · ' + esc(l.size) : ''}</span><span>${gbp(l.unit * l.qty)}</span></div>`;
   }).join('');
+  const anyDesign = state.CART.some(l => hasCartDesign(l));
   openModal(`
     <button class="modal-x" aria-label="Close">×</button>
-    <h2 id="modalTitle">Checkout</h2>
-    ${rows}
-    <div class="sumline total"><span>Total</span><span>${gbp(sub)}</span></div>
-    <p class="mono-note">Demo build — this is where the live site hands off to Shopify checkout or a Stripe payment link. No payment is taken.</p>
-    <button class="btn btn--solid" id="placeOrder">Place demo order</button>
+    <h2 id="modalTitle">Request your order</h2>
+    <div class="co-summary">${rows}<div class="sumline total"><span>Total</span><span>${gbp(sub)}</span></div></div>
+    <p class="mono-note">${priceNote}. Delivery is quoted once your order is confirmed.</p>
+    <form class="form-grid" id="orderForm" novalidate>
+      <div><label class="flabel" for="o-name">Name <span class="req">*</span></label><input class="finput" id="o-name" required autocomplete="name"></div>
+      <div><label class="flabel" for="o-phone">Phone</label><input class="finput" id="o-phone" type="tel" autocomplete="tel"></div>
+      <div class="full"><label class="flabel" for="o-email">Email <span class="req">*</span></label><input class="finput" id="o-email" type="email" required autocomplete="email"></div>
+      <div class="full"><span class="flabel">Delivery</span>
+        <label class="radline"><input type="radio" name="fulfil" value="collect" checked> Collect from Bodmin workshop (free)</label>
+        <label class="radline"><input type="radio" name="fulfil" value="deliver"> Deliver in the UK (postage quoted)</label>
+      </div>
+      <div class="full" id="addrWrap" style="display:none"><label class="flabel" for="o-addr">Delivery address</label><textarea class="finput" id="o-addr" autocomplete="street-address"></textarea></div>
+      <div class="full"><label class="flabel" for="o-notes">Notes (sizes, colours, deadline…)</label><textarea class="finput" id="o-notes"></textarea></div>
+      ${anyDesign ? `<div class="full mono-note" style="margin:0">You've designed artwork on ${state.CART.filter(hasCartDesign).length} item(s). We'll match it to your order and send a free proof to approve before printing.</div>` : ''}
+      <div class="full"><label class="radline" style="align-items:flex-start"><input type="checkbox" id="o-consent" required> <span>I agree to Banners &amp; Beyond storing these details to process my order (see our <a href="#/privacy">Privacy notice</a>).</span></label></div>
+      <div class="full"><button class="btn btn--solid" type="submit" id="orderSubmit">Send order request <span class="arr">→</span></button></div>
+    </form>
+    <p class="mono-note">Prefer to talk it through? Call <a href="${BUSINESS.phoneHref}">${BUSINESS.phone}</a> or email <a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a>.</p>
   `);
-  document.getElementById('placeOrder').addEventListener('click', () => {
+  const form = document.getElementById('orderForm');
+  const addrWrap = document.getElementById('addrWrap');
+  form.querySelectorAll('input[name="fulfil"]').forEach(r => r.addEventListener('change', () => {
+    addrWrap.style.display = form.querySelector('input[name="fulfil"]:checked').value === 'deliver' ? 'block' : 'none';
+  }));
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('o-email');
+    const name = document.getElementById('o-name');
+    const consent = document.getElementById('o-consent');
+    if(!name.value.trim()){ name.focus(); return; }
+    if(!email.value || !email.checkValidity()){ email.focus(); email.reportValidity && email.reportValidity(); return; }
+    if(!consent.checked){ consent.focus(); return; }
     const ref = 'BB-' + Math.floor(1000 + Math.random() * 9000);
+    const fulfil = form.querySelector('input[name="fulfil"]:checked').value;
+    const summary = state.CART.map(l => {
+      const p = prodById(l.pid);
+      const bits = [`${l.qty} × ${p.name}`];
+      if(l.color) bits.push(l.color.name);
+      if(l.size) bits.push('size ' + l.size);
+      if(hasCartDesign(l)) bits.push('custom design');
+      bits.push(gbp(l.unit * l.qty));
+      return '• ' + bits.join(' · ');
+    }).join('\n');
+    const orderJson = state.CART.map(l => {
+      const p = prodById(l.pid);
+      return { product: p.name, id: l.pid, colour: l.color ? l.color.name : null, size: l.size || null, qty: l.qty, unit: l.unit, printType: l.printType || 'digital', hasDesign: hasCartDesign(l) };
+    });
+    const btn = document.getElementById('orderSubmit');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    let sent = true;
+    try{
+      await submitNetlifyForm('order', {
+        name: name.value, email: email.value, phone: document.getElementById('o-phone').value,
+        fulfilment: fulfil, address: fulfil === 'deliver' ? document.getElementById('o-addr').value : 'Collection',
+        notes: document.getElementById('o-notes').value, order_ref: ref,
+        order_summary: `${summary}\n\nTotal: ${gbp(sub)}`, order_json: orderJson
+      });
+    }catch(err){ sent = false; console.warn('Order submit failed (works once deployed to Netlify):', err.message); }
+
+    const single = state.CART.length === 1 ? stripeLinkFor(state.CART[0].pid) : null;
+    const payBlock = single
+      ? `<a class="btn btn--solid" href="${single}" target="_blank" rel="noopener" style="width:100%;margin-top:1rem">Pay now by card (Stripe) <span class="arr">→</span></a>
+         <p class="mono-note">Secure card payment via Stripe. We'll still send a free proof to approve first.</p>`
+      : `<p class="mono-note">Next: we'll check your artwork, send a free proof to approve, then a secure Stripe payment link for the total. ${DELIVERY.turnaround}.</p>`;
+    const failNote = sent ? '' : `<p class="mono-note" style="color:var(--magenta)">We couldn't send automatically — please email your order to <a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a> quoting ${ref}.</p>`;
+
     state.CART = []; saveCart(); updateBadge();
     document.getElementById('modalBody').innerHTML = `
       <button class="modal-x" aria-label="Close">×</button>
-      <h2>Nice one.</h2>
-      <div class="order-stamp">Order approved</div>
-      <p>Job reference <strong>${ref}</strong>. On the live site you'd get a confirmation email and a free proof to approve before anything prints.</p>
-      <button class="btn" id="doneBtn" style="width:100%;margin-top:1.5rem">Back to the shop</button>
+      <h2>Order request received.</h2>
+      <div class="order-stamp">Ref ${ref}</div>
+      <p>Thanks ${esc(name.value.split(' ')[0] || '')} — your request is with the workshop. ${sent ? `A copy has gone to us at ${BUSINESS.email}.` : ''}</p>
+      ${failNote}
+      ${payBlock}
+      <button class="btn" id="doneBtn" style="width:100%;margin-top:1.25rem">Back to the shop</button>
     `;
     bindModalClose();
     document.getElementById('doneBtn').addEventListener('click', () => { closeModal(); navigate('/shop'); });
   });
+}
+
+function hasCartDesign(l){
+  const s = l.sides || {};
+  const has = side => !!(side && ((side.img && side.img.src) || (side.text && side.text.value && side.text.value.trim())));
+  return has(s.front) || has(s.back) || l.artStripped;
 }

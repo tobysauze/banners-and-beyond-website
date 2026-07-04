@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# The app is hash-routed (#/...), so a single index.html serves every route —
+# no SPA history rewrites needed. Netlify Forms are auto-detected from the
+# hidden <form> elements in index.html at build time.

@@ -483,3 +483,21 @@ footer{background:var(--ink);color:var(--paper)}
 .pgrid--mini .pcard-body h3{font-size:.9rem}
 .pgrid--mini .pcard-cta,.pgrid--mini .pcard-meta{display:none}
 .pgrid--mini .pcard-price{font-size:.78rem;padding-top:.15rem}
+
+/* ---------- Phase A additions: forms, footer contact, legal, checkout ---------- */
+.radline{display:flex;align-items:center;gap:.6em;font-size:.95rem;margin-top:.6rem}
+.radline input{width:auto;flex:none;accent-color:var(--magenta)}
+.radline a{text-decoration:underline}
+.foot-contact{list-style:none;font-size:.92rem;line-height:1.5}
+.foot-contact li{margin-top:.5rem}
+.foot-contact a{text-decoration:none}
+.foot-contact a:hover{text-decoration:underline}
+.foot-social{margin-top:.9rem !important;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.legal-body h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.15rem;margin:1.6rem 0 .4rem}
+.legal-body p{margin-top:.6rem;color:#3b3a36}
+.legal-body a{text-decoration:underline}
+.co-summary{margin:1rem 0}
+.deliver-strip{list-style:none;margin-top:1.25rem;border-top:2px solid var(--ink);font-size:.9rem}
+.deliver-strip li{padding:.7em 0;border-bottom:1px solid rgba(17,16,19,.15)}
+.deliver-strip strong{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.deliver-strip a{text-decoration:underline}

@@ -1,6 +1,8 @@
 import { $, $$, esc, gbp } from './utils.js';
 import { MOCKS, FONTS, TEXTINKS, BIGAREA, PRINT_LOCS, PRINT_TYPES, locById, CLIPARTS, prodById, SEEDREV, ratingFor, starsHTML } from './data.js';
 import { state, saveCart, updateBadge, saveLast, saveRecent, saveReviews, snapSide } from './state.js';
+import { navigate } from './router.js';
+import { showToast, openModal } from './main.js';
 
 export function newSide(){
   return {
