@@ -1,82 +1,11 @@
 import { $, $$, esc, gbp } from './utils.js';
-import { MOCKS, COLLECTIONS, PRODUCTS, prodById, ICONS, FLOODS, FONTS, TEXTINKS, BIGAREA, PRINT_TYPES, locById, CLIPARTS, ratingFor, starsHTML, SEEDREV } from './data.js';
+import { MOCKS, COLLECTIONS, PRODUCTS, prodById, ICONS, FLOODS, FONTS, TEXTINKS, BIGAREA, PRINT_TYPES, CLIPARTS, ratingFor, starsHTML, SEEDREV } from './data.js';
 import { state, saveCart, saveReviews, updateBadge } from './state.js';
 import { openCheckout } from './main.js';
 import { route } from './router.js';
 import { submitNetlifyForm } from './forms.js';
 import { BUSINESS, DELIVERY, priceNote } from './config.js';
-
-/* ---- helpers ---- */
-function sideHasContent(s){ return !!(s && ((s.img && s.img.src) || (s.text && s.text.value.trim()))); }
-
-function getArea(p, side){
-  const o = p.mockOpts || {};
-  if(p.mock === 'slate'){
-    if(o.slateShape === 'wide')  return {x:56,y:130,w:288,h:150};
-    if(o.slateShape === 'heart') return {x:96,y:104,w:208,h:190, clip:'heart'};
-    return {x:96,y:92,w:208,h:208};
-  }
-  const m = MOCKS[p.mock];
-  return (m.area[side] || m.area.front);
-}
-
-function layerTransform(l){
-  return `translate(-50%,-50%) translate(${l.x}cqw, ${l.y}cqh) rotate(${l.rot}deg) scale(${l.scale})`;
-}
-
-function buildLayersHTML(sideState, p, interactive){
-  if(!sideState) return '';
-  let html = '';
-  const imgW = BIGAREA.includes(p.mock) ? 90 : 75;
-  const i = sideState.img;
-  if(i && i.src){
-    html += `<div class="layer layer-img" data-layer="img" style="width:${imgW}cqw;transform:${layerTransform(i)}"><img src="${i.src}" alt="Your uploaded design" draggable="false"></div>`;
-  }
-  const t = sideState.text;
-  if(t && t.value.trim()){
-    const curve = t.curve || 0;
-    if(Math.abs(curve) < 3){
-      const stroke = t.color === '#FAFAF7' ? '-webkit-text-stroke:1.2px rgba(17,16,19,.45);' : '';
-      html += `<div class="layer layer-text" data-layer="text" style="font-family:${FONTS[t.font]};color:${t.color};font-size:16cqw;${stroke}transform:${layerTransform(t)}">${esc(t.value)}</div>`;
-    } else {
-      const uid = 'tp' + Math.random().toString(36).slice(2, 9);
-      const s = Math.abs(curve) / 100 * 60, half = 180;
-      const R = (half * half + s * s) / (2 * s);
-      const sweep = curve > 0 ? 0 : 1;
-      const paint = t.color === '#FAFAF7' ? 'stroke="#111013" stroke-width="2.5" paint-order="stroke"' : '';
-      html += `<div class="layer layer-text" data-layer="text" style="width:100cqw;transform:${layerTransform(t)}">
-        <svg viewBox="0 0 400 160" style="display:block;width:100%;overflow:visible" aria-hidden="true">
-          <path id="${uid}" d="M 20 80 A ${R} ${R} 0 0 ${sweep} 380 80" fill="none"/>
-          <text font-size="50" font-weight="600" fill="${t.color}" ${paint} style="font-family:${FONTS[t.font]}"><textPath href="#${uid}" startOffset="50%" text-anchor="middle">${esc(t.value)}</textPath></text>
-        </svg></div>`;
-    }
-  }
-  return html;
-}
-
-function windowStyle(area){
-  return `left:${area.x/4}%;top:${area.y/4}%;width:${area.w/4}%;height:${area.h/4}%;`;
-}
-
-function clipStyle(area){
-  if(area.clip === 'heart') return 'clip-path:url(#heartClip);';
-  return '';
-}
-
-function mockSVG(p, colorHex, side){
-  const m = MOCKS[p.mock];
-  return m.draw(colorHex || (p.colors ? p.colors[0].hex : '#F4F3EE'), side, p.mockOpts || {});
-}
-
-function previewHTML(p, colorHex, sides, areas){
-  const side = 'front';
-  const area = (areas && areas[side]) || getArea(p, side);
-  const clipCls = area.clip === 'circle' ? ' clip-circle' : '';
-  return `<div class="mini-stage" style="pointer-events:none">
-    ${mockSVG(p, colorHex, side)}
-    <div class="print-window${clipCls}" style="${windowStyle(area)}${clipStyle(area)}">${buildLayersHTML(sides && sides[side], p, false)}</div>
-  </div>`;
-}
+import { mockSVG, previewHTML, productLocations, designHasContent, lineHasContent, isGarment } from './geometry.js';
 
 /* ---- templates ---- */
 
@@ -273,16 +202,19 @@ export function tplCart(){
   }
   const lines = state.CART.map(l => {
     const p = prodById(l.pid);
-    const design = sideHasContent(l.sides.front) || sideHasContent(l.sides.back) ? 'Custom design' : 'No design (plain)';
-    const locFront = l.locs && l.locs.front ? locById(l.locs.front) : null;
-    const ptStr = l.printType && l.printType !== 'digital' && sideHasContent(l.sides.front)
+    const hasDesign = lineHasContent(l);
+    const design = hasDesign ? 'Custom design' : 'No design (plain)';
+    const locLabels = (l.locs && l.locs.length)
+      ? productLocations(p).filter(loc => l.locs.includes(loc.id)).map(loc => loc.label)
+      : [];
+    const locStr = locLabels.length ? `<span>${locLabels.join(' + ')}</span>` : '';
+    const ptStr = l.printType && l.printType !== 'digital' && hasDesign
       ? `<span>${(PRINT_TYPES.find(t=>t.id===l.printType)||{}).label||'Embroidery'}</span>` : '';
-    const locStr = locFront && locFront.id !== 'standard' && sideHasContent(l.sides.front) ? `<span>${locFront.label} · +${gbp(locFront.surcharge)}</span>` : '';
     return `<div class="cartline" data-uid="${l.uid}">
-      <div class="cl-thumb">${previewHTML(p, l.color ? l.color.hex : null, l.sides, l.areas)}</div>
+      <div class="cl-thumb">${previewHTML(p, l.color ? l.color.hex : null, l)}</div>
       <div class="cl-body">
         <h3>${p.name}</h3>
-        <div class="cl-meta">${l.color ? `<span>${l.color.name}</span>` : ''}${l.size ? `<span>Size ${l.size}</span>` : ''}<span>${design}</span>${ptStr}${locStr}${sideHasContent(l.sides.back) ? '<span>Front + back</span>' : ''}${l.disc ? `<span style="color:var(--magenta)">Bulk −${Math.round(l.disc * 100)}%</span>` : ''}</div>
+        <div class="cl-meta">${l.color ? `<span>${l.color.name}</span>` : ''}${l.size ? `<span>Size ${l.size}</span>` : ''}<span>${design}</span>${locStr}${ptStr}${l.disc ? `<span style="color:var(--magenta)">Bulk −${Math.round(l.disc * 100)}%</span>` : ''}</div>
         <div class="cl-actions">
           <div class="qty"><button data-act="minus" aria-label="Decrease">−</button><input value="${l.qty}" readonly aria-label="Quantity"><button data-act="plus" aria-label="Increase">+</button></div>
           <button class="removebtn" data-act="remove">Remove</button>
@@ -309,6 +241,9 @@ export function tplCart(){
 
 export function tplProduct(p){
   const sides = MOCKS[p.mock].sides;
+  const locs = productLocations(p);
+  const multiLoc = locs.length > 1;
+  const garment = isGarment(p);
   const unit = p.sale ?? (p.sizePrices ? p.sizePrices[p.sizes[0]] : p.price);
   const colorOpts = p.colors ? `
     <div class="optrow"><span class="optlabel">Colour — <small id="colName">${p.colors[0].name}</small></span>
@@ -330,18 +265,22 @@ export function tplProduct(p){
           ${sides.length>1?`<div class="side-toggle" id="sideToggle"><button class="on" data-side="front">Front</button><button data-side="back">Back</button></div>`:''}
           <div class="mock-stage" id="stage">
             <div class="mock-svg" id="mockSvg"></div>
+            <div class="other-wins" id="otherWins"></div>
             <div class="print-window show-guide" id="printWin"></div>
             <div class="handle-layer" id="handleLayer"></div>
             <div class="area-handles" id="areaHandles"></div>
           </div>
           <div class="guide-row">
-            <button class="minibtn mode-toggle" id="previewBtn" aria-pressed="false">👁 Preview design</button>
+            <button class="minibtn mode-toggle" id="previewBtn" aria-pressed="false">👁 Preview</button>
             <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
-            <button class="minibtn mode-toggle" id="areaModeBtn" aria-pressed="false">⛶ Adjust print area</button>
-            <button class="minibtn" id="resetAreaBtn">↺ Reset print area</button>
+          </div>
+          <div class="admin-bar" id="adminBar" style="display:none">
+            <span class="admin-tag">ADMIN</span>
+            <span class="admin-hint">Drag the cyan corners/✥ to set the <strong id="activeLocLabelAdmin">print</strong> area. Switch locations above.</span>
+            <button class="minibtn" id="adminExportBtn">⧉ Copy layout for deploy</button>
           </div>
         </div>
-        <p class="stage-hint">Drag to position · pink handles resize/rotate your design · tap "Adjust print area" below to move or resize the print area itself</p>
+        <p class="stage-hint">${multiLoc ? 'Pick print spots below, then drop a design into each.' : 'Upload your design, then drag it to position.'} Pink handles resize/rotate · Ctrl/⌘ + scroll to resize.</p>
         <div class="proofbtn-row"><button class="minibtn" id="proofBtn">⬇ Download proof sheet</button></div>
       </div>
       <div class="pp-info">
@@ -359,6 +298,7 @@ export function tplProduct(p){
         <div class="panel">
           <div class="panel-h" style="--phead:var(--tint-c)">Your design <span id="sideLabel">${sides.length>1?'· Front':''}</span></div>
           <div class="panel-b">
+            ${multiLoc ? `<div class="locrow"><span class="optlabel">Print spots — <small id="activeLocLabel"></small></span><div class="locchips" id="locChips"></div><p class="loc-hint">Tap a spot to add a design there — you can put different artwork on each.</p></div>` : ''}
             <div class="dropzone" id="dropzone">
               <p>Upload your design or photo</p>
               <small>Click, or drag &amp; drop · PNG / JPG / SVG</small>
@@ -366,8 +306,7 @@ export function tplProduct(p){
             </div>
             <div class="dpi-badge" id="dpiBadge"><i></i><span></span></div>
             <button class="minibtn" id="lastBtn" style="display:none;margin-top:.9rem">↺ Use my last design</button>
-${sides.length>1?`            <div class="locrow" id="locRow"><span class="optlabel" style="margin-top:.9rem">Print location</span><div class="sizechips" id="locChips"></div></div>
-            <div class="locrow" id="typeRow"><span class="optlabel" style="margin-top:.65rem">Print type</span><div class="sizechips" id="typeChips">${PRINT_TYPES.map(t=>`<button class="sizechip${t.id==='digital'?' on':''}" data-pt="${t.id}">${t.label}</button>`).join('')}</div></div>`:''}
+${garment?`            <div class="locrow" id="typeRow"><span class="optlabel" style="margin-top:.9rem">Print type</span><div class="sizechips" id="typeChips">${PRINT_TYPES.map(t=>`<button class="sizechip${t.id==='digital'?' on':''}" data-pt="${t.id}">${t.label}</button>`).join('')}</div></div>`:''}
             <span class="optlabel" style="margin-top:1.2rem">No artwork? Start with a shape</span>
             <div class="clipgrid" id="clipGrid">${CLIPARTS.map((c,i)=>`<button class="clipbtn" data-i="${i}" title="${c.name}" aria-label="Add ${c.name} clipart">${c.svg('#111013')}</button>`).join('')}</div>
             <div class="layer-tabs" style="margin-top:1.25rem">

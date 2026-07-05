@@ -501,3 +501,23 @@ footer{background:var(--ink);color:var(--paper)}
 .deliver-strip li{padding:.7em 0;border-bottom:1px solid rgba(17,16,19,.15)}
 .deliver-strip strong{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
 .deliver-strip a{text-decoration:underline}
+
+/* ---------- v3 multi-location customiser ---------- */
+.other-wins{position:absolute;inset:0;pointer-events:none}
+.other-wins .print-window{position:absolute;overflow:hidden;container-type:size}
+.other-wins .print-window.show-guide-faint{outline:2px dashed rgba(0,168,225,.5);outline-offset:-1px}
+.mock-stage.previewing .other-wins .print-window{outline:none}
+
+.locchips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.locchip{display:inline-flex;align-items:center;gap:.5em;font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);background:var(--paper);padding:.5em .7em;cursor:pointer;color:var(--ink)}
+.locchip .locchip-dot{width:.7em;height:.7em;border:1.5px solid var(--ink);border-radius:50%;background:transparent}
+.locchip.on .locchip-dot{background:var(--cyan)}
+.locchip.on{background:var(--tint-c)}
+.locchip.active{box-shadow:3px 3px 0 var(--magenta);transform:translate(-1px,-1px)}
+.locchip-x{margin-left:.1em;font-size:1.1em;line-height:1;color:var(--grey);padding:0 .1em}
+.locchip-x:hover{color:var(--magenta)}
+.loc-hint{font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;color:var(--grey);margin-top:.5rem;text-transform:uppercase}
+
+.admin-bar{margin-top:.9rem;display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;border:2px solid var(--magenta);background:var(--tint-m);padding:.6rem .8rem}
+.admin-tag{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.14em;background:var(--magenta);color:var(--paper);padding:.25em .6em}
+.admin-hint{font-family:var(--mono);font-size:.66rem;letter-spacing:.03em;color:var(--ink);flex:1;min-width:180px}

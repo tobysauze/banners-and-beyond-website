@@ -217,7 +217,8 @@ export function openCheckout(){
 }
 
 function hasCartDesign(l){
-  const s = l.sides || {};
-  const has = side => !!(side && ((side.img && side.img.src) || (side.text && side.text.value && side.text.value.trim())));
-  return has(s.front) || has(s.back) || l.artStripped;
+  if(l.artStripped) return true;
+  const designs = l.designs || {};
+  const has = d => !!(d && ((d.img && d.img.src) || (d.text && d.text.value && d.text.value.trim())));
+  return Object.values(designs).some(has);
 }

@@ -38,10 +38,10 @@ export const saveLast    = () => saveKV('bb_last_v1', state.LAST_DESIGN, 3500000
 export const saveRecent  = () => saveKV('bb_recent_v1', state.RECENT);
 export const saveReviews = () => saveKV('bb_reviews_v1', state.REVIEWS);
 
-/* strip the heavy base64 artwork out of a sides object (keeps text + placement) */
-function stripArt(sides){
-  const c = JSON.parse(JSON.stringify(sides || {}));
-  for(const k of ['front','back']){ if(c[k] && c[k].img) c[k].img.src = null; }
+/* strip the heavy base64 artwork out of a per-location designs object (keeps text + placement) */
+function stripArt(designs){
+  const c = JSON.parse(JSON.stringify(designs || {}));
+  for(const k of Object.keys(c)){ if(c[k] && c[k].img) c[k].img.src = null; }
   return c;
 }
 
@@ -51,7 +51,7 @@ export async function saveCart(){
     if(full.length < 4500000 && lsSet('bb_cart_v1', full)) return;
     // Cart too big for localStorage (base64 artwork). Persist a skeleton without
     // image data so the basket still survives a reload; flag the affected lines.
-    const skeleton = state.CART.map(l => ({ ...l, sides: stripArt(l.sides), artStripped: true }));
+    const skeleton = state.CART.map(l => ({ ...l, designs: stripArt(l.designs), artStripped: true }));
     lsSet('bb_cart_v1', JSON.stringify(skeleton));
   }catch(e){}
 }

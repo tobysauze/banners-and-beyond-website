@@ -421,6 +421,43 @@ export const PRINT_LOCS = [
 export const LOC_STANDARD = {id:'standard', label:'Standard', side:'front', x:0, y:0, scale:1, mm:0, surcharge:0};
 export const locById = id => PRINT_LOCS.find(l => l.id === id) || LOC_STANDARD;
 
+/* ─────────────────────────────────────────────────────────────
+   PRINT LOCATIONS (v3): fixed printable areas a customer can each
+   drop a separate design into (e.g. a logo on the right chest AND a
+   big design centre front). Areas are fixed for customers; an admin
+   can reposition them (admin editor) and bake the result into
+   PRINT_LAYOUTS below.
+   ───────────────────────────────────────────────────────────── */
+
+// Mocks treated as apparel (get the multi-location garment set). Everything
+// else gets a single "main" print area (mugs, slates, banners, hats, etc.).
+export const GARMENT_MOCKS = ['tee','crew','polo','hoodie','softshell','hivis'];
+
+// Selectable locations for garments. `primary:true` ones start switched on.
+export const LOCATION_DEFS = {
+  garment: [
+    {id:'centre-front', label:'Centre front', side:'front', primary:true},
+    {id:'left-chest',   label:'Left chest',   side:'front'},
+    {id:'right-chest',  label:'Right chest',  side:'front'},
+    {id:'left-sleeve',  label:'Left sleeve',  side:'front'},
+    {id:'right-sleeve', label:'Right sleeve', side:'front'},
+    {id:'full-back',    label:'Full back',    side:'back'}
+  ],
+  single: [ {id:'main', label:'Print area', side:'front', primary:true} ]
+};
+
+// Optional extra-print fee per location (£). Defaults to 0 — set these if the
+// business charges more for additional print positions. TODO(owner): confirm.
+export const LOCATION_FEES = {
+  'centre-front':0, 'left-chest':0, 'right-chest':0,
+  'left-sleeve':0, 'right-sleeve':0, 'full-back':0, 'main':0
+};
+
+/* Admin-baked area overrides: { [productId]: { [locId]: {x,y,w,h[,clip]} } }.
+   Open a product with ?admin=1, position each area, then "Copy layout for
+   deploy" and paste the result here. Empty = auto-derived defaults. */
+export const PRINT_LAYOUTS = {};
+
 export const PRINT_TYPES = [
   {id:'digital',    label:'Digital Print', surcharge:0},
   {id:'embroidery', label:'Embroidery',    surcharge:1.50}
