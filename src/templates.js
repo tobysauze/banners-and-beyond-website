@@ -1,5 +1,5 @@
 import { $, $$, esc, gbp } from './utils.js';
-import { MOCKS, COLLECTIONS, PRODUCTS, prodById, ICONS, FLOODS, FONTS, TEXTINKS, BIGAREA, PRINT_TYPES, CLIPARTS, ratingFor, starsHTML, SEEDREV } from './data.js';
+import { MOCKS, COLLECTIONS, PRODUCTS, prodById, ICONS, FLOODS, FONTS, TEXTINKS, BIGAREA, PRINT_TYPES, ratingFor, starsHTML, SEEDREV } from './data.js';
 import { state, saveCart, saveReviews, updateBadge } from './state.js';
 import { openCheckout } from './main.js';
 import { route } from './router.js';
@@ -307,8 +307,14 @@ export function tplProduct(p){
             <div class="dpi-badge" id="dpiBadge"><i></i><span></span></div>
             <button class="minibtn" id="lastBtn" style="display:none;margin-top:.9rem">↺ Use my last design</button>
 ${garment?`            <div class="locrow" id="typeRow"><span class="optlabel" style="margin-top:.9rem">Print type</span><div class="sizechips" id="typeChips">${PRINT_TYPES.map(t=>`<button class="sizechip${t.id==='digital'?' on':''}" data-pt="${t.id}">${t.label}</button>`).join('')}</div></div>`:''}
-            <span class="optlabel" style="margin-top:1.2rem">No artwork? Start with a shape</span>
-            <div class="clipgrid" id="clipGrid">${CLIPARTS.map((c,i)=>`<button class="clipbtn" data-i="${i}" title="${c.name}" aria-label="Add ${c.name} clipart">${c.svg('#111013')}</button>`).join('')}</div>
+            <div class="gallery-head">
+              <span class="optlabel" style="margin-top:1.2rem">Or choose from our design library</span>
+              <button class="minibtn" id="galleryAddBtn" style="display:none">＋ Add design</button>
+            </div>
+            <div class="gallery-cats" id="galleryCats"></div>
+            <div class="gallery-grid" id="galleryGrid"></div>
+            <input type="file" id="galleryFile" accept="image/*" class="sr-only">
+            <button class="minibtn" id="galleryExportBtn" style="display:none;margin-top:.6rem">⧉ Export library for deploy</button>
             <div class="layer-tabs" style="margin-top:1.25rem">
               <button class="on" data-tab="img" id="tabImg">Image layer</button>
               <button data-tab="text" id="tabText">Text layer</button>

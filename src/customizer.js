@@ -1,5 +1,6 @@
 import { $, $$, esc, gbp } from './utils.js';
-import { MOCKS, FONTS, TEXTINKS, BIGAREA, PRINT_TYPES, CLIPARTS, prodById, SEEDREV, ratingFor, starsHTML } from './data.js';
+import { MOCKS, FONTS, TEXTINKS, BIGAREA, PRINT_TYPES, prodById, SEEDREV, ratingFor, starsHTML } from './data.js';
+import { allGallery, galleryCategories, gallerySrc, loadAdminGallery, saveAdminGallery } from './gallery.js';
 import { state, saveCart, updateBadge, saveLast, saveRecent, saveReviews } from './state.js';
 import { navigate } from './router.js';
 import { showToast, openModal } from './main.js';
@@ -410,13 +411,13 @@ export function initProduct(p){
     renderStage(); selectLayer('img'); updatePrice(); updateDpi(); pushHist(); updateLast();
     showToast(`Design added to ${curLoc().label} — drag it into place ✓`);
   }
-  function handleFile(file){
+  function processImageFile(file, done){
     if(!file) return;
     if(!file.type.startsWith('image/')){ showToast("That file isn't an image — PNG, JPG or SVG please."); return; }
     const fr = new FileReader();
     fr.onload = () => {
       const src = fr.result;
-      if(file.type === 'image/svg+xml'){ applyImg(src, 0, 0, true); return; }
+      if(file.type === 'image/svg+xml'){ done(src, 0, 0, true); return; }
       const im = new Image();
       im.onload = () => {
         const ow = im.width, oh = im.height, max = 1100;
@@ -425,13 +426,14 @@ export function initProduct(p){
         const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
         cv.getContext('2d').drawImage(im, 0, 0, w, h);
         let out; try{ out = cv.toDataURL('image/png'); }catch(err){ out = src; }
-        applyImg(out, ow, oh, false);
+        done(out, ow, oh, false);
       };
       im.onerror = () => showToast("Couldn't read that image file.");
       im.src = src;
     };
     fr.readAsDataURL(file);
   }
+  const handleFile = file => processImageFile(file, (src, ow, oh, vec) => applyImg(src, ow, oh, vec));
   dropzone.addEventListener('click', e => { if(e.target !== fileInput) fileInput.click(); });
   fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
   ['dragover','dragenter'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add('over'); }));
@@ -439,12 +441,62 @@ export function initProduct(p){
   dropzone.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
   stage.addEventListener('dragover', e => e.preventDefault());
   stage.addEventListener('drop', e => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); });
-  $('#clipGrid').addEventListener('click', e => {
-    const b = e.target.closest('.clipbtn'); if(!b) return;
-    const ink = curDesign().text.color || '#111013';
-    const src = 'data:image/svg+xml;utf8,' + encodeURIComponent(CLIPARTS[+b.dataset.i].svg(ink));
-    applyImg(src, 0, 0, true);
+
+  /* ---- design gallery (replaces the old clipart shapes) ---- */
+  let galleryCat = 'All';
+  const slug = s => (s || 'design').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 32) || 'design';
+  function renderGallery(){
+    const catWrap = $('#galleryCats'), grid = $('#galleryGrid'); if(!grid) return;
+    const cats = ['All', ...galleryCategories()];
+    if(!cats.includes(galleryCat)) galleryCat = 'All';
+    if(catWrap) catWrap.innerHTML = cats.map(c => `<button class="gcat${c === galleryCat ? ' on' : ''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+    const items = allGallery().filter(d => galleryCat === 'All' || d.category === galleryCat);
+    const adminIds = new Set(loadAdminGallery().map(d => d.id));
+    grid.innerHTML = items.length ? items.map(d =>
+      `<button class="gitem" data-gid="${d.id}" title="${esc(d.name)}" aria-label="Use design: ${esc(d.name)}">${d.svg || `<img src="${d.src}" alt="">`}${CUST.admin && adminIds.has(d.id) ? '<span class="gitem-x" data-gx="1" role="button" aria-label="Remove">×</span>' : ''}</button>`
+    ).join('') : '<p class="loc-hint">No designs here yet.</p>';
+  }
+  const galleryCatsEl = $('#galleryCats');
+  if(galleryCatsEl) galleryCatsEl.addEventListener('click', e => {
+    const b = e.target.closest('.gcat'); if(!b) return;
+    galleryCat = b.dataset.cat; renderGallery();
   });
+  const galleryGridEl = $('#galleryGrid');
+  if(galleryGridEl) galleryGridEl.addEventListener('click', e => {
+    const it = e.target.closest('.gitem'); if(!it) return;
+    const gid = it.dataset.gid;
+    if(e.target.closest('.gitem-x')){
+      e.stopPropagation();
+      saveAdminGallery(loadAdminGallery().filter(d => d.id !== gid)); renderGallery(); return;
+    }
+    const d = allGallery().find(x => x.id === gid); if(!d) return;
+    applyImg(gallerySrc(d), 0, 0, !d.src);
+  });
+  if(CUST.admin){
+    const addBtn = $('#galleryAddBtn'), gFile = $('#galleryFile'), expBtn = $('#galleryExportBtn');
+    if(addBtn){ addBtn.style.display = 'inline-block'; addBtn.addEventListener('click', () => gFile.click()); }
+    if(gFile) gFile.addEventListener('change', () => {
+      const f = gFile.files[0];
+      processImageFile(f, src => {
+        const items = loadAdminGallery();
+        const nm = (f.name || 'Design').replace(/\.[^.]+$/, '');
+        items.push({ id: slug(nm) + '-' + items.length, name: nm, category: 'Uploads', src });
+        if(saveAdminGallery(items)){ galleryCat = 'Uploads'; renderGallery(); showToast('Added to your library ✓'); }
+        else showToast('Library full on this browser — export what you have, then bake it in.');
+      });
+      gFile.value = '';
+    });
+    if(expBtn){
+      expBtn.style.display = 'inline-block';
+      expBtn.addEventListener('click', () => {
+        const items = loadAdminGallery();
+        if(!items.length){ showToast('No added designs to export yet.'); return; }
+        const snippet = items.map(d => `  { id:'${d.id}', name:${JSON.stringify(d.name)}, category:${JSON.stringify(d.category)}, src:'${d.src}' },`).join('\n');
+        if(navigator.clipboard) navigator.clipboard.writeText(snippet).catch(() => {});
+        openModal(`<button class="modal-x" aria-label="Close">×</button><h2>Your added designs</h2><p class="mono-note">Copied to clipboard. Paste these into the <code>GALLERY</code> array in <code>src/gallery.js</code>, then deploy — they'll show for every customer.</p><textarea class="finput" style="min-height:160px;font-family:var(--mono);font-size:.7rem" readonly>${esc(snippet)}</textarea>`);
+      });
+    }
+  }
 
   /* ---- reuse last design / apply to other products ---- */
   function applyCarry(d){
@@ -754,7 +806,7 @@ export function initProduct(p){
   if(proofBtn) proofBtn.addEventListener('click', () => { makeProof().catch(() => showToast('Could not generate the proof — try again.')); });
 
   /* ---- boot ---- */
-  renderStage(); syncTextUI(); updatePrice(); updateDpi();
+  renderStage(); syncTextUI(); updatePrice(); updateDpi(); renderGallery();
   pushHist();
   if(state.CARRY){ const d = state.CARRY; state.CARRY = null; applyCarry(d); showToast('Design carried over ✓ — adjust and add to basket'); }
 }
