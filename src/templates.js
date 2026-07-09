@@ -280,8 +280,10 @@ export function tplProduct(p){
     <div class="optrow"><span class="optlabel">Colour — <small id="colName">${p.colors[0].name}</small></span>
       <div class="swatches" id="swatches">${p.colors.map((c,i)=>`<button class="swatch ${i===0?'on':''}" style="--sw:${c.hex}" data-i="${i}" aria-label="${c.name}"></button>`).join('')}</div>
     </div>` : '';
+  const ageLike = p.sizes && p.sizes.every(s => /^\d+\s*[-/]\s*\d+/.test(String(s).trim()));
+  const sizeLabel = ageLike ? 'Age' : 'Size';
   const sizeOpts = p.sizes ? `
-    <div class="optrow"><span class="optlabel">Size</span>
+    <div class="optrow"><span class="optlabel">${sizeLabel}</span>
       <div class="sizechips" id="sizechips">${p.sizes.map((s,i)=>`<button class="sizechip ${i===0?'on':''}" data-s="${s}">${s}${p.sizePrices?` · ${gbp(p.sizePrices[s])}`:''}</button>`).join('')}</div>
     </div>` : '';
   const crumbTag = p.tags[0];
