@@ -7,9 +7,17 @@ import { submitNetlifyForm } from './forms.js';
 import { BUSINESS, DELIVERY, priceNote } from './config.js';
 import { mockSVG, previewHTML, productLocations, designHasContent, lineHasContent, isGarment } from './geometry.js';
 
+/* real product photo (from the live catalogue) with the SVG mock as fallback */
+function productThumb(p){
+  return p.img
+    ? `<img class="pcard-photo" src="${p.img}" loading="lazy" alt="${esc(p.name)}">`
+    : mockSVG(p, null, 'front');
+}
+
 /* ---- templates ---- */
 
 export function tplHome(){
+  const gotm = prodById('square-slate-14x14') || prodById('square-slate-19x19');
   const tiles = Object.entries(COLLECTIONS).map(([id,c],i)=>`
     <a class="tile reveal" style="--flood:${FLOODS[i%3]}" href="#/collection/${id}">
       <span class="tile-ref">REF ${id.slice(0,2).toUpperCase()}-0${i+1}</span>
@@ -73,15 +81,15 @@ export function tplHome(){
     <div class="wrap gotm-grid">
       <div class="proof-card reveal">
         <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
-        <div style="width:min(360px,86%)">${mockSVG(prodById('slate-sq'), null, 'front')}</div>
-        <span class="stamp">Proof · Approved</span>
+        <div class="gotm-photo" style="width:min(360px,86%)">${gotm ? (gotm.img ? `<img src="${gotm.img}" alt="${esc(gotm.name)}">` : mockSVG(gotm, null, 'front')) : ''}</div>
+        <span class="stamp">Gift of the month</span>
       </div>
       <div class="reveal">
         <p class="eyebrow">Gift of the month</p>
-        <h2 class="display">Medium square slate</h2>
+        <h2 class="display">${gotm ? esc(gotm.name) : 'Medium Square Slate'}</h2>
         <p class="lede">A photo you love, printed edge-to-edge onto smooth, gloss-finished slate. Upload the photo right on the product page and see it before you buy.</p>
-        <div class="price-row"><span class="price-now">£15.00</span><span class="price-was">£17.50</span><span class="price-tag">On sale</span></div>
-        <a class="btn btn--solid" href="#/product/slate-sq">Personalise yours <span class="arr">→</span></a>
+        <div class="price-row"><span class="price-now">${gotm ? gbp(gotm.price) : '£15.00'}</span></div>
+        <a class="btn btn--solid" href="#/product/${gotm ? gotm.id : 'square-slate-14x14'}">Personalise yours <span class="arr">→</span></a>
       </div>
     </div>
   </section>
@@ -164,7 +172,7 @@ export function tplShop(tag, q){
       : (p.sizePrices ? `<span>from ${gbp(Math.min(...Object.values(p.sizePrices)))}</span>` : `<span>${gbp(p.price)}</span>`);
     const r = ratingFor(p.id);
     return `<a class="pcard reveal" href="#/product/${p.id}" style="--pbg:${FLOODS[i % 3]}">
-      <span class="pcard-art">${p.sale ? '<span class="pcard-sale">Sale</span>' : ''}${mockSVG(p, null, 'front')}</span>
+      <span class="pcard-art${p.img ? ' pcard-art--photo' : ''}">${p.sale ? '<span class="pcard-sale">Sale</span>' : ''}${productThumb(p)}</span>
       <span class="pcard-body">
         <h3>${p.name}</h3>
         <span class="pcard-meta">${MOCKS[p.mock].label} · Customisable</span>
@@ -191,7 +199,7 @@ export function tplShop(tag, q){
 export function tplRecent(exclude){
   const list = state.RECENT.filter(id => id !== exclude).map(prodById).filter(Boolean).slice(0, 6);
   if(!list.length) return '';
-  const cards = list.map((p, i) => `<a class="pcard" href="#/product/${p.id}" style="--pbg:${FLOODS[i % 3]}"><span class="pcard-art">${mockSVG(p, null, 'front')}</span><span class="pcard-body"><h3>${p.name}</h3><span class="pcard-price"><span>${p.sizePrices ? 'from ' + gbp(Math.min(...Object.values(p.sizePrices))) : gbp(p.sale ?? p.price)}</span></span></span></a>`).join('');
+  const cards = list.map((p, i) => `<a class="pcard" href="#/product/${p.id}" style="--pbg:${FLOODS[i % 3]}"><span class="pcard-art${p.img ? ' pcard-art--photo' : ''}">${productThumb(p)}</span><span class="pcard-body"><h3>${p.name}</h3><span class="pcard-price"><span>${p.sizePrices ? 'from ' + gbp(Math.min(...Object.values(p.sizePrices))) : gbp(p.sale ?? p.price)}</span></span></span></a>`).join('');
   return `<section class="recent-strip section" style="padding-top:2.5rem;padding-bottom:3rem"><div class="wrap"><p class="eyebrow">Recently viewed</p><div class="pgrid pgrid--mini" style="margin-top:1.25rem">${cards}</div></div></section>`;
 }
 
@@ -282,6 +290,7 @@ export function tplProduct(p){
         </div>
         <p class="stage-hint">${multiLoc ? 'Pick print spots below, then drop a design into each.' : 'Upload your design, then drag it to position.'} Pink handles resize/rotate · Ctrl/⌘ + scroll to resize.</p>
         <div class="proofbtn-row"><button class="minibtn" id="proofBtn">⬇ Download proof sheet</button></div>
+        ${p.imgs && p.imgs.length ? `<div class="real-photos"><p class="optlabel" style="margin-top:1.25rem">The actual product</p><div class="real-photos-row">${p.imgs.map(src => `<img src="${src}" loading="lazy" alt="${esc(p.name)}">`).join('')}</div></div>` : ''}
       </div>
       <div class="pp-info">
         <p class="eyebrow">Customisable ${MOCKS[p.mock].label}</p>

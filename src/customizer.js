@@ -509,7 +509,7 @@ export function initProduct(p){
   }
   const lastBtn = $('#lastBtn');
   if(lastBtn) lastBtn.addEventListener('click', () => { applyCarry(state.LAST_DESIGN); showToast('Last design applied ✓'); });
-  const APPLY_SET = ['work-tee','hoodie','mug','cap','tote','slate-sq','pint','sticker'].filter(id => id !== p.id && prodById(id)).slice(0, 7);
+  const APPLY_SET = ['short-sleeve-light-weight-t-shirt-small','pro-hoodie-3xl','personalised-mug','original-5-panel-cap','square-slate-14x14','stickers','printed-teddy'].filter(id => id !== p.id && prodById(id)).slice(0, 7);
   const applyMinis = $('#applyMinis');
   if(applyMinis){
     applyMinis.innerHTML = APPLY_SET.map(id => {
