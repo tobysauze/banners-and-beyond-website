@@ -551,3 +551,10 @@ footer{background:var(--ink);color:var(--paper)}
 .pp-thumb img{width:100%;height:100%;object-fit:contain}
 .pp-thumb.on{box-shadow:3px 3px 0 var(--magenta);transform:translate(-1px,-1px)}
 .pp-design-btn{width:100%}
+
+/* ---------- home collection tiles: real product photos ---------- */
+.tile-media{margin-bottom:auto;display:flex;align-items:flex-start}
+.tile--photo{min-height:280px}
+.tile--photo .tile-media{width:100%;height:140px;align-items:center;justify-content:center;margin-bottom:.6rem}
+.tile--photo .tile-media img{height:140px;width:auto;max-width:100%;object-fit:contain;mix-blend-mode:multiply}
+@media (max-width:560px){.tile--photo .tile-media,.tile--photo .tile-media img{height:120px}}

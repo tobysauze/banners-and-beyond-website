@@ -7,6 +7,19 @@ import { submitNetlifyForm } from './forms.js';
 import { BUSINESS, DELIVERY, priceNote } from './config.js';
 import { mockSVG, previewHTML, productLocations, designHasContent, lineHasContent, isGarment } from './geometry.js';
 
+/* preferred representative product photo per home-page collection tile
+   (falls back to the first product in the collection that has a photo) */
+const COLLECTION_HERO = {
+  kids: 'kids-short-sleeve-light-weight-t-shirt-12-13',
+  hoodies: 'pro-hoodie-3xl',
+  hats: 'original-5-panel-cap',
+  gifting: 'squidgy-teddy',
+  slates: 'square-slate-14x14',
+  glassware: 'personalised-mug',
+  workwear: 'pro-rtx-polo-extra-small',
+  banners: 'roller'
+};
+
 /* real product photo (from the live catalogue) with the SVG mock as fallback */
 function productThumb(p){
   return p.img
@@ -18,13 +31,23 @@ function productThumb(p){
 
 export function tplHome(){
   const gotm = prodById('square-slate-14x14') || prodById('square-slate-19x19');
-  const tiles = Object.entries(COLLECTIONS).map(([id,c],i)=>`
-    <a class="tile reveal" style="--flood:${FLOODS[i%3]}" href="#/collection/${id}">
+  // a representative real product photo per collection (first product in it with a photo)
+  const collectionHero = id => {
+    const pref = COLLECTION_HERO[id];
+    const p = (pref && prodById(pref) && prodById(pref).img && prodById(pref))
+      || PRODUCTS.find(x => x.tags.includes(id) && x.img);
+    return p ? p.img : null;
+  };
+  const tiles = Object.entries(COLLECTIONS).map(([id,c],i)=>{
+    const hero = collectionHero(id);
+    return `
+    <a class="tile reveal${hero ? ' tile--photo' : ''}" style="--flood:${FLOODS[i%3]}" href="#/collection/${id}">
       <span class="tile-ref">REF ${id.slice(0,2).toUpperCase()}-0${i+1}</span>
-      <span class="tile-icon" aria-hidden="true">${ICONS[id]}</span>
+      <span class="tile-media" aria-hidden="true">${hero ? `<img src="${hero}" loading="lazy" alt="">` : `<span class="tile-icon">${ICONS[id]}</span>`}</span>
       <h3>${c.name}</h3><p>${c.blurb}</p>
       <span class="tile-go">Browse <span class="arr">→</span></span>
-    </a>`).join('');
+    </a>`;
+  }).join('');
 
   return `
   <section class="hero">
