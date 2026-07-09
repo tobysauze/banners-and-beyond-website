@@ -567,8 +567,15 @@ export function initProduct(p){
     const b = e.target.closest('.swatch'); if(!b) return;
     CUST.colorIdx = +b.dataset.i;
     $$('.swatch', swWrap).forEach(x => x.classList.toggle('on', x === b));
-    $('#colName').textContent = p.colors[CUST.colorIdx].name;
+    const col = p.colors[CUST.colorIdx];
+    $('#colName').textContent = col.name;
     renderMock();
+    // swap the real product photo to this colour's variant image, if it has one
+    if(col.img){
+      const main = $('#ppMainPhoto'); if(main) main.src = col.img;
+      const th = $('#ppPhotoThumbs');
+      if(th){ const match = $$('.pp-thumb', th).find(t => t.dataset.src === col.img); $$('.pp-thumb', th).forEach(t => t.classList.toggle('on', t === match)); }
+    }
   });
   const szWrap = $('#sizechips');
   if(szWrap) szWrap.addEventListener('click', e => {
