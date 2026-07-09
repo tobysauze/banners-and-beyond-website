@@ -100,7 +100,7 @@ h1.display,h2.display{font-family:var(--display);font-weight:400;text-transform:
 /* ---------- hero ---------- */
 .hero{position:relative;overflow:hidden;padding:clamp(4rem,9vw,7rem) 0 0}
 .hero .eyebrow{margin-bottom:1.4rem}
-.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2.8rem,10vw,8rem);line-height:.92;letter-spacing:.005em}
+.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2.8rem,10vw,8rem);line-height:.92;letter-spacing:.005em;padding-bottom:.14em}
 .plate{position:relative;display:block;width:max-content;max-width:100%}
 .plate::before,.plate::after{content:attr(data-text);position:absolute;inset:0;z-index:-1;mix-blend-mode:multiply;pointer-events:none}
 .plate::before{color:var(--cyan);animation:regC 1.2s cubic-bezier(.2,.85,.25,1) .25s both}
