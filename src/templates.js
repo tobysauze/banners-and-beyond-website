@@ -268,29 +268,36 @@ export function tplProduct(p){
     <nav class="crumbs"><a href="#/">Home</a><span>/</span><a href="#/collection/${crumbTag}">${COLLECTIONS[crumbTag].name}</a><span>/</span><span>${p.name}</span></nav>
     <div class="pp-grid">
       <div class="pp-preview">
-        <div class="proofbox">
-          <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
-          ${sides.length>1?`<div class="side-toggle" id="sideToggle"><button class="on" data-side="front">Front</button><button data-side="back">Back</button></div>`:''}
-          <div class="mock-stage" id="stage">
-            <div class="mock-svg" id="mockSvg"></div>
-            <div class="other-wins" id="otherWins"></div>
-            <div class="print-window show-guide" id="printWin"></div>
-            <div class="handle-layer" id="handleLayer"></div>
-            <div class="area-handles" id="areaHandles"></div>
+        ${p.imgs && p.imgs.length ? `<div class="pp-photos" id="ppPhotos">
+          <div class="pp-photo-main"><img id="ppMainPhoto" src="${p.imgs[0]}" alt="${esc(p.name)}"></div>
+          ${p.imgs.length>1?`<div class="pp-photo-thumbs" id="ppPhotoThumbs">${p.imgs.map((src,i)=>`<button class="pp-thumb${i===0?' on':''}" data-src="${src}" aria-label="View photo ${i+1}"><img src="${src}" loading="lazy" alt=""></button>`).join('')}</div>`:''}
+          <button class="btn btn--solid pp-design-btn" id="toDesignBtn">🎨 Design your own <span class="arr">→</span></button>
+        </div>` : ''}
+        <div class="pp-designer" id="ppDesigner"${p.imgs && p.imgs.length ? ' style="display:none"' : ''}>
+          <div class="proofbox">
+            <div class="cropmarks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+            ${sides.length>1?`<div class="side-toggle" id="sideToggle"><button class="on" data-side="front">Front</button><button data-side="back">Back</button></div>`:''}
+            <div class="mock-stage" id="stage">
+              <div class="mock-svg" id="mockSvg"></div>
+              <div class="other-wins" id="otherWins"></div>
+              <div class="print-window show-guide" id="printWin"></div>
+              <div class="handle-layer" id="handleLayer"></div>
+              <div class="area-handles" id="areaHandles"></div>
+            </div>
+            <div class="guide-row">
+              ${p.imgs && p.imgs.length ? `<button class="minibtn" id="toPhotosBtn">← Photos</button>` : ''}
+              <button class="minibtn mode-toggle" id="previewBtn" aria-pressed="false">👁 Preview</button>
+              <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
+            </div>
+            <div class="admin-bar" id="adminBar" style="display:none">
+              <span class="admin-tag">ADMIN</span>
+              <span class="admin-hint">Drag the cyan corners/✥ to set the <strong id="activeLocLabelAdmin">print</strong> area. Switch locations above.</span>
+              <button class="minibtn" id="adminExportBtn">⧉ Copy layout for deploy</button>
+            </div>
           </div>
-          <div class="guide-row">
-            <button class="minibtn mode-toggle" id="previewBtn" aria-pressed="false">👁 Preview</button>
-            <button class="guide-toggle" id="guideToggle" aria-pressed="true">▣ Print area: on</button>
-          </div>
-          <div class="admin-bar" id="adminBar" style="display:none">
-            <span class="admin-tag">ADMIN</span>
-            <span class="admin-hint">Drag the cyan corners/✥ to set the <strong id="activeLocLabelAdmin">print</strong> area. Switch locations above.</span>
-            <button class="minibtn" id="adminExportBtn">⧉ Copy layout for deploy</button>
-          </div>
+          <p class="stage-hint">Designing on a to-scale mock-up. ${multiLoc ? 'Pick print spots below, then drop a design into each.' : 'Upload your design, then drag it to position.'} Ctrl/⌘ + scroll to resize.</p>
+          <div class="proofbtn-row"><button class="minibtn" id="proofBtn">⬇ Download proof sheet</button></div>
         </div>
-        <p class="stage-hint">${multiLoc ? 'Pick print spots below, then drop a design into each.' : 'Upload your design, then drag it to position.'} Pink handles resize/rotate · Ctrl/⌘ + scroll to resize.</p>
-        <div class="proofbtn-row"><button class="minibtn" id="proofBtn">⬇ Download proof sheet</button></div>
-        ${p.imgs && p.imgs.length ? `<div class="real-photos"><p class="optlabel" style="margin-top:1.25rem">The actual product</p><div class="real-photos-row">${p.imgs.map(src => `<img src="${src}" loading="lazy" alt="${esc(p.name)}">`).join('')}</div></div>` : ''}
       </div>
       <div class="pp-info">
         <p class="eyebrow">Customisable ${MOCKS[p.mock].label}</p>

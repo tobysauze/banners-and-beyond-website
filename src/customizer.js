@@ -50,6 +50,25 @@ export function initProduct(p){
   const scaleR = $('#scaleR'), scaleO = $('#scaleO'), rotR = $('#rotR'), rotO = $('#rotO');
   const fileInput = $('#fileInput'), dropzone = $('#dropzone');
 
+  /* ---- product photos <-> design-it toggle ---- */
+  const ppPhotos = $('#ppPhotos'), ppDesigner = $('#ppDesigner');
+  let designerShown = !ppPhotos; // if no photos, the designer is the only view
+  function showDesigner(on){
+    if(!ppPhotos || !ppDesigner) return;
+    designerShown = on;
+    ppDesigner.style.display = on ? '' : 'none';
+    ppPhotos.style.display = on ? 'none' : '';
+    if(on) renderStage(); // lay out the stage now it's visible
+  }
+  const toDesign = $('#toDesignBtn'); if(toDesign) toDesign.addEventListener('click', () => showDesigner(true));
+  const toPhotos = $('#toPhotosBtn'); if(toPhotos) toPhotos.addEventListener('click', () => showDesigner(false));
+  const thumbs = $('#ppPhotoThumbs');
+  if(thumbs) thumbs.addEventListener('click', e => {
+    const b = e.target.closest('.pp-thumb'); if(!b) return;
+    const main = $('#ppMainPhoto'); if(main) main.src = b.dataset.src;
+    $$('.pp-thumb', thumbs).forEach(x => x.classList.toggle('on', x === b));
+  });
+
   /* ---- accessors ---- */
   const curColor = () => p.colors ? p.colors[CUST.colorIdx].hex : null;
   const curLoc = () => locObj(CUST.activeLoc);
@@ -408,6 +427,7 @@ export function initProduct(p){
     const d = curDesign();
     d.img = {src, ow: ow || 0, oh: oh || 0, vec: !!vec, x:0, y:0, scale:1, rot:0};
     CUST.on[CUST.activeLoc] = true;
+    if(!designerShown) showDesigner(true);
     renderStage(); selectLayer('img'); updatePrice(); updateDpi(); pushHist(); updateLast();
     showToast(`Design added to ${curLoc().label} — drag it into place ✓`);
   }
@@ -528,6 +548,7 @@ export function initProduct(p){
   $('#textInput').addEventListener('input', e => {
     curDesign().text.value = e.target.value;
     CUST.on[CUST.activeLoc] = true;
+    if(!designerShown) showDesigner(true);
     renderStage(); selectLayer('text'); updatePrice();
     clearTimeout(txtT); txtT = setTimeout(() => { pushHist(); updateLast(); }, 600);
   });
