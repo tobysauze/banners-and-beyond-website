@@ -22,7 +22,7 @@ export function priceFor(p, size){
 export function snapDesign(d){ return JSON.parse(JSON.stringify({img:d.img, text:d.text})); }
 
 export function initProduct(p){
-  const isAdmin = /(?:^|[?&])admin=1(?:&|$)/.test((location.hash.split('?')[1]) || '');
+  const isAdmin = new URLSearchParams(location.search).get('admin') === '1';
   const LOCS = productLocations(p);              // [{id,label,side,area,surcharge,primary}]
   const locObj = id => LOCS.find(l => l.id === id);
   const sideLocs = side => LOCS.filter(l => l.side === side);
@@ -665,7 +665,7 @@ export function initProduct(p){
   $('#addBtn').addEventListener('click', () => {
     state.CART.push({ uid: state.cartUid++, ...cartLineBase(), size: CUST.size, qty: CUST.qty, unit: priceFor(p, CUST.size) + printSurcharge(), disc: 0 });
     updateBadge(); saveCart(); updateLast();
-    showToast('Added ✓ · <a href="#/cart">Basket</a> · <a href="#/shop" data-carry="1">Reuse design →</a>');
+    showToast('Added ✓ · <a href="/cart">Basket</a> · <a href="/shop" data-carry="1">Reuse design →</a>');
   });
 
   /* ---- bulk mode ---- */
@@ -694,7 +694,7 @@ export function initProduct(p){
       rows.forEach(r => { if(!r.q) return; state.CART.push({uid: state.cartUid++, ...cartLineBase(), size: r.size, qty: r.q, unit: r.unit, disc: off}); });
       inputs.forEach(i => i.value = 0);
       calcBulk(); updateBadge(); saveCart(); updateLast();
-      showToast(`Bulk order added ✓ — ${tot} items${off ? ` (−${Math.round(off * 100)}%)` : ''} · <a href="#/cart">Basket</a>`);
+      showToast(`Bulk order added ✓ — ${tot} items${off ? ` (−${Math.round(off * 100)}%)` : ''} · <a href="/cart">Basket</a>`);
     });
   }
 

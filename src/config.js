@@ -4,6 +4,9 @@
    TODO needs the owner to fill in before / soon after launch.
    ───────────────────────────────────────────────────────────── */
 
+// Canonical site URL (no trailing slash). Update if you move to a custom domain.
+export const SITE_URL = 'https://bannersandbeyond.netlify.app';
+
 export const BUSINESS = {
   name: 'Banners & Beyond Ltd',
   email: 'bannersandbeyondltd@gmail.com',

@@ -72,22 +72,31 @@ window.addEventListener('unhandledrejection', (e) => {
       if(e.key === 'Escape' && document.getElementById('modalBack').classList.contains('open')) closeModal();
     });
 
+    // Intercept internal links (real paths) for client-side routing
     document.addEventListener('click', e => {
-      const a = e.target.closest('a[href^="#/"]');
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest('a');
       if(!a) return;
+      const href = a.getAttribute('href');
+      if(!href || href[0] !== '/' || href.startsWith('//')) return; // internal absolute paths only
+      if(a.target === '_blank' || a.hasAttribute('download')) return;
       e.preventDefault();
-      navigate(a.getAttribute('href').slice(1));
+      navigate(href);
     });
 
-    window.addEventListener('hashchange', () => {
-      const h = location.hash.slice(1) || '/';
-      if(h !== router.path){ router.path = h; route(); }
+    window.addEventListener('popstate', () => {
+      router.path = location.pathname + location.search;
+      route();
     });
+
+    // Old shared #/… links → redirect to the real path
+    if(location.pathname === '/' && location.hash.startsWith('#/')){
+      try{ history.replaceState({}, '', location.hash.slice(1)); }catch(err){}
+    }
 
     await loadCart();
     updateBadge();
-    const h = (location.hash || '').slice(1);
-    if(h && h[0] === '/') router.path = h;
+    router.path = location.pathname + location.search;
     route();
   } catch(err){
     console.error('Boot error:', err);
@@ -149,7 +158,7 @@ export function openCheckout(){
       <div class="full" id="addrWrap" style="display:none"><label class="flabel" for="o-addr">Delivery address</label><textarea class="finput" id="o-addr" autocomplete="street-address"></textarea></div>
       <div class="full"><label class="flabel" for="o-notes">Notes (sizes, colours, deadline…)</label><textarea class="finput" id="o-notes"></textarea></div>
       ${anyDesign ? `<div class="full mono-note" style="margin:0">You've designed artwork on ${state.CART.filter(hasCartDesign).length} item(s). We'll match it to your order and send a free proof to approve before printing.</div>` : ''}
-      <div class="full"><label class="radline" style="align-items:flex-start"><input type="checkbox" id="o-consent" required> <span>I agree to Banners &amp; Beyond storing these details to process my order (see our <a href="#/privacy">Privacy notice</a>).</span></label></div>
+      <div class="full"><label class="radline" style="align-items:flex-start"><input type="checkbox" id="o-consent" required> <span>I agree to Banners &amp; Beyond storing these details to process my order (see our <a href="/privacy">Privacy notice</a>).</span></label></div>
       <div class="full"><button class="btn btn--solid" type="submit" id="orderSubmit">Send order request <span class="arr">→</span></button></div>
     </form>
     <p class="mono-note">Prefer to talk it through? Call <a href="${BUSINESS.phoneHref}">${BUSINESS.phone}</a> or email <a href="mailto:${BUSINESS.email}">${BUSINESS.email}</a>.</p>

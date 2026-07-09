@@ -41,7 +41,7 @@ export function tplHome(){
   const tiles = Object.entries(COLLECTIONS).map(([id,c],i)=>{
     const hero = collectionHero(id);
     return `
-    <a class="tile reveal${hero ? ' tile--photo' : ''}" style="--flood:${FLOODS[i%3]}" href="#/collection/${id}">
+    <a class="tile reveal${hero ? ' tile--photo' : ''}" style="--flood:${FLOODS[i%3]}" href="/collection/${id}">
       <span class="tile-ref">REF ${id.slice(0,2).toUpperCase()}-0${i+1}</span>
       <span class="tile-media" aria-hidden="true">${hero ? `<img src="${hero}" loading="lazy" alt="">` : `<span class="tile-icon">${ICONS[id]}</span>`}</span>
       <h3>${c.name}</h3><p>${c.blurb}</p>
@@ -60,8 +60,8 @@ export function tplHome(){
       </h1>
       <p class="hero-sub">Custom print and embroidery for workwear, gifts and everything in between. Upload your own design onto any product in the shop — every job set, proofed and checked by hand.</p>
       <div class="hero-ctas">
-        <a class="btn btn--solid" href="#/shop">Start customising <span class="arr">→</span></a>
-        <a class="btn" href="#/deals">Workwear deals <span class="arr">→</span></a>
+        <a class="btn btn--solid" href="/shop">Start customising <span class="arr">→</span></a>
+        <a class="btn" href="/deals">Workwear deals <span class="arr">→</span></a>
       </div>
     </div>
     <div class="hero-specrow">
@@ -91,11 +91,11 @@ export function tplHome(){
         <h2 class="display">What we can print</h2>
       </div>
       <div class="docket reveal">
-        <a class="job" style="--flood:var(--tint-c)" href="#/collection/gifting"><span class="job-no">JOB 01</span><div><h3>Custom gifting</h3><p>Mugs, slates, glassware and soft toys — printed or embroidered. One-offs welcome; no minimum order.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
-        <a class="job" style="--flood:var(--tint-m)" href="#/collection/workwear"><span class="job-no">JOB 02</span><div><h3>Workwear &amp; uniform</h3><p>Polos, tees, hoodies, softshells and hi-vis with your logo — front chest, full back, or both.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
-        <a class="job" style="--flood:var(--tint-y)" href="#/collection/slates"><span class="job-no">JOB 03</span><div><h3>Photo prints &amp; slate</h3><p>Your favourite shots made permanent — printed straight onto real stone.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
-        <a class="job" style="--flood:var(--tint-c)" href="#/shop"><span class="job-no">JOB 04</span><div><h3>Personalised apparel</h3><p>Your design, your wardrobe. Pet portraits actively encouraged.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
-        <a class="job" style="--flood:var(--tint-m)" href="#/collection/banners"><span class="job-no">JOB 05</span><div><h3>Banners, signs &amp; vehicles</h3><p>PVC banners, ACM signs, magnetic panels, vinyl decals and stickers by the metre.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-c)" href="/collection/gifting"><span class="job-no">JOB 01</span><div><h3>Custom gifting</h3><p>Mugs, slates, glassware and soft toys — printed or embroidered. One-offs welcome; no minimum order.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-m)" href="/collection/workwear"><span class="job-no">JOB 02</span><div><h3>Workwear &amp; uniform</h3><p>Polos, tees, hoodies, softshells and hi-vis with your logo — front chest, full back, or both.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-y)" href="/collection/slates"><span class="job-no">JOB 03</span><div><h3>Photo prints &amp; slate</h3><p>Your favourite shots made permanent — printed straight onto real stone.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-c)" href="/shop"><span class="job-no">JOB 04</span><div><h3>Personalised apparel</h3><p>Your design, your wardrobe. Pet portraits actively encouraged.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
+        <a class="job" style="--flood:var(--tint-m)" href="/collection/banners"><span class="job-no">JOB 05</span><div><h3>Banners, signs &amp; vehicles</h3><p>PVC banners, ACM signs, magnetic panels, vinyl decals and stickers by the metre.</p></div><span class="job-arr" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -112,7 +112,7 @@ export function tplHome(){
         <h2 class="display">${gotm ? esc(gotm.name) : 'Medium Square Slate'}</h2>
         <p class="lede">A photo you love, printed edge-to-edge onto smooth, gloss-finished slate. Upload the photo right on the product page and see it before you buy.</p>
         <div class="price-row"><span class="price-now">${gotm ? gbp(gotm.price) : '£15.00'}</span></div>
-        <a class="btn btn--solid" href="#/product/${gotm ? gotm.id : 'square-slate-14x14'}">Personalise yours <span class="arr">→</span></a>
+        <a class="btn btn--solid" href="/product/${gotm ? gotm.id : 'square-slate-14x14'}">Personalise yours <span class="arr">→</span></a>
       </div>
     </div>
   </section>
@@ -145,7 +145,7 @@ export function tplHome(){
           <div class="bundle-price">
             <div class="amount">£1,200</div>
             <div class="per">All-in · Fully branded · One workshop</div>
-            <a class="btn btn--yellow" href="#/contact?msg=${encodeURIComponent("Hi — I'd like to talk about the £1,200 Start-Up Bundle.")}">Start your bundle <span class="arr">→</span></a>
+            <a class="btn btn--yellow" href="/contact?msg=${encodeURIComponent("Hi — I'd like to talk about the £1,200 Start-Up Bundle.")}">Start your bundle <span class="arr">→</span></a>
           </div>
         </div>
         <div class="reveal">
@@ -176,7 +176,7 @@ export function dealTicket(n, tik, feature, items){
     ${feature?'<span class="ticket-flag">Most complete</span>':''}
     <div class="ticket-head"><span class="kicker">Ticket № ${n}</span><h3>Deal 0${n}</h3></div>
     <ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>
-    <div class="ticket-foot"><a class="btn ${feature?'btn--solid':''}" href="#/contact?msg=${encodeURIComponent(`Hi — I'd like a quote for workwear Deal 0${n}.`)}">Get this deal</a></div>
+    <div class="ticket-foot"><a class="btn ${feature?'btn--solid':''}" href="/contact?msg=${encodeURIComponent(`Hi — I'd like a quote for workwear Deal 0${n}.`)}">Get this deal</a></div>
   </div>`;
 }
 
@@ -187,14 +187,14 @@ export function tplShop(tag, q){
     list = list.filter(p => (p.name + ' ' + p.tags.join(' ') + ' ' + p.desc).toLowerCase().includes(s));
   }
   const c = tag ? COLLECTIONS[tag] : null;
-  const chips = ['<a class="chip ' + (!tag && !q ? 'active' : '') + '" href="#/shop">All</a>']
-    .concat(Object.entries(COLLECTIONS).map(([id, cc]) => `<a class="chip ${tag === id ? 'active' : ''}" href="#/collection/${id}">${cc.name}</a>`)).join('');
+  const chips = ['<a class="chip ' + (!tag && !q ? 'active' : '') + '" href="/shop">All</a>']
+    .concat(Object.entries(COLLECTIONS).map(([id, cc]) => `<a class="chip ${tag === id ? 'active' : ''}" href="/collection/${id}">${cc.name}</a>`)).join('');
   const cards = list.map((p, i) => {
     const price = p.sale
       ? `<span>${gbp(p.sale)}</span><del>${gbp(p.price)}</del>`
       : (p.sizePrices ? `<span>from ${gbp(Math.min(...Object.values(p.sizePrices)))}</span>` : `<span>${gbp(p.price)}</span>`);
     const r = ratingFor(p.id);
-    return `<a class="pcard reveal" href="#/product/${p.id}" style="--pbg:${FLOODS[i % 3]}">
+    return `<a class="pcard reveal" href="/product/${p.id}" style="--pbg:${FLOODS[i % 3]}">
       <span class="pcard-art${p.img ? ' pcard-art--photo' : ''}">${p.sale ? '<span class="pcard-sale">Sale</span>' : ''}${productThumb(p)}</span>
       <span class="pcard-body">
         <h3>${p.name}</h3>
@@ -222,14 +222,14 @@ export function tplShop(tag, q){
 export function tplRecent(exclude){
   const list = state.RECENT.filter(id => id !== exclude).map(prodById).filter(Boolean).slice(0, 6);
   if(!list.length) return '';
-  const cards = list.map((p, i) => `<a class="pcard" href="#/product/${p.id}" style="--pbg:${FLOODS[i % 3]}"><span class="pcard-art${p.img ? ' pcard-art--photo' : ''}">${productThumb(p)}</span><span class="pcard-body"><h3>${p.name}</h3><span class="pcard-price"><span>${p.sizePrices ? 'from ' + gbp(Math.min(...Object.values(p.sizePrices))) : gbp(p.sale ?? p.price)}</span></span></span></a>`).join('');
+  const cards = list.map((p, i) => `<a class="pcard" href="/product/${p.id}" style="--pbg:${FLOODS[i % 3]}"><span class="pcard-art${p.img ? ' pcard-art--photo' : ''}">${productThumb(p)}</span><span class="pcard-body"><h3>${p.name}</h3><span class="pcard-price"><span>${p.sizePrices ? 'from ' + gbp(Math.min(...Object.values(p.sizePrices))) : gbp(p.sale ?? p.price)}</span></span></span></a>`).join('');
   return `<section class="recent-strip section" style="padding-top:2.5rem;padding-bottom:3rem"><div class="wrap"><p class="eyebrow">Recently viewed</p><div class="pgrid pgrid--mini" style="margin-top:1.25rem">${cards}</div></div></section>`;
 }
 
 export function tplCart(){
   if(!state.CART.length){
     return `<div class="wrap pagehead"><p class="eyebrow">Basket</p><h1 class="display">Your basket</h1>
-      <div class="empty-cart" style="margin:2.5rem 0 4rem"><p>Nothing on the press yet</p><a class="btn btn--solid" href="#/shop">Start customising <span class="arr">→</span></a></div></div>`;
+      <div class="empty-cart" style="margin:2.5rem 0 4rem"><p>Nothing on the press yet</p><a class="btn btn--solid" href="/shop">Start customising <span class="arr">→</span></a></div></div>`;
   }
   const lines = state.CART.map(l => {
     const p = prodById(l.pid);
@@ -265,7 +265,7 @@ export function tplCart(){
       <div class="sumline"><span>Delivery</span><span>Quoted with order</span></div>
       <div class="sumline total"><span>Total</span><span>${gbp(sub)}</span></div>
       <button class="btn btn--solid" id="checkoutBtn">Request order <span class="arr">→</span></button>
-      <p class="stage-hint" style="margin-top:1rem">${priceNote}. Free artwork check &amp; proof on every line. <a href="#/delivery">Delivery &amp; returns</a></p>
+      <p class="stage-hint" style="margin-top:1rem">${priceNote}. Free artwork check &amp; proof on every line. <a href="/delivery">Delivery &amp; returns</a></p>
     </aside>
   </div></div>`;
 }
@@ -290,7 +290,7 @@ export function tplProduct(p){
   const r = ratingFor(p.id);
   return `
   <div class="wrap">
-    <nav class="crumbs"><a href="#/">Home</a><span>/</span><a href="#/collection/${crumbTag}">${COLLECTIONS[crumbTag].name}</a><span>/</span><span>${p.name}</span></nav>
+    <nav class="crumbs"><a href="/">Home</a><span>/</span><a href="/collection/${crumbTag}">${COLLECTIONS[crumbTag].name}</a><span>/</span><span>${p.name}</span></nav>
     <div class="pp-grid">
       <div class="pp-preview">
         ${p.imgs && p.imgs.length ? `<div class="pp-photos" id="ppPhotos">
@@ -402,7 +402,7 @@ ${garment?`            <div class="locrow" id="typeRow"><span class="optlabel" s
           <li><strong>Free proof</strong> — artwork checked by hand, proof in ${DELIVERY.proofDays}</li>
           <li><strong>Turnaround</strong> — ${DELIVERY.turnaround}</li>
           <li><strong>Delivery</strong> — collect free from Bodmin, or UK delivery quoted at checkout</li>
-          <li>${priceNote} · <a href="#/delivery">Delivery &amp; returns</a></li>
+          <li>${priceNote} · <a href="/delivery">Delivery &amp; returns</a></li>
         </ul>
       </div>
     </div>
@@ -436,7 +436,7 @@ export function tplContact(msg){
           <div><label class="flabel" for="f-phone">Phone</label><input class="finput" id="f-phone" type="tel" autocomplete="tel"></div>
           <div class="full"><label class="flabel" for="f-email">Email <span class="req">*</span></label><input class="finput" id="f-email" type="email" required autocomplete="email"></div>
           <div class="full"><label class="flabel" for="f-msg">What do you need printed?</label><textarea class="finput" id="f-msg" placeholder="e.g. 6 polos with our logo, front chest — plus a 2 m banner for the van…">${esc(msg||'')}</textarea></div>
-          <div class="full"><label class="radline" style="align-items:flex-start"><input type="checkbox" id="f-consent" required> <span>I agree to Banners &amp; Beyond storing these details to reply to my enquiry (see our <a href="#/privacy">Privacy notice</a>).</span></label></div>
+          <div class="full"><label class="radline" style="align-items:flex-start"><input type="checkbox" id="f-consent" required> <span>I agree to Banners &amp; Beyond storing these details to reply to my enquiry (see our <a href="/privacy">Privacy notice</a>).</span></label></div>
           <div class="full"><button class="btn btn--solid" type="submit">Send to the workshop <span class="arr">→</span></button></div>
         </form>
         <div class="form-ok" id="formOk" role="status"><strong>Sent to the workshop ✓</strong>Thanks — we'll get back to you as soon as we can.</div>

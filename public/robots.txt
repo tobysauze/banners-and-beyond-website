@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bannersandbeyond.netlify.app/sitemap.xml
